@@ -1,0 +1,87 @@
+/* body {
+  margin: 0px;
+  background-image: url("/static/photos/background.jpg"); */
+/* background-repeat: repeat-y; */
+/* background-size: cover;
+} */
+body {
+  padding: 0px;
+  margin: 0px;
+  background-color: gray;
+}
+.banner {
+  /* position: relative; */
+  height: 900px;
+  display: block;
+  background-image: url("/static/photos/background.jpg");
+  background-size: cover;
+  backg
+  background-repeat: no-repeat;
+}
+.banner > h1 {
+  color: white;
+  text-align: center;
+  font-size: 75px;
+}
+
+main {
+  margin-left: 20px;
+  margin-right: 20px;
+  color: white;
+  text-shadow: -1px -1px 0 black, 1px 1px 0 black, 1px -1px 0 black,
+    -1px 1px 0 black;
+  font-size: 35px;
+  display: box;
+}
+
+nav {
+  background-color: transparent;
+  padding: 20px;
+  display: flex; /* Use flexbox layout */
+  /* justify-content: space-between; */
+  align-items: center; /* Align items vertically */
+}
+
+#navLogo {
+  width: 175px;
+  height: auto;
+  vertical-align: middle;
+}
+
+.navBar{
+  color: white;
+  text-decoration: none;
+  font-size: 30px;
+  margin-left: 25px;
+}
+a:hover {
+  color: black;
+}
+
+#Right-Nav {
+    display: flex;
+    margin-left: auto;
+    padding-right: 20px;
+  }
+
+#Boxes {
+  display: flex;
+}
+
+#Boxes > div {
+  flex: 1;
+  border: 1px solid black;
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+}
+
+#Boxe1 {
+  display: flex;
+}
+#Boxe2 {
+  display: flex;
+}
+#Boxe3 {
+  display: flex;
+}

@@ -1,8 +1,37 @@
-{% extends 'base.html' %}
-{% block head %} <title>Home</title> {% endblock %}
+{% extends 'base.html' %} {% block head %}
+<title>Home</title>
+<link rel="stylesheet" href="/static/styles.css" />
+{% endblock %} {% block body %}
+<header>
+  <div class="banner">
+    <nav>
+      <img src="/static/photos/Logo.png" alt="Logo!" id="navLogo" />
+      <a href="" class="navBar"><u>Home</u></a>
+      <a href="" class="navBar">About</a>
+      <a href="" class="navBar">Contact Us</a>
+      <div id="Right-Nav">
+        <a href="" class="navBar">Login</a>
+        <a href="" class="navBar">Sign Up</a>
+      </div>
+    </nav>
+    <h1>Welcome</h1>
+  </div>
+</header>
 
+<main>
+  <div id="Boxes">
+    <div id="Box1">
+      <h4>Live</h4>
+    </div>
+    <div id="Box2">
+      <h4>Laugh</h4>
+    </div>
+    <div id="Box3">
+      <h4>Love</h4>
+    </div>
+  </div>
+</main>
 
-{% block body %} <h1>Hello World</h1> {% endblock %}
-
+{% endblock %}
 
 <!-- Basic page to show you how we should layout our project -->
