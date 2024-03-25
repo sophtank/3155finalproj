@@ -102,3 +102,10 @@ a:hover {
 #Boxe3 {
   display: flex;
 }
+.individualDrive {
+  height: auto;
+  display: block;
+  background-image: url("/static/photos/ferrari.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
