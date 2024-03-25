@@ -9,24 +9,6 @@ body {
   margin: 0px;
   background-color: gray;
 }
-
-.bannerLogin{
-  height: auto;
-  display: block;
-  background-image: url("/static/photos/background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.bannerlogin *{
-  color: white;
-  text-align: center;
-}
-.loginNavBar{
-  color: white;
-  text-decoration: none;
-  font-size: 20px;
-  margin-left: 25px;
-}
 .banner {
   /* position: relative; */
   height: 900px;
