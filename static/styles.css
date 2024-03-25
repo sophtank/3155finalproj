@@ -15,7 +15,6 @@ body {
   display: block;
   background-image: url("/static/photos/background.jpg");
   background-size: cover;
-  backg
   background-repeat: no-repeat;
 }
 .banner > h1 {
