@@ -1,9 +1,3 @@
-/* body {
-  margin: 0px;
-  background-image: url("/static/photos/background.jpg"); */
-/* background-repeat: repeat-y; */
-/* background-size: cover;
-} */
 body {
   padding: 0px;
   margin: 0px;
@@ -90,16 +84,6 @@ a:hover {
   padding: 20px;
   margin: 10px;
   text-align: center;
-}
-
-#Boxe1 {
-  display: flex;
-}
-#Boxe2 {
-  display: flex;
-}
-#Boxe3 {
-  display: flex;
 }
 
 .left-div {
