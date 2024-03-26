@@ -18,3 +18,7 @@ def signup():
 @app.route("/leaderboard")
 def leaderboard():
     return render_template("LeaderBoard.html")
+
+@app.route("/create")
+def create():
+    return render_template("createdrive.html")

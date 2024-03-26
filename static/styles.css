@@ -101,3 +101,18 @@ a:hover {
 #Boxe3 {
   display: flex;
 }
+
+.left-div {
+  width: 50%;
+  float: left;
+  padding: 10px;
+}
+.right-div {
+  width: 50%;
+  float: right;
+  padding: 10px;
+}
+.create-drive{
+  padding: 10px;
+  width: 70%;
+}
