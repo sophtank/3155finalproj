@@ -1,25 +1,10 @@
-{% extends 'base.html' %} 
+{% extends 'base_signedin.html' %} 
 {% block head %}
 <title>Leaderboard</title>
 <link rel="stylesheet" href="/static/styles.css" />
 {% endblock %} 
 
 {% block body %}
-<header style="background-size: auto 20px;">
-    <div class="bannerLogin">
-      <nav>
-        <img src="/static/photos/Logo.png" alt="Logo!" id="navLogo"  style="max-height:20px; width: auto;"/>
-        <a href="/" class="loginNavBar"><u>Home</u></a>
-        <a href="" class="loginNavBar">About</a>
-        <a href="" class="loginNavBar">Contact Us</a>
-        <div id="Right-Nav">
-          <a href="/login" class="loginNavBar">Login</a>
-          <a href="/signUp" class="loginNavBar">Sign Up</a>
-          <a href="/leaderboard" class="loginNavBar">Leader Board</a>
-        </div>
-      </nav>
-    </div>
-  </header>
 
   <main style="background-image: url('/static/photos/lamborghini.webp'); background-size:cover;height:100vh">
     <table class="table table-bordered table-secondary" style="max-width: 400px; margin: 0 auto; margin-top: 10px; height: 20px;">
