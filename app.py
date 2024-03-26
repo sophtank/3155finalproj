@@ -22,3 +22,7 @@ def leaderboard():
 @app.route("/create")
 def create():
     return render_template("createdrive.html")
+
+@app.route("/edit")
+def edit():
+    return render_template("editdrive.html")
