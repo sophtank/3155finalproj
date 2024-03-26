@@ -26,4 +26,4 @@ def create():
 
 @app.get("/drives")
 def get_all_drives():
-    return render_template("viewdrives.html")
+    return render_template("viewDrives.html")
