@@ -1,0 +1,101 @@
+{% extends 'base.html' %}{% block head %}
+    <title>Users Drives</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+{% endblock %}
+
+
+{% block body %}
+    <header style="background-size: auto 20px;">
+        <div class="bannerLogin">
+            <nav>
+                <img src="/static/photos/Logo.png" alt="Logo!" id="navLogo" style="max-height:20px; width: auto;"/>
+                <a href="/" class="loginNavBar"><u>Home</u></a>
+                <a href="#" class="loginNavBar">About</a>
+                <a href="#" class="loginNavBar">Contact Us</a>
+                <div id="Right-Nav">
+                    <a href="/login" class="loginNavBar">Login</a>
+                    <a href="/signUp" class="loginNavBar">Sign Up</a>
+                    <a href="/leaderboard" class="loginNavBar">Leader Board</a>
+                    <a href="/userprofile" class="loginNavBar">User Profile</a>
+
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+
+
+    <main style="background-image: url('/static/photos/ferrari.jpg'); background-size:cover; height: 100vh; display: flex; justify-content: center; align-items: center;">
+
+        <h1 style="position: absolute; top: 120px; color: black; font-size: 2em; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">Users ___ Drives</h1>
+
+        <div class="individual-container">
+                <div class="form-group">
+                    <label for="vehicles">Select Vehicle</label>
+                    <select class="form-control" id="vehicles">
+                        <option>Choose...</option>
+                        <option>Vehicle 1</option>
+                        <option>Vehicle 2</option>
+                        <option>Vehicle 3</option>
+                        <option>Vehicle 4</option>
+                    </select>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="checkbox1">
+                        <label class="form-check-label" for="checkbox1">Mileage</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="checkbox2">
+                        <label class="form-check-label" for="checkbox2">Time traveled</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="checkbox3">
+                        <label class="form-check-label" for="checkbox3">Car type</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-light" style = "width: 77%; background-color: rgba(255, 255, 255, 0.65); margin-top: 94vh; margin-bottom: 100vh; margin-left:75px; font-family:Arial, Helvetica, sans-serif; font-size: 20px;color:black; 
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">
+
+        <thead>
+            <tr style = "border-bottom: 2.5px dotted black;">
+            <th scope="col">Vehicle #</th>
+            <th scope="col">Car type</th>
+            <th scope="col">Time traveled</th>
+            <th scope="col">Mileage</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr style = "border-bottom: 2.5px dotted black;">
+            <th scope="row">Vehicle 1</th>
+            <td>Suburu BRZ</td>
+            <td>2 hrs</td>
+            <td>140</td>
+        </tr>
+        <tr style = "border-bottom: 2.5px dotted black;">
+            <th scope="row">Vehicle 2</th>
+            <td>Honda Accord</td>
+            <td>30 mins</td>
+            <td>40</td>
+        </tr>
+        <tr style = "border-bottom: 2.5px dotted black;">
+            <th scope="row"> Vehicle 3</th>
+            <td>Ford 150</td>
+            <td>1 hr 30 mins</td>
+            <td>110</td>
+        </tr>
+        
+        <td colspan="4" style="border-bottom: 200px solid rgba(255, 255, 255,0.01);"></td>
+    </tbody>
+    </table>
+</main>
+
+{% endblock %}
