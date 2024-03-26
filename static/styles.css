@@ -1,8 +1,3 @@
-body {
-  padding: 0px;
-  margin: 0px;
-  background-color: gray;
-}
 .bannerLogin{
   height: auto;
   display: block;
@@ -65,7 +60,7 @@ nav {
   margin-left: 25px;
 }
 a:hover {
-  color: black;
+  color: blue;
 }
 
 #Right-Nav {
@@ -96,7 +91,7 @@ a:hover {
   float: right;
   padding: 10px;
 }
-.create-drive{
+.create-drive-title{
   padding: 10px;
   width: 70%;
 }
