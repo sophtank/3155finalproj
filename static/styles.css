@@ -1,15 +1,8 @@
-/* body {
-  margin: 0px;
-  background-image: url("/static/photos/background.jpg"); */
-/* background-repeat: repeat-y; */
-/* background-size: cover;
-} */
 body {
   padding: 0px;
   margin: 0px;
   background-color: gray;
 }
-
 .bannerLogin{
   height: auto;
   display: block;
@@ -41,16 +34,6 @@ body {
   font-size: 75px;
 }
 
-main {
-  margin-left: 20px;
-  margin-right: 20px;
-  color: white;
-  text-shadow: -1px -1px 0 black, 1px 1px 0 black, 1px -1px 0 black,
-    -1px 1px 0 black;
-  font-size: 35px;
-  display: box;
-}
-
 nav {
   background-color: transparent;
   padding: 20px;
@@ -72,7 +55,7 @@ nav {
   margin-left: 25px;
 }
 a:hover {
-  color: black;
+  color: blue;
 }
 
 #Right-Nav {
@@ -93,27 +76,16 @@ a:hover {
   text-align: center;
 }
 
-#Boxe1 {
-  display: flex;
+.left-div {
+  width: 50%;
+  float: left;
+  padding: 10px;
 }
-#Boxe2 {
-  display: flex;
+.right-div {
+  width: 50%;
+  float: right;
+  padding: 10px;
 }
 #Boxe3 {
   display: flex;
-}
-.individual-container {
-  position: absolute;
-  top: 50%;
-  left: 3%;
-  transform: translateY(-50%);
-  font-size: 16px; 
-  font-weight: normal; 
-  color: black;
-  background-color: rgba(255, 255, 255, 0.65);
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 350px; 
-  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
-  font-family: Arial, Helvetica, sans-serif;
 }

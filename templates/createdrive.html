@@ -1,0 +1,38 @@
+{% extends '_layout.html' %} 
+
+{% block body %}
+<h1 align="center">Create a Drive</h1>
+<div class="left-div">
+    <h2>Mileage Traveled</h2>
+    <input class="form-control" id="mileage" type="number" placeholder="Mileage Traveled" aria-label="Mileage Traveled">
+</div>
+<div class="right-div">
+    <h2>Duration</h2>
+    <input class="form-control" id="duration" type="time" placeholder="Time Spent Driving" aria-label="Time Spent Driving">
+</div>
+<div class="left-div">
+    <h2>Vehicle</h2>
+    <input class="form-control" list="vehicleOptions" id="vehicleSelect" placeholder="Type to search your registered vehicles...">
+    <datalist id="vehicleOptions">
+    <option value="Toyota Camry (2013)">
+    <option value="Ford F-150 (2022)">
+    <option value="Nissan Altima (2018)">
+    </datalist>
+</div>
+<div class="right-div">
+    <h2>Tags</h2>
+    <button type="button" class="btn btn-primary" id="Commute">Commute</button>
+    <button type="button" class="btn btn-primary" id="NDE">Near Death Experience</button>
+    <button type="button" class="btn btn-primary" id="Carpool">Carpool</button>
+    <button type="button" class="btn btn-primary" id="mostlyHwy">Mostly Highway</button>
+    <button type="button" class="btn btn-primary" id="mostlyBackroad">Mostly Backroads</button>
+</div>
+<div class = "create-drive-title">
+<h2>Title</h2>
+    <input class="form-control" id="titleDrive" type="text" placeholder="Title your drive" aria-label="Drive Title">
+<h2>Caption</h2>
+    <input class="form-control" id="captionDrive" type="text" placeholder="Caption your drive" aria-label="Drive Caption" length="100px">
+<input class="btn btn-primary btn btn-primary-primary" type="submit" value="Submit">
+</div>
+
+{%endblock%}
