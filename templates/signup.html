@@ -1,30 +1,6 @@
-{% extends 'base.html' %} 
-{% block head %}
-<title>Home</title>
-<link rel="stylesheet" href="/static/styles.css" />
-{% endblock %} 
+{% extends '_layout.html' %} 
 
 {% block body %}
-
-
-<header style="background-size: auto 20px;">
-    <div class="bannerLogin">
-      <nav>
-        <img src="/static/photos/Logo.png" alt="Logo!" id="navLogo"  style="max-height:20px; width: auto;"/>
-        <a href="/" class="loginNavBar"><u>Home</u></a>
-        <a href="" class="loginNavBar">About</a>
-        <a href="" class="loginNavBar">Contact Us</a>
-        <div id="Right-Nav">
-          <a href="/login" class="loginNavBar">Login</a>
-          <a href="/signUp" class="loginNavBar">Sign Up</a>
-          <a href="/leaderboard" class="loginNavBar">Leader Board</a>
-        </div>
-      </nav>
-    </div>
-  </header>
-
-
-
 <!-- Creates the login widget in the middle of the screen -->
     <main style="background-image: url('/static/photos/mustang.avif'); background-size:cover;height:100vh">
 
