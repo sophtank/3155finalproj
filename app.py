@@ -18,11 +18,14 @@ def signup():
 def leaderboard():
     return render_template("LeaderBoard.html", title="Leaderboard")
 
-
-@app.route("/create")
+@app.get("/create")
 def create():
     return render_template("createdrive.html", title="Create Drive")
 
 @app.get("/drives")
 def get_all_drives():
     return render_template("viewDrives.html", title="Drives")
+
+@app.get("/edit")
+def edit():
+    return render_template("editdrive.html", title="Edit Drive")
