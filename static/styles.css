@@ -90,3 +90,47 @@ a:hover {
   padding: 10px;
   width: 70%;
 }
+
+.individual-drive-div{
+  height: 300px;
+  width: 500px;
+  background-color: white;
+  background-size:cover;
+  height:100vh;
+  width: 175vh;
+  border-radius: 10px;
+}
+
+.individual-photo{
+  width: 50%;
+  height: 99%;
+  padding-top: 10px;
+  padding-left: 10px;
+  border-radius: 50px;
+}
+
+.individual-info{
+  background-color: lightgrey;
+  height: 92%;
+  width: 41%;
+  display: inline-block;  
+  border-radius: 20px;
+  margin-left: 12px;
+  position:absolute;
+  margin-top: 30px;
+  padding-left: 20px;
+  font-size: 30px;
+  padding-top: 50px;
+}
+
+.description{
+  font-size: 20px;
+}
+
+.description-box{
+  background-color: white;
+  height: 300px;
+  width: 550px;
+  border-radius: 5px;
+  padding: 7px;
+}

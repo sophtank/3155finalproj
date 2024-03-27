@@ -26,3 +26,7 @@ def create():
 @app.get("/drives")
 def get_all_drives():
     return render_template("viewDrives.html", title="Drives")
+
+@app.get("/viewDrive")
+def individual():
+    return render_template("individualDrive.html", title ="Individual Drive")
