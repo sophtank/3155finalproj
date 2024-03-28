@@ -26,6 +26,10 @@ def create():
 def get_all_drives():
     return render_template("viewDrives.html", title="Drives")
 
+@app.get("/viewDrive")
+def individual():
+    return render_template("individualDrive.html", title ="Individual Drive")
+
 @app.get ("/userprofile")
 def user_profile():
     return render_template("UserProfile.html", title = "User profile")
