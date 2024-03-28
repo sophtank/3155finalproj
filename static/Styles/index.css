@@ -6,7 +6,7 @@ body {
 .bannerLogin{
   height: auto;
   display: block;
-  background-image: url("/static/photos/background.jpg");
+  background-image: url("/static/photos/index_background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -24,7 +24,6 @@ body {
   /* position: relative; */
   height: 900px;
   display: block;
-  background-image: url("/static/photos/background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -37,9 +36,8 @@ body {
 nav {
   background-color: transparent;
   padding: 20px;
-  display: flex; /* Use flexbox layout */
-  /* justify-content: space-between; */
-  align-items: center; /* Align items vertically */
+  display: flex;
+  align-items: center;
 }
 
 #navLogo {
