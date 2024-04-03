@@ -1,24 +1,28 @@
 {% extends '_layout.html' %} 
+{% block head %}
+<link rel="stylesheet" href="/static/Styles/index.css"/>
+{% endblock %}
+
+{% block index_background %}
+<div class="h1-header">
+  <h1>Welcome</h1>
+</div>
+{% endblock %}
 
 {% block body %}
-<link rel="stylesheet" href="/static/Styles/index.css" />
-<main>
-  <div class="banner">
-    <h1>Welcome</h1>
-  </div>
-  <div id="Boxes">
-    <div>
-      <h4>Live</h4>
+  <main>
+    <div id="Boxes">
+      <div id="Box1">
+        <h4>Live</h4>
+      </div>
+      <div id="Box2">
+        <h4>Laugh</h4>
+      </div>
+      <div id="Box3">
+        <h4>Love</h4>
+      </div>
     </div>
-    <div>
-      <h4>Laugh</h4>
-    </div>
-    <div>
-      <h4>Love</h4>
-    </div>
-  </div>
-</main>
-
+  </main>
 {% endblock %}
 
 <!-- Basic page to show you how we should layout our project -->
