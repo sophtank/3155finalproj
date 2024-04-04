@@ -7,11 +7,16 @@
         <thead>
             <th>Rank</th>
             <th>Name</th>
-            <th>Car</th>
-            <th>Driven</th>
+            <th>Miles Driven</th>
         </thead>
         <tbody>
-
+            {%for i in range((10,leaders|length)|min)%}
+            <tr>
+              <td>{{i+1}}</td>
+              <td>{{leaders[i][0]}}</td>
+              <td>{{leaders[i][1]}}</td>
+            </tr>
+            {%endfor%}
         </tbody> 
     </table>
 

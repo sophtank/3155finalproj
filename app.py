@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from repositories.leaderboard import get_leaders
 
 app = Flask(__name__)
 
@@ -16,7 +17,8 @@ def signup():
 
 @app.get("/leaderboard")
 def leaderboard():
-    return render_template("LeaderBoard.html", title="Leaderboard")
+    leaders = get_leaders()
+    return render_template("LeaderBoard.html", title="Leaderboard", leaders=leaders)
 
 @app.get("/create")
 def create():
