@@ -2,6 +2,8 @@ from flask import Flask, redirect, render_template, request
 from repositories import loginSql
 
 app = Flask(__name__)
+global username
+username = None
 
 @app.get("/")
 def index():
@@ -20,7 +22,7 @@ def loggedIn():
         return redirect("/login")
     else:
         print("Logged In")
-        return redirect("/")
+        return redirect("/userprofile")
 
 #renders the signup page
 @app.get("/signup")
@@ -38,7 +40,7 @@ def signedup():
         print("User already exists")
     else:
         loginSql.SignUp(username, password, firstname, lastname)
-    return redirect("/")
+    return redirect("/userprofile")
 
 @app.get("/leaderboard")
 def leaderboard():
