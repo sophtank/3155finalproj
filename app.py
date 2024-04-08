@@ -1,6 +1,9 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, render_template, redirect, request
 from repositories import loginSql
 from repositories import userProfileSql
+from repositories.leaderboard import get_leaders
+
+
 
 app = Flask(__name__)
 global username
@@ -58,7 +61,8 @@ def signedup():
 
 @app.get("/leaderboard")
 def leaderboard():
-    return render_template("LeaderBoard.html", title="Leaderboard")
+    leaders = get_leaders()
+    return render_template("LeaderBoard.html", title="Leaderboard", leaders=leaders)
 
 @app.get("/create")
 def create():

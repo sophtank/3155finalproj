@@ -16,10 +16,13 @@ DROP TABLE IF EXISTS vehicle;
 
 CREATE TABLE IF NOT EXISTS vehicle (
     vehicle_id UUID,    -- this is just a basic vehicle
+    username VARCHAR(50) NOT NULL,
     make VARCHAR(50) NOT NULL,
     model VARCHAR(50) NOT NULL,
     year CHAR(4) NOT NULL,
-    PRIMARY KEY (vehicle_id)
+    color VARCHAR(20) NOT NULL,
+    PRIMARY KEY (vehicle_id),
+    FOREIGN KEY(username) REFERENCES users(username)
 );
 
 DROP TABLE IF EXISTS drive;
@@ -72,17 +75,6 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (username) REFERENCES users(username)
 );
 
-DROP TABLE IF EXISTS user_vehicle;
-
-CREATE TABLE IF NOT EXISTS user_vehicle (
-    username VARCHAR(50), --attributes a vehicle to a user
-    vehicle_id UUID,
-    color VARCHAR(20) NOT NULL,
-    PRIMARY KEY (username, vehicle_id),
-    FOREIGN KEY (username) REFERENCES users(username),
-    FOREIGN KEY (vehicle_id) REFERENCES vehicle(vehicle_id)
-);
-
 DROP TABLE IF EXISTS analytics;
 
 CREATE TABLE IF NOT EXISTS analytics (
@@ -102,13 +94,15 @@ INSERT INTO users VALUES
                       ('mwilki31', '123', 'Matt', 'Wilkinson');
 
 INSERT INTO vehicle VALUES
-                        ('6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 'Honda', 'Pilot','2010'),
-                        ('ffa2b0b9-efd5-4dc9-b947-d9a25af99692', 'Toyota', 'RAV4', '2015'),
-                        ('6bc88650-535b-4c44-9a7a-11ebe27bab83', 'Honda', 'Civic', '2018'),
-                        ('cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 'Ford', 'F-150', '2016'),
-                        ('da4ad3d4-2d51-47bd-927f-ba9a2812ae4f', 'Chevrolet', 'Silverado', '2023'),
-                        ('338763f1-cdd4-43e7-9c69-8f248df1abbf', 'Nissan', 'Leaf', '2024'),
-                        ('4c964948-caad-4fcd-b917-52af70367ca5', 'Volkswagen', 'Beetle', '2020');
+                        ('6a6a459f-4986-4f23-b9f5-a8ec1923ef6d','asico', 'Honda', 'Pilot','2010', 'blue'),
+                        ('6a6a459f-4986-4f23-b9f5-a8ec1923ee5c','skiser18', 'Honda', 'Pilot','2010', 'black'),
+                        ('ffa2b0b9-efd5-4dc9-b947-d9a25af99692', 'stanker', 'Toyota', 'RAV4', '2015', 'silver'),
+                        ('ffa2b0ca-efd5-4dc9-b947-d9a25af99692', 'ccuartas', 'Toyota', 'RAV4', '2015', 'blue'),
+                        ('6bc88650-535b-4c44-9a7a-11ebe27bab83', 'ccuartas', 'Honda', 'Civic', '2018', 'black'),
+                        ('cebef27b-8de6-42c5-bbc9-a2e8158ab3ae','skiser18', 'Ford', 'F-150', '2016', 'white'),
+                        ('da4ad3d4-2d51-47bd-927f-ba9a2812ae4f','svasire4', 'Chevrolet', 'Silverado', '2023', 'red'),
+                        ('338763f1-cdd4-43e7-9c69-8f248df1abbf','mwilki31', 'Nissan', 'Leaf', '2024', 'red'),
+                        ('4c964948-caad-4fcd-b917-52af70367ca5', 'mwilki31', 'Volkswagen', 'Beetle', '2020', 'yellow');
 
 INSERT INTO drive VALUES
                       ('8574e1d5-7369-4f23-8c5f-0f53d8977303', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 20.4, 40, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'asico'),
@@ -117,20 +111,9 @@ INSERT INTO drive VALUES
                       ('457fdf98-de29-421b-8ab6-fbea9d780cc2', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 22.2, 58, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'svasire4'),
                       ('5282a1ac-b818-4cac-b3f3-5fca6732cd15', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 12.7, 36, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'svasire4'),
                       ('1dad8038-ac60-42b3-80f1-ff10d0762778', '6bc88650-535b-4c44-9a7a-11ebe27bab83', 37.5, 58, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'ccuartas'),
-                      ('bb6fcd45-d54d-404f-89a7-f01e60fb0bf3', 'ffa2b0b9-efd5-4dc9-b947-d9a25af99692', 15.6, 26, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'ccuartas'),
+                      ('bb6fcd45-d54d-404f-89a7-f01e60fb0bf3', 'ffa2b0ca-efd5-4dc9-b947-d9a25af99692', 15.6, 26, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'ccuartas'),
                       ('e5aec1d5-4a8a-4478-b2f0-e573244a6b4b', 'da4ad3d4-2d51-47bd-927f-ba9a2812ae4f', 55.2, 115, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(),'skiser18'),
                       ('b6581a62-a5ac-4ec7-a043-006724940583', '4c964948-caad-4fcd-b917-52af70367ca5', 32.1, 42, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(),  'mwilki31');
-
-INSERT INTO user_vehicle VALUES
-                      ('asico', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 'blue'),
-                      ('stanker', 'ffa2b0b9-efd5-4dc9-b947-d9a25af99692', 'silver'),
-                      ('ccuartas', '6bc88650-535b-4c44-9a7a-11ebe27bab83', 'black'),
-                      ('ccuartas', 'ffa2b0b9-efd5-4dc9-b947-d9a25af99692', 'blue'),
-                      ('svasire4','da4ad3d4-2d51-47bd-927f-ba9a2812ae4f', 'red'),
-                      ('skiser18', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 'white'),
-                      ('skiser18', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 'black'),
-                      ('mwilki31', '338763f1-cdd4-43e7-9c69-8f248df1abbf', 'red'),
-                      ('mwilki31', '4c964948-caad-4fcd-b917-52af70367ca5', 'yellow');
 
 INSERT INTO tags VALUES
                      ('8574e1d5-7369-4f23-8c5f-0f53d8977303', TRUE, FALSE, FALSE, TRUE, FALSE),
