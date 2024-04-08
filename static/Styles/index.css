@@ -29,14 +29,3 @@ header {
   margin: 10px;
   text-align: center;
 }
-
-.left-div {
-  width: 50%;
-  float: left;
-  padding: 10px;
-}
-.right-div {
-  width: 50%;
-  float: right;
-  padding: 10px;
-}
