@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, request
 from repositories import loginSql
+from repositories import userProfileSql
 
 app = Flask(__name__)
 global username
@@ -15,6 +16,7 @@ def login():
 
 @app.post('/loggedIn')
 def loggedIn():
+    global username 
     username = request.form.get("username")
     password = request.form.get("password")
     loginAttempt = loginSql.login(username, password)
@@ -34,6 +36,7 @@ def signup():
 def signedup():
     firstname = request.form.get("FirstName")
     lastname = request.form.get("LastName")
+    global username
     username = request.form.get("username")
     password = request.form.get("password")
     if(loginSql.checkIFUserExists(username) != []):
@@ -60,7 +63,10 @@ def individual():
 
 @app.get ("/userprofile")
 def user_profile():
-    return render_template("UserProfile.html", title = "User profile")
+    print(username)
+    alldrives = userProfileSql.getAllDrives(username)
+    print(alldrives)
+    return render_template("UserProfile.html", title = "User profile", alldrives = alldrives)
 
 @app.get("/edit")
 def edit():

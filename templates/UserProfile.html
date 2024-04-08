@@ -43,29 +43,16 @@
             <th scope="col">Car type</th>
             <th scope="col">Time traveled</th>
             <th scope="col">Mileage</th>
-
-
         </tr>
         </thead>
         <tbody>
-        <tr style = "border-bottom: 2.5px dotted black;">
-            <th scope="row">Vehicle 1</th>
-            <td>Suburu BRZ</td>
-            <td>2 hrs</td>
-            <td>140</td>
-        </tr>
-        <tr style = "border-bottom: 2.5px dotted black;">
-            <th scope="row">Vehicle 2</th>
-            <td>Honda Accord</td>
-            <td>30 mins</td>
-            <td>40</td>
-        </tr>
-        <tr style = "border-bottom: 2.5px dotted black;">
-            <th scope="row"> Vehicle 3</th>
-            <td>Ford 150</td>
-            <td>1 hr 30 mins</td>
-            <td>110</td>
-        </tr>
+            {% for drive in alldrives%}
+            <tr style = "border-bottom: 2.5px dotted black;">
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ drive.make }} {{ drive.model}}</td>
+                <td>{{ drive.duration}}</td>
+                <td>{{ drive.milage }}</td>
+            {% endfor %}
         
         <td colspan="4" style="border-bottom: 200px solid rgba(255, 255, 255);"></td>
     </tbody>
