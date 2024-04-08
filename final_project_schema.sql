@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS drive (
     vehicle_id UUID NOT NULL, --assigns a vehicle to the drive
     milage FLOAT NOT NULL,
     duration INT NOT NULL,  --integer in minutes
-    caption VARCHAR(200) NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    caption VARCHAR(500) NOT NULL,
     photo VARCHAR(500) NOT NULL, --link
     date TIMESTAMP NOT NULL,    --timestamp for when the drive is added to database
     username VARCHAR(50) NOT NULL, --assigns a drive to a user
