@@ -7,7 +7,8 @@ def login(username, password) -> list[dict[str, any]]:
     with get_pool().connection() as conn:
         with conn.cursor(row_factory=dict_row) as cur:
             cur.execute('''
-                        SELECT username FROM users
+                        SELECT username, first_name, last_name
+                        FROM users
                         WHERE username = %s AND password = %s
                         ''', (username, password))
             rows = cur.fetchall()

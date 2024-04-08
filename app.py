@@ -5,6 +5,10 @@ from repositories import userProfileSql
 app = Flask(__name__)
 global username
 username = None
+global firstname
+global lastname
+firstname = None
+lastname = None
 
 @app.get("/")
 def index():
@@ -17,12 +21,17 @@ def login():
 @app.post('/loggedIn')
 def loggedIn():
     global username 
+    global firstname
+    global lastname
     username = request.form.get("username")
     password = request.form.get("password")
     loginAttempt = loginSql.login(username, password)
+    print(loginAttempt)
     if(loginAttempt == []):
         return redirect("/login")
     else:
+        firstname = loginAttempt[0]["first_name"]
+        lastname = loginAttempt[0]["last_name"]
         print("Logged In")
         return redirect("/userprofile")
 
@@ -34,6 +43,8 @@ def signup():
 #after the user signs up the user is redirected to the home page
 @app.post("/Signedup")
 def signedup():
+    global firstname
+    global lastname
     firstname = request.form.get("FirstName")
     lastname = request.form.get("LastName")
     global username
@@ -63,10 +74,11 @@ def individual():
 
 @app.get ("/userprofile")
 def user_profile():
+    global firstname
+    global lastname
     print(username)
     alldrives = userProfileSql.getAllDrives(username)
-    print(alldrives)
-    return render_template("UserProfile.html", title = "User profile", alldrives = alldrives)
+    return render_template("UserProfile.html", title = "User profile", alldrives = alldrives, firstname = firstname, lastname = lastname)
 
 @app.get("/edit")
 def edit():
