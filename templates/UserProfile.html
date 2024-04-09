@@ -8,11 +8,13 @@
     <div class="individual-container">
         <form method="POST" action="/userprofile">
             <div class="form-group">
-                <label for="vehicles">Select Vehicle</label>
-                <select class="form-control" id="selected_vehicle" name="selected_vehicle">
+                <input type = "hidden" name = "username" value = "{{ username }}">
+                <input type = "hidden" name = "firstname" value = "{{ vehicle_id }}">
+                <label for="vehicle_id">Select Vehicle</label>
+                <select class="form-control" id="vehicle_id" name="vehicle_id">
                     
                     {% for vehicle in vehicles %}
-                        <option value = "{{vehicle.id}}">{{ vehicle.make }} {{ vehicle.model }}</option>
+                        <option value = "{{ vehicle.vehicle_id }}">{{ vehicle.make }} {{ vehicle.model }}</option> 
                     {% endfor %}
                 </select>
             </div>
@@ -32,6 +34,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <input type="hidden" name="username" value="{{ username }}"> 
         </form>
     </div>
 

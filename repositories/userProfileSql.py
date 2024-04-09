@@ -27,4 +27,3 @@ def getVehicles(username) -> list[dict[str, any]]:
                         ''', (username,))
             rows = cur.fetchall()
             return rows
-            

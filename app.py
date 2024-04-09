@@ -86,9 +86,22 @@ def user_profile():
                         alldrives = alldrives, 
                         firstname = firstname, 
                         lastname = lastname,
-                        vehicles = vehicles
+                        vehicles = vehicles #passing in the vehicle to the user profile dropdown
                         )
 
+#function to post selected vehicle to user profile & display waiting on sessions to finish up
+@app.post('/userprofile')
+def select_vehicle():
+    vehicle_id = request.form.get("vehicle_id")
+    username = request.form.get("Username")
+
+    drives = userProfileSql.getAllDrives(username)
+    if not drives:
+        return redirect('/create')
+    
+    return redirect(f"/userprofile/{username}/{vehicle_id}")
+
+# function to delete a drive based on drive id and username
 @app.post('/viewdrive/<username>/<int:drive_id>/delete')
 def delete_drive(username, drive_id):
 
