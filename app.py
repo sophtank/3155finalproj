@@ -1,8 +1,12 @@
 from flask import Flask, render_template, redirect, request
 from repositories import loginSql
 from repositories import userProfileSql
+from repositories import viewDrives
 from repositories.leaderboard import get_leaders
+from repositories import viewIndividualDrive
+from dotenv import load_dotenv
 
+load_dotenv()
 
 
 app = Flask(__name__)
@@ -70,11 +74,13 @@ def create():
 
 @app.get("/drives")
 def get_all_drives():
-    return render_template("viewDrives.html", title="Drives")
+    drives = viewDrives.get_all_drives()
+    return render_template("viewDrives.html", title="Drives", drives = drives)
 
-@app.get("/viewDrive")
-def individual():
-    return render_template("individualDrive.html", title ="Individual Drive")
+@app.get("/drive/<drive_id>")
+def individual(drive_id):
+    individualDrive = viewIndividualDrive.get_individual_drive_by_id(drive_id)
+    return render_template("individualDrive.html", title ="Individual Drive", drive = individualDrive)
 
 @app.get ("/userprofile")
 def user_profile():
