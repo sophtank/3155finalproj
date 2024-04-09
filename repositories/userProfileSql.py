@@ -14,3 +14,17 @@ def getAllDrives(username) -> list[dict[str, any]]:
                         ''', (username,))
             rows = cur.fetchall()
             return rows
+
+
+# gets the details of the vehicles of the user
+def getVehicles(username) -> list[dict[str, any]]:
+    with get_pool().connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT make, model, year, vehicle_id
+                        FROM vehicle
+                        WHERE username = %s
+                        ''', (username,))
+            rows = cur.fetchall()
+            return rows
+            

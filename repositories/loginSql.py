@@ -34,4 +34,3 @@ def SignUp(username, password, firstname, lastname) -> list[dict[str, any]]:
                         INSERT INTO users (username, password, first_name, last_name)
                         VALUES (%s, %s, %s, %s)
                         ''', (username, password, firstname, lastname))
- 

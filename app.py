@@ -1,9 +1,8 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, abort
 from repositories import loginSql
 from repositories import userProfileSql
 from repositories.leaderboard import get_leaders
-
-
+from repositories import deleteSql
 
 app = Flask(__name__)
 global username
@@ -37,7 +36,7 @@ def loggedIn():
         lastname = loginAttempt[0]["last_name"]
         print("Logged In")
         return redirect("/userprofile")
-
+    
 #renders the signup page
 @app.get("/signup")
 def signup():
@@ -57,7 +56,7 @@ def signedup():
         print("User already exists")
     else:
         loginSql.SignUp(username, password, firstname, lastname)
-    return redirect("/userprofile")
+        return redirect('/userprofile')
 
 @app.get("/leaderboard")
 def leaderboard():
@@ -82,7 +81,22 @@ def user_profile():
     global lastname
     print(username)
     alldrives = userProfileSql.getAllDrives(username)
-    return render_template("UserProfile.html", title = "User profile", alldrives = alldrives, firstname = firstname, lastname = lastname)
+    vehicles = userProfileSql.getVehicles(username)
+    return render_template("UserProfile.html", title = "User profile", 
+                        alldrives = alldrives, 
+                        firstname = firstname, 
+                        lastname = lastname,
+                        vehicles = vehicles
+                        )
+
+@app.post('/viewdrive/<username>/<int:drive_id>/delete')
+def delete_drive(username, drive_id):
+
+    if not drive_id:
+        abort(404)
+
+    deleteSql.delete_drive(username, drive_id) 
+    return redirect("/drives")
 
 @app.get("/edit")
 def edit():
