@@ -1,6 +1,8 @@
 from flask import Flask, redirect, render_template, request
 from repositories import loginSql
 from repositories import userProfileSql
+from repositories import drives
+from datetime import datetime
 
 app = Flask(__name__)
 global username
@@ -51,7 +53,19 @@ def leaderboard():
 
 @app.get("/create")
 def create():
-    return render_template("createdrive.html", title="Create Drive")
+    user = "stanker" #temporary until we implement sessions
+    vehicle_id = request.form.get("vehicleSelect")
+    #need to add a function here to decode
+    mileage = request.form.get("mileage")
+    duration = request.form.get("duration")
+    title = request.form.get("title")
+    caption = request.form.get("caption")
+    photo = request.form.get("photo")
+    #current date and time
+    now = datetime.now()
+    date = datetime.timestamp(now)
+    drives.create_drive(user, vehicle_id, mileage, duration, title, caption, photo, date)
+    return redirect("/userprofile")
 
 @app.get("/drives")
 def get_all_drives():

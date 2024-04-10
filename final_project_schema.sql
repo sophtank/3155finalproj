@@ -49,6 +49,8 @@ CREATE TABLE IF NOT EXISTS tags (
     mostly_highway BOOL,
     mostly_backroads BOOL,
     PRIMARY KEY (drive_id)
+    FOREIGN KEY (drive_id) REFERENCES drive(drive_id) 
+    
 );
 
 DROP TABLE IF EXISTS likes;
