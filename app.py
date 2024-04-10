@@ -1,13 +1,14 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, abort
 from repositories import loginSql
 from repositories import userProfileSql
 from repositories import viewDrives
 from repositories.leaderboard import get_leaders
+from repositories import deleteSql
 from repositories import viewIndividualDrive
 from dotenv import load_dotenv
 
-load_dotenv()
 
+load_dotenv()
 
 app = Flask(__name__)
 global username
@@ -41,7 +42,7 @@ def loggedIn():
         lastname = loginAttempt[0]["last_name"]
         print("Logged In")
         return redirect("/userprofile")
-
+    
 #renders the signup page
 @app.get("/signup")
 def signup():
@@ -61,7 +62,7 @@ def signedup():
         print("User already exists")
     else:
         loginSql.SignUp(username, password, firstname, lastname)
-    return redirect("/userprofile")
+        return redirect('/userprofile')
 
 @app.get("/leaderboard")
 def leaderboard():
@@ -88,7 +89,34 @@ def user_profile():
     global lastname
     print(username)
     alldrives = userProfileSql.getAllDrives(username)
-    return render_template("UserProfile.html", title = "User profile", alldrives = alldrives, firstname = firstname, lastname = lastname)
+    vehicles = userProfileSql.getVehicles(username)
+    return render_template("UserProfile.html", title = "User profile", 
+                        alldrives = alldrives, 
+                        firstname = firstname, 
+                        lastname = lastname,
+                        vehicles = vehicles #passing in the vehicle to the user profile dropdown
+                        )
+
+#function to post selected vehicle to user profile & display waiting on sessions to finish up
+@app.post('/userprofile')
+def select_vehicle():
+    vehicle_id = request.form.get("vehicle_id")
+    username = request.form.get("Username")
+
+    drives = userProfileSql.getAllDrives(username)
+    if not drives:
+        return redirect('/create')
+    
+    return redirect(f"/userprofile/{username}/{vehicle_id}")
+
+# function to delete a drive based on drive id
+@app.post('/drive/<drive_id>')
+def delete_drive(drive_id):
+    if not drive_id:
+        abort(404)
+
+    deleteSql.deleteDrive(drive_id) 
+    return redirect("/drives")
 
 @app.get("/edit")
 def edit():
