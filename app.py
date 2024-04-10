@@ -3,8 +3,12 @@ from repositories import loginSql
 from repositories import userProfileSql
 from repositories import viewDrives
 from repositories.leaderboard import get_leaders
+from repositories import deleteSql
+from repositories import viewIndividualDrive
+from dotenv import load_dotenv
 
 
+load_dotenv()
 
 app = Flask(__name__)
 global username
@@ -105,14 +109,13 @@ def select_vehicle():
     
     return redirect(f"/userprofile/{username}/{vehicle_id}")
 
-# function to delete a drive based on drive id and username
-@app.post('/viewdrive/<username>/<int:drive_id>/delete')
-def delete_drive(username, drive_id):
-
+# function to delete a drive based on drive id
+@app.post('/drive/<drive_id>')
+def delete_drive(drive_id):
     if not drive_id:
         abort(404)
 
-    deleteSql.delete_drive(username, drive_id) 
+    deleteSql.deleteDrive(drive_id) 
     return redirect("/drives")
 
 @app.get("/edit")
