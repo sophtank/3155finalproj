@@ -8,8 +8,6 @@ from repositories import viewIndividualDrive
 from dotenv import load_dotenv
 
 
-load_dotenv()
-
 app = Flask(__name__)
 global username
 username = None
