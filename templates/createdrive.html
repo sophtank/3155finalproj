@@ -2,17 +2,18 @@
 
 {% block body %}
 <h1 align="center">Create a Drive</h1>
+<form method="POST" action="/creating">
 <div class="left-div">
     <h2>Mileage Traveled</h2>
-    <input class="form-control" id="mileage" type="number" placeholder="Mileage Traveled" aria-label="Mileage Traveled">
+    <input class="form-control" name= "mileage" id="mileage" type="number" placeholder="Mileage Traveled" aria-label="Mileage Traveled">
 </div>
 <div class="right-div">
     <h2>Duration</h2>
-    <input class="form-control" id="duration" type="time" placeholder="Time Spent Driving" aria-label="Time Spent Driving">
+    <input class="form-control" name = "duration" id="duration" type="number" placeholder="Time Spent Driving (minutes)" aria-label="Time Spent Driving">
 </div>
 <div class="left-div">
     <h2>Vehicle</h2>
-    <input class="form-control" list="vehicleOptions" id="vehicleSelect" placeholder="Type to search your registered vehicles...">
+    <input class="form-control" list="vehicleOptions" id="vehicleSelect" name="vehicleSelect" placeholder="Type to search your registered vehicles...">
     <datalist id="vehicleOptions">
     <option value="Toyota Camry (2013)">
     <option value="Ford F-150 (2022)">
@@ -58,14 +59,15 @@
 </div>
 <div class = "create-drive">
 <h2>Title</h2>
-    <input class="form-control" id="titleDrive" type="text" placeholder="Title your drive" aria-label="Drive Title">
+    <input class="form-control" id="titleDrive" name="titleDrive" type="text" placeholder="Title your drive" aria-label="Drive Title">
 <h2>Caption</h2>
-    <input class="form-control" id="captionDrive" type="text" placeholder="Caption your drive" aria-label="Drive Caption" size="150px">
+    <input class="form-control" id="captionDrive" name="captionDrive" type="text" placeholder="Caption your drive" aria-label="Drive Caption" size="150px">
 <div class="mb-3">
     <h2>Add a photo from your drive</h2>
-    <input class="form-control" type="file" id="drivePhoto">
+    <input class="form-control" type="file" id="drivePhoto" name="drivePhoto">
     </div>
 <input class="btn btn-primary btn btn-primary-primary" type="submit" value="Submit">
+  </form>
 </div>
 
 {%endblock%}

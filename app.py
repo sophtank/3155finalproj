@@ -1,8 +1,11 @@
 from flask import Flask, redirect, render_template, request
+from dotenv import load_dotenv
 from repositories import loginSql
 from repositories import userProfileSql
 from repositories import drives
-from datetime import datetime
+import uuid, os
+
+load_dotenv()
 
 app = Flask(__name__)
 global username
@@ -53,18 +56,22 @@ def leaderboard():
 
 @app.get("/create")
 def create():
-    user = "stanker" #temporary until we implement sessions
-    vehicle_id = request.form.get("vehicleSelect")
-    #need to add a function here to decode
+    return render_template("createdrive.html", title="Create Drive")
+
+@app.post("/creating")
+def creating():
+    drive_id = str(uuid.uuid4())
+    vehicle_id = 'ffa2b0b9-efd5-4dc9-b947-d9a25af99692' #temporary until we implement sessions
     mileage = request.form.get("mileage")
     duration = request.form.get("duration")
-    title = request.form.get("title")
-    caption = request.form.get("caption")
-    photo = request.form.get("photo")
+    title = request.form.get("titleDrive")
+    caption = request.form.get("captionDrive")
+    #vehicle_id = request.form.get("vehicleSelect")
+    photo = "https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg" #temp until we figure out how to store photos
     #current date and time
-    now = datetime.now()
-    date = datetime.timestamp(now)
-    drives.create_drive(user, vehicle_id, mileage, duration, title, caption, photo, date)
+    date = "NOW()"
+    user = "stanker" #temporary until we implement sessions
+    drives.create_drive(drive_id, vehicle_id, mileage, duration, title, caption, photo, date, user)
     return redirect("/userprofile")
 
 @app.get("/drives")
