@@ -28,11 +28,12 @@
         <div class="description-box description">
             {{ drive.caption }}
         </div>
-        <button class="btn btn-primary">Like</button>
-        <button class="btn btn-primary">Comment</button>
-        <button class="btn btn-primary">Share</button>
+        <a href="/edit"><button class="btn btn-primary mt-3">Edit</button></a>
+        <button class="btn btn-primary mt-3">Like</button>
+        <button class="btn btn-primary mt-3">Comment</button>
         <form action="/drive/{{ drive.drive_id }}" method="POST">
             <input type = "hidden" name = "drive_id" value = "{{drive.drive_id}}">
+            <br>
         <button class="btn btn-danger">Delete</button>
         </form>
     </div>
