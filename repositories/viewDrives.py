@@ -9,7 +9,7 @@ def get_all_drives():
                            SELECT
                             u.first_name,
                             d.date,
-                            d.milage,
+                            d.mileage,
                             d.photo,
                             d.drive_id
                            FROM 

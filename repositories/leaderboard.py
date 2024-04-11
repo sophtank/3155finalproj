@@ -6,7 +6,7 @@ def get_leaders():
     with pool.connection() as conn:
         with conn.cursor() as cursor:
             cursor.execute('''SELECT drive.username AS "Name",
-                        ROUND(CAST(SUM(drive.milage) AS NUMERIC),1) AS "Miles Driven"
+                        ROUND(CAST(SUM(drive.mileage) AS NUMERIC),1) AS "Miles Driven"
                         FROM drive
                         GROUP BY "Name"
                         ORDER BY "Miles Driven" DESC;''')
