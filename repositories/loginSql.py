@@ -7,7 +7,8 @@ def login(username, password) -> list[dict[str, any]]:
     with get_pool().connection() as conn:
         with conn.cursor(row_factory=dict_row) as cur:
             cur.execute('''
-                        SELECT username FROM users
+                        SELECT username, first_name, last_name
+                        FROM users
                         WHERE username = %s AND password = %s
                         ''', (username, password))
             rows = cur.fetchall()
@@ -33,4 +34,3 @@ def SignUp(username, password, firstname, lastname) -> list[dict[str, any]]:
                         INSERT INTO users (username, password, first_name, last_name)
                         VALUES (%s, %s, %s, %s)
                         ''', (username, password, firstname, lastname))
- 
