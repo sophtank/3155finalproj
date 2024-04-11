@@ -1,6 +1,5 @@
 from flask import Flask, render_template, redirect, request
-from repositories import loginSql
-from repositories import userProfileSql
+from repositories import loginSql, userProfileSql, edit_drive
 from repositories.leaderboard import get_leaders
 
 
@@ -84,6 +83,12 @@ def user_profile():
     alldrives = userProfileSql.getAllDrives(username)
     return render_template("UserProfile.html", title = "User profile", alldrives = alldrives, firstname = firstname, lastname = lastname)
 
-@app.get("/edit")
-def edit():
-    return render_template("editdrive.html", title="Edit Drive")
+@app.post("/edit")
+def edit_drive_form():
+    drive_id = request.form.get("drive_id")
+    return render_template("editdrive.html", title="Edit Drive", drive_id = drive_id)
+
+@app.post("/")
+def edit_drive():
+    drive_id = request.form.get("drive_id")
+    return redirect('/drives')
