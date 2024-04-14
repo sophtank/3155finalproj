@@ -39,6 +39,8 @@ def loggedIn():
     if not username or not password:
         abort(400, "Username and password are required")
     loginAttempt = loginSql.login(username)
+    if loginAttempt == []:
+        return redirect("/login")
     if(bcrypt.check_password_hash(loginAttempt[0]['password'], password)):
         firstname = loginAttempt[0]['first_name']
         lastname = loginAttempt[0]['last_name']
