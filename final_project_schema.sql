@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS users; --run the rest of the code now
 
 CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50),
-    password VARCHAR(50) NOT NULL, --may need to change the length once we decide hashing length, for now store in plaintext
+    password VARCHAR(255) NOT NULL, --may need to change the length once we decide hashing length, for now store in plaintext
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     PRIMARY KEY (username)
