@@ -3,14 +3,14 @@ from psycopg.rows import dict_row
         
 
 #checks if the username and password match with the database
-def login(username, password) -> list[dict[str, any]]:
+def login(username) -> list[dict[str, any]]:
     with get_pool().connection() as conn:
         with conn.cursor(row_factory=dict_row) as cur:
             cur.execute('''
-                        SELECT username, first_name, last_name
+                        SELECT username, first_name, last_name, password
                         FROM users
-                        WHERE username = %s AND password = %s
-                        ''', (username, password))
+                        WHERE username = %s
+                        ''', (username,))
             rows = cur.fetchall()
             return rows
 

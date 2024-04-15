@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS users; --run the rest of the code now
 
 CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50),
-    password VARCHAR(50) NOT NULL, --may need to change the length once we decide hashing length, for now store in plaintext
+    password VARCHAR(255) NOT NULL, --may need to change the length once we decide hashing length, for now store in plaintext
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     PRIMARY KEY (username)
@@ -87,12 +87,12 @@ CREATE TABLE IF NOT EXISTS analytics (
 
 -- insert fake data :)
 INSERT INTO users VALUES
-                      ('asico', '123', 'Ashleigh', 'Sico'),
-                      ('stanker', '123', 'Sophie', 'Tanker'),
-                      ('ccuartas', '123', 'Christopher', 'Cuartas'),
-                      ('svasire4', '123', 'Sandeep', 'Vasireddy'),
-                      ('skiser18', '123', 'Sean', 'Kiser'),
-                      ('mwilki31', '123', 'Matt', 'Wilkinson');
+                      ('asico', '$2b$12$tXaxFFvBbPJw0xDCeshGdOdqlPE1q1xILKocy4qvoWPtm4yGeo7Ke', 'Ashleigh', 'Sico'),
+                      ('stanker', '$2b$12$ZA/TDf3hN9XjZYguPpZCUefOCeyMEHaeMQ9eShaAN86UjA7ojUaMy', 'Sophie', 'Tanker'),
+                      ('ccuartas', '$2b$12$0RYdGy8J.nNuI4E3bsx7XuFxvasX4lpg.8NEak0uvo5qs4hWIr4EK', 'Christopher', 'Cuartas'),
+                      ('svasire4', '$2b$12$xLgFYaD3I2ovbIDObpTOSuEhCi2ZDVZ8iMZPEDHPLadrXaT4G/uUO', 'Sandeep', 'Vasireddy'),
+                      ('skiser18', '$2b$12$4N60BrbUkTaXpc5KG9fwL.gxoDM5ucZh7zv3Cf7ejmsDgKB9h9mEG', 'Sean', 'Kiser'),
+                      ('mwilki31', '$2b$12$V6RcoyTt0bjPhskvcDoPBuydBcbvwcmW28Izr46wT1t.iIldl9XM6', 'Matt', 'Wilkinson');
 
 INSERT INTO vehicle VALUES
                         ('6a6a459f-4986-4f23-b9f5-a8ec1923ef6d','asico', 'Honda', 'Pilot','2010', 'blue'),
