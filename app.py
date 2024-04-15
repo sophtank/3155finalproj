@@ -19,39 +19,6 @@ app.secret_key = os.getenv('SECRET_KEY')
 
 bcrypt = Bcrypt(app)
 
-
-def createDummyData():
-    username1 = "testing1"
-    password1 = "password1"
-    firstname1 = "John"
-    lastname1 = "Doe"
-    hashed_password1 = bcrypt.generate_password_hash(password1).decode('utf-8')
-    loginSql.SignUp(username1, hashed_password1, firstname1, lastname1)
-
-    username2 = "testing2"
-    password2 = "password2"
-    firstname2 = "Jane"
-    lastname2 = "Doe"
-    hashed_password2 = bcrypt.generate_password_hash(password2).decode('utf-8')
-    loginSql.SignUp(username2, hashed_password2, firstname2, lastname2)
-
-    username3 = "testing3"
-    password3 = "password3"
-    firstname3 = "John"
-    lastname3 = "Smith"
-    hashed_password3 = bcrypt.generate_password_hash(password3).decode('utf-8')
-    loginSql.SignUp(username3, hashed_password3, firstname3, lastname3)
-
-    username4 = "testing4"
-    password4 = "password4"
-    firstname4 = "Jane"
-    lastname4 = "Smith"
-    hashed_password4 = bcrypt.generate_password_hash(password4).decode('utf-8')
-    loginSql.SignUp(username4, hashed_password4, firstname4, lastname4)
-
-createDummyData()
-
-
 @app.get("/")
 def index():
     return render_template("index.html", title ="Home")
