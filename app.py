@@ -1,4 +1,4 @@
-from flask import Flask, abort, flash, render_template, redirect, request, session
+from flask import Flask, abort, flash, render_template, redirect, request, session, get_flashed_messages
 
 ##repositories here
 from repositories import loginSql
@@ -56,7 +56,7 @@ def loggedIn():
         #sessions
         session['username'] = loginAttempt[0]['username']
         return redirect("/userprofile")
-     else:
+    else:
         return redirect("/login")
 
 #renders the signup page
@@ -104,6 +104,7 @@ def creating():
     date = "NOW()"
     user = "stanker" #temporary until we implement sessions
     drives.create_drive(drive_id, vehicle_id, mileage, duration, title, caption, photo, date, user)
+    flash('Drive successfully created', 'success')
     return redirect("/userprofile")
 
 @app.get("/drives")

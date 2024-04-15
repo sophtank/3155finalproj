@@ -1,9 +1,21 @@
 {% extends '_layout.html' %} 
 {% block body %}
 
+<div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+
 <main style="background-image: url('/static/photos/ferrari.jpg'); background-size: cover; height: 100vh; display: flex; justify-content: center; align-items: center;">
 
     <h1 style="position: absolute; top: 120px; color: black; font-size: 2em; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">{{ firstname }} {{ lastname }}</h1>
+
 
     <div class="individual-container">
         <form method="POST" action="/userprofile">
