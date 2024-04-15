@@ -1,23 +1,21 @@
 from flask import Flask, abort, flash, render_template, redirect, request, session
 
-
+##repositories here
 from repositories import loginSql
 from repositories import userProfileSql
 from repositories import viewDrives
 from repositories.leaderboard import get_leaders
-from flask_bcrypt import Bcrypt
-import os
 from repositories import deleteSql
 from repositories import viewIndividualDrive
 from repositories import drives
+
+
+from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
-from repositories import drives
 import uuid, os
 
 load_dotenv()
 
-
-load_dotenv()
 
 app = Flask(__name__)
 global username
