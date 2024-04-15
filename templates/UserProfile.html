@@ -1,61 +1,65 @@
 {% extends '_layout.html' %} 
 {% block body %}
-    <title>Users Drives</title>
 
-    <main style="background-image: url('/static/photos/ferrari.jpg'); background-size:cover; height: 100vh; display: flex; justify-content: center; align-items: center;">
+<main style="background-image: url('/static/photos/ferrari.jpg'); background-size: cover; height: 100vh; display: flex; justify-content: center; align-items: center;">
 
-        <h1 style="position: absolute; top: 120px; color: black; font-size: 2em; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">{{firstname}} {{lastname}}</h1>
+    <h1 style="position: absolute; top: 120px; color: black; font-size: 2em; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">{{ firstname }} {{ lastname }}</h1>
 
-        <div class="individual-container">
-                <div class="form-group">
-                    <label for="vehicles">Select Vehicle</label>
-                    <select class="form-control" id="vehicles">
-                        <option>Choose...</option>
-                        <option>Vehicle 1</option>
-                        <option>Vehicle 2</option>
-                        <option>Vehicle 3</option>
-                        <option>Vehicle 4</option>
-                    </select>
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkbox1">
-                        <label class="form-check-label" for="checkbox1">Mileage</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkbox2">
-                        <label class="form-check-label" for="checkbox2">Time traveled</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkbox3">
-                        <label class="form-check-label" for="checkbox3">Car type</label>
-                    </div>
+    <div class="individual-container">
+        <form method="POST" action="/userprofile">
+            <div class="form-group">
+                <input type = "hidden" name = "username" value = "{{ username }}">
+                <input type = "hidden" name = "firstname" value = "{{ vehicle_id }}">
+                <label for="vehicle_id">Select Vehicle</label>
+                <select class="form-control" id="vehicle_id" name="vehicle_id">
+                    
+                    {% for vehicle in vehicles %}
+                        <option value = "{{ vehicle.vehicle_id }}">{{ vehicle.make }} {{ vehicle.model }}</option> 
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Select Data to Display</label><br>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="mileage" id="checkbox1" name="display_data">
+                    <label class="form-check-label" for="checkbox1">Mileage</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="time" id="checkbox2" name="display_data">
+                    <label class="form-check-label" for="checkbox2">Time Traveled</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="car_type" id="checkbox3" name="display_data">
+                    <label class="form-check-label" for="checkbox3">Car Type</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <input type="hidden" name="username" value="{{ username }}"> 
+        </form>
     </div>
-    <table class="table table-light" style = "width: 77%; background-color: rgba(255, 255, 255, 0.3); margin-top: 94vh; margin-bottom: 100vh; margin-left:75px; font-family:Arial, Helvetica, sans-serif; font-size: 20px;color:black; 
-    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">
+
+    <table class="table table-light" style="width: 77%; background-color: rgba(255, 255, 255, 0.3); margin-top: 94vh; margin-bottom: 100vh; margin-left: 75px; font-family: Arial, Helvetica, sans-serif; font-size: 20px; color: black; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">
 
         <thead>
-            <tr style = "border-bottom: 2.5px dotted black;">
-            <th scope="col">Drive #</th>
-            <th scope="col">Car type</th>
-            <th scope="col">Time traveled</th>
-            <th scope="col">Mileage</th>
-        </tr>
+            <tr style="border-bottom: 2.5px dotted black;">
+                <th scope="col">Drive #</th>
+                <th scope="col">Car type</th>
+                <th scope="col">Time traveled</th>
+                <th scope="col">Mileage</th>
+            </tr>
         </thead>
         <tbody>
-            {% for drive in alldrives%}
-            <tr style = "border-bottom: 2.5px dotted black;">
-                <th scope="row">{{ loop.index }}</th>
-                <td>{{ drive.make }} {{ drive.model}}</td>
-                <td>{{ drive.duration}}</td>
-                <td>{{ drive.milage }}</td>
+            {% for drive in alldrives %}
+                <tr style="border-bottom: 2.5px dotted black;">
+                    <th scope="row">{{ loop.index }}</th>
+                        <td>{{ drive.make }} {{ drive.model }}</td>
+                        <td>{{ drive.duration }}</td>
+                        <td>{{ drive.milage }}</td>
+                </tr>
+                
             {% endfor %}
-        
-        <td colspan="4" style="border-bottom: 200px solid rgba(255, 255, 255);"></td>
-    </tbody>
+            <td colspan="4" style="border-bottom: 200px solid rgba(255, 255, 255);"></td>
+        </tbody>
     </table>
 </main>
 
