@@ -56,7 +56,7 @@ def loggedIn():
         #sessions
         session['username'] = loginAttempt[0]['username']
         return redirect("/userprofile")
-     else:
+    else:
         return redirect("/login")
 
 #renders the signup page
