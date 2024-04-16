@@ -1,13 +1,6 @@
 from flask import Flask, abort, flash, render_template, redirect, request, session
-
-##repositories here
-from repositories import loginSql
-from repositories import userProfileSql
-from repositories import viewDrives
+from repositories import loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
 from repositories.leaderboard import get_leaders
-from repositories import deleteSql
-from repositories import viewIndividualDrive
-from repositories import drives
 
 
 from flask_bcrypt import Bcrypt
