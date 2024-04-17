@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS users; --run the rest of the code now
 
 CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50),
-    password VARCHAR(50) NOT NULL, --may need to change the length once we decide hashing length, for now store in plaintext
+    password VARCHAR(255) NOT NULL, --may need to change the length once we decide hashing length, for now store in plaintext
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     PRIMARY KEY (username)
@@ -28,11 +28,12 @@ CREATE TABLE IF NOT EXISTS vehicle (
 DROP TABLE IF EXISTS drive;
 
 CREATE TABLE IF NOT EXISTS drive (
-  drive_id UUID,
+    drive_id UUID,
     vehicle_id UUID NOT NULL, --assigns a vehicle to the drive
-    milage FLOAT NOT NULL,
+    mileage FLOAT NOT NULL,
     duration INT NOT NULL,  --integer in minutes
-    caption VARCHAR(200) NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    caption VARCHAR(500) NOT NULL,
     photo VARCHAR(500) NOT NULL, --link
     date TIMESTAMP NOT NULL,    --timestamp for when the drive is added to database
     username VARCHAR(50) NOT NULL, --assigns a drive to a user
@@ -86,12 +87,12 @@ CREATE TABLE IF NOT EXISTS analytics (
 
 -- insert fake data :)
 INSERT INTO users VALUES
-                      ('asico', '123', 'Ashleigh', 'Sico'),
-                      ('stanker', '123', 'Sophie', 'Tanker'),
-                      ('ccuartas', '123', 'Christopher', 'Cuartas'),
-                      ('svasire4', '123', 'Sandeep', 'Vasireddy'),
-                      ('skiser18', '123', 'Sean', 'Kiser'),
-                      ('mwilki31', '123', 'Matt', 'Wilkinson');
+                      ('asico', '$2b$12$tXaxFFvBbPJw0xDCeshGdOdqlPE1q1xILKocy4qvoWPtm4yGeo7Ke', 'Ashleigh', 'Sico'),
+                      ('stanker', '$2b$12$ZA/TDf3hN9XjZYguPpZCUefOCeyMEHaeMQ9eShaAN86UjA7ojUaMy', 'Sophie', 'Tanker'),
+                      ('ccuartas', '$2b$12$0RYdGy8J.nNuI4E3bsx7XuFxvasX4lpg.8NEak0uvo5qs4hWIr4EK', 'Christopher', 'Cuartas'),
+                      ('svasire4', '$2b$12$xLgFYaD3I2ovbIDObpTOSuEhCi2ZDVZ8iMZPEDHPLadrXaT4G/uUO', 'Sandeep', 'Vasireddy'),
+                      ('skiser18', '$2b$12$4N60BrbUkTaXpc5KG9fwL.gxoDM5ucZh7zv3Cf7ejmsDgKB9h9mEG', 'Sean', 'Kiser'),
+                      ('mwilki31', '$2b$12$V6RcoyTt0bjPhskvcDoPBuydBcbvwcmW28Izr46wT1t.iIldl9XM6', 'Matt', 'Wilkinson');
 
 INSERT INTO vehicle VALUES
                         ('6a6a459f-4986-4f23-b9f5-a8ec1923ef6d','asico', 'Honda', 'Pilot','2010', 'blue'),
@@ -105,15 +106,15 @@ INSERT INTO vehicle VALUES
                         ('4c964948-caad-4fcd-b917-52af70367ca5', 'mwilki31', 'Volkswagen', 'Beetle', '2020', 'yellow');
 
 INSERT INTO drive VALUES
-                      ('8574e1d5-7369-4f23-8c5f-0f53d8977303', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 20.4, 40, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'asico'),
-                      ('3f16c4e4-e8d0-4175-84f3-53ee91923ec1', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 19.7, 39, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'asico'),
-                      ('5c971fbf-7210-4f9e-8358-4e6d54defc88', 'ffa2b0b9-efd5-4dc9-b947-d9a25af99692', 10.4, 23, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'stanker'),
-                      ('457fdf98-de29-421b-8ab6-fbea9d780cc2', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 22.2, 58, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'svasire4'),
-                      ('5282a1ac-b818-4cac-b3f3-5fca6732cd15', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 12.7, 36, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'svasire4'),
-                      ('1dad8038-ac60-42b3-80f1-ff10d0762778', '6bc88650-535b-4c44-9a7a-11ebe27bab83', 37.5, 58, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'ccuartas'),
-                      ('bb6fcd45-d54d-404f-89a7-f01e60fb0bf3', 'ffa2b0ca-efd5-4dc9-b947-d9a25af99692', 15.6, 26, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'ccuartas'),
-                      ('e5aec1d5-4a8a-4478-b2f0-e573244a6b4b', 'da4ad3d4-2d51-47bd-927f-ba9a2812ae4f', 55.2, 115, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(),'skiser18'),
-                      ('b6581a62-a5ac-4ec7-a043-006724940583', '4c964948-caad-4fcd-b917-52af70367ca5', 32.1, 42, 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(),  'mwilki31');
+                      ('8574e1d5-7369-4f23-8c5f-0f53d8977303', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 20.4, 40, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'asico'),
+                      ('3f16c4e4-e8d0-4175-84f3-53ee91923ec1', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 19.7, 39, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'asico'),
+                      ('5c971fbf-7210-4f9e-8358-4e6d54defc88', 'ffa2b0b9-efd5-4dc9-b947-d9a25af99692', 10.4, 23,  'my drive!','a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'stanker'),
+                      ('457fdf98-de29-421b-8ab6-fbea9d780cc2', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 22.2, 58, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'svasire4'),
+                      ('5282a1ac-b818-4cac-b3f3-5fca6732cd15', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 12.7, 36, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'svasire4'),
+                      ('1dad8038-ac60-42b3-80f1-ff10d0762778', '6bc88650-535b-4c44-9a7a-11ebe27bab83', 37.5, 58, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'ccuartas'),
+                      ('bb6fcd45-d54d-404f-89a7-f01e60fb0bf3', 'ffa2b0ca-efd5-4dc9-b947-d9a25af99692', 15.6, 26, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'ccuartas'),
+                      ('e5aec1d5-4a8a-4478-b2f0-e573244a6b4b', 'da4ad3d4-2d51-47bd-927f-ba9a2812ae4f', 55.2, 115, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(),'skiser18'),
+                      ('b6581a62-a5ac-4ec7-a043-006724940583', '4c964948-caad-4fcd-b917-52af70367ca5', 32.1, 42, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(),  'mwilki31');
 
 INSERT INTO tags VALUES
                      ('8574e1d5-7369-4f23-8c5f-0f53d8977303', TRUE, FALSE, FALSE, TRUE, FALSE),
