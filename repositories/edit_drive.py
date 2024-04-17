@@ -19,6 +19,24 @@ def edit_drive_values(drive_id, mileage, duration, vehicle, title, caption):
                             ''', {'mileage': mileage, 'duration': duration, 'vehicle': vehicle, 'title': title, 'caption': caption, 'drive': drive_id})
             return None
         
+def edit_tag_values(drive_id, commute, near_death_experience, carpool, mostly_highway, mostly_backroads):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cursor:
+            cursor.execute('''
+                            UPDATE
+                                tags
+                            SET
+                                commute = %(commute)s,
+                                near_death_experience = %(near_death_experience)s,
+                                carpool = %(carpool)s,
+                                mostly_highway = %(mostly_highway)s, 
+                                mostly_backroads = %(mostly_backroads)s
+                            WHERE
+                                drive_id = %(drive)s
+                            ''', {'commute': commute, 'near_death_experience': near_death_experience, 'carpool': carpool, 'mostly_highway': mostly_highway, 'mostly_backroads': mostly_backroads, 'drive': drive_id})
+            return None
+        
 def get_drive(drive_id):
     pool = get_pool()
     with pool.connection() as conn:

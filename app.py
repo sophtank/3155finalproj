@@ -1,7 +1,7 @@
 from flask import Flask, abort, flash, render_template, redirect, request, session
 from repositories import loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
 from repositories.leaderboard import get_leaders
-from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles
+from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles, edit_tag_values
 
 
 from flask_bcrypt import Bcrypt
@@ -151,7 +151,6 @@ def edit_drive_form():
     drive_id = request.form.get("drive_id")
     drive = get_drive(drive_id)
     vehicles = get_vehicles(drive['username'])
-    print(drive)
     return render_template("editdrive.html", title="Edit Drive", drive = drive, vehicles = vehicles)
 
 @app.post("/")
@@ -180,16 +179,34 @@ def edit_drive():
     caption = request.form.get("captionDrive")
     if caption == '':
         caption = drive['caption']
+
+    # Update Drive
+    edit_drive_values(drive_id, mileage, duration, vehicle, title, caption)
     
 
-    # # tags
-    # drive_id = request.form.get("drive_id") 
-    # drive_id = request.form.get("drive_id")
-    # drive_id = request.form.get("drive_id")
-    # drive_id = request.form.get("drive_id")
-    # drive_id = request.form.get("drive_id")
-    print(drive_id, mileage, duration, vehicle, title, caption)
-    print("Testing")
-    edit_drive_values(drive_id, mileage, duration, vehicle, title, caption)
+    # tags
+    commute = request.form.get("commute")
+    if commute == None:
+        commute = 'FALSE'
+
+    near_death_experience = request.form.get("NDE")
+    if near_death_experience == None:
+        near_death_experience = 'FALSE'
+
+    carpool = request.form.get("carpool")
+    if carpool == None:
+        carpool = 'FALSE'
+
+    highway = request.form.get("highway")
+    if highway == None:
+        highway = 'FALSE'
+        
+    backroad = request.form.get("backroad")
+    if backroad == None:
+        backroad = 'FALSE'
+
+    # Update Tags for Drive
+    edit_tag_values(drive_id, commute, near_death_experience, carpool, highway, backroad)
+ 
     
     return redirect('/userprofile') 
