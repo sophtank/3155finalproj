@@ -1,7 +1,7 @@
 from flask import Flask, abort, flash, render_template, redirect, request, session
 from repositories import loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
 from repositories.leaderboard import get_leaders
-from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles, edit_tag_values
+from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles, edit_tag_values, get_tags
 
 
 from flask_bcrypt import Bcrypt
@@ -151,7 +151,8 @@ def edit_drive_form():
     drive_id = request.form.get("drive_id")
     drive = get_drive(drive_id)
     vehicles = get_vehicles(drive['username'])
-    return render_template("editdrive.html", title="Edit Drive", drive = drive, vehicles = vehicles)
+    tags = get_tags(drive_id)
+    return render_template("editdrive.html", title="Edit Drive", drive = drive, vehicles = vehicles, tags = tags)
 
 @app.post("/")
 def edit_drive():

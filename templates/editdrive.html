@@ -14,7 +14,7 @@
     class="form-control"
     name="mileage"
     type="number"
-    placeholder="Current Mileage Traveled: {{drive.mileage}} miles"
+    value="{{drive.mileage}}"
     aria-label="Mileage Traveled"
   />
 </div>
@@ -25,7 +25,7 @@
     class="form-control"
     name="duration"
     type="number"
-    placeholder="Current Time Spent Driving: {{drive.duration}} minutes"
+    value="{{drive.duration}}"
     aria-label="Time Spent Driving"
   />
 </div>
@@ -49,19 +49,30 @@
     <h2>Tags</h2>
     <div class="left-div">
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="TRUE" name="commute">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="commute"
+        {% if tags.commute %}
+        checked
+        {% endif %}
+        >
         <label class="form-check-label" for="commute">
          Commute
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="TRUE" name="NDE">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="NDE"
+        {% if tags.near_death_experience %}
+        checked
+        {% endif %}>
         <label class="form-check-label" for="NDE">
           Near Death Experience
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="TRUE" name="carpool">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="carpool"
+        {% if tags.carpool %}
+        checked
+        {% endif %}
+        >
         <label class="form-check-label" for="carpool">
           Carpool
         </label>
@@ -69,13 +80,19 @@
       </div>
       <div class = "right-div">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="TRUE" name="highway">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="highway"
+        {% if tags.mostly_highway %}
+        checked
+        {% endif %}>
         <label class="form-check-label" for="highway">
           Mostly Highway
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="TRUE" name="backroad">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="backroad"
+        {% if tags.mostly_backroads %}
+        checked
+        {% endif %}>
         <label class="form-check-label" for="backroad">
           Mostly Backroads
         </label>
@@ -89,7 +106,7 @@
     class="form-control"
     name="titleDrive"
     type="text"
-    placeholder="Current Title: {{drive.title}}"
+    value="{{drive.title}}"
     aria-label="Drive Title"
   />
   <!-- Caption -->
@@ -98,14 +115,14 @@
     class="form-control"
     name="captionDrive"
     type="text"
-    placeholder="Current Caption: {{drive.caption}}"
+    value="{{drive.caption}}"
     aria-label="Drive Caption"
     size="150px"
   />
   <!-- Photo -->
   <div class="mb-3">
     <label for="drivePhoto"><h2>Add a photo from your drive</h2></label>
-    <input class="form-control" type="file" name="drivePhoto" placeholder="testing"/>
+    <input class="form-control" type="file" name="drivePhoto"/>
   </div>
   <input
     class="btn btn-primary btn btn-primary-primary"

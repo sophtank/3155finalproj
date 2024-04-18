@@ -58,6 +58,24 @@ def get_drive(drive_id):
                             ''', [drive_id])
             return cursor.fetchone()
         
+def get_tags(drive_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cursor:
+            cursor.execute('''
+                            SELECT
+                                commute,
+                                near_death_experience,
+                                carpool,
+                                mostly_highway, 
+                                mostly_backroads
+                            FROM
+                                tags
+                            WHERE
+                                drive_id = %s
+                            ''', [drive_id])
+            return cursor.fetchone()
+        
 def get_vehicles(username):
     pool = get_pool()
     with pool.connection() as conn:
