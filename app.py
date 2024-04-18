@@ -83,6 +83,8 @@ def signedup():
 
 @app.get("/logout")
 def logout():
+    if not session:
+        abort(401, "You are not logged in.")
     session.clear()
     return redirect('/')
 
