@@ -81,6 +81,11 @@ def signedup():
       loginSql.SignUp(username, hashed_password, firstname, lastname)
     return redirect("/userprofile")
 
+@app.get("/logout")
+def logout():
+    session.pop()
+    return redirect('/')
+
 @app.get("/leaderboard")
 def leaderboard():
     leaders = get_leaders()
