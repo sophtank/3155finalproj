@@ -83,7 +83,7 @@ def signedup():
 
 @app.get("/logout")
 def logout():
-    session.pop()
+    session.clear()
     return redirect('/')
 
 @app.get("/leaderboard")
