@@ -2,6 +2,15 @@
 
 {% block body %}
 <link rel="stylesheet" href="../static/Styles/create_drive.css">
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="alert alert-primary" role="alert">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 <h1 align="center">{{ drive.first_name }}'s Drive</h1>
 
 <div class="individual-drive-div">
@@ -14,7 +23,7 @@
             Year: {{ drive.year }}
         </p>
         <p>
-            Distance: 55.7
+            Distance: {{ drive.mileage }}
         </p>
         <p>
             Duration: {{ drive.duration }} minutes
@@ -29,8 +38,8 @@
             {{ drive.caption }}
         </div>
         <a href="/edit"><button class="btn btn-primary mt-3">Edit</button></a>
-        <button class="btn btn-primary mt-3">Like</button>
-        <button class="btn btn-primary mt-3">Comment</button>
+        <a href="/like"><button class="btn btn-primary mt-3">Like</button></a>
+        <button class="btn btn-primary mt-3" id="viewcomments">View Comments</button>
         <form action="/drive/{{ drive.drive_id }}" method="POST">
             <input type = "hidden" name = "drive_id" value = "{{drive.drive_id}}">
             <br>
@@ -38,4 +47,24 @@
         </form>
     </div>
 </div>
+<div class="bottom-div">
+    <div style="text-align: center;">
+        <button id="downarrow">&#9660;</button>
+        <br>
+        <h3>Comments</h3>
+    </div>
+    
+    <div class="comments">
+        {% for comment in comments %}
+        <p>{{comment.username}}&nbsp;&nbsp;&nbsp;&nbsp;{{comment.date}}</i><br> {{comment.comment}}</p>
+        {% endfor %}
+    </div>
+    <form method="POST" action="/makecomment/{{ drive.drive_id }}">
+        <input class="makecomment" type="text" name="newcomment" placeholder="Add a comment">
+        <button id="submitcomment" type="submit" class="btn btn-primary commentsubmit">Comment</button>
+    </form>
+    
+    
+</div>
+<script src="../static/js/comments.js"></script>
 {%endblock%}

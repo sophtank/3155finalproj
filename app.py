@@ -107,7 +107,8 @@ def get_all_drives():
 @app.get("/drive/<drive_id>")
 def individual(drive_id):
     individualDrive = viewIndividualDrive.get_individual_drive_by_id(drive_id)
-    return render_template("individualDrive.html", title ="Individual Drive", drive = individualDrive)
+    comments = viewDrives.get_comments(drive_id)
+    return render_template("individualDrive.html", title ="Individual Drive", drive = individualDrive, comments = comments)
 
 @app.get ("/userprofile")
 def user_profile():
@@ -148,3 +149,13 @@ def delete_drive(drive_id):
 @app.get("/edit")
 def edit():
     return render_template("editdrive.html", title="Edit Drive")
+
+@app.post('/makecomment/<drive_id>')
+def makecomment(drive_id):
+    if username is None:
+        flash("You must be logged in to make a comment", "error")
+        return redirect(f"/drive/{drive_id}")
+    comment = request.form.get("newcomment")
+    viewDrives.make_comment(drive_id, username, comment)
+    return redirect(f"/drive/{drive_id}")
+
