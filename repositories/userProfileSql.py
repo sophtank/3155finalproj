@@ -2,7 +2,7 @@ from repositories.db import get_pool
 from psycopg.rows import dict_row
         
 
-#gets the details of the drive of the user 
+# gets the details of the drive of the user 
 def getAllDrives(username) -> list[dict[str, any]]:
     with get_pool().connection() as conn:
         with conn.cursor(row_factory=dict_row) as cur:
@@ -27,3 +27,13 @@ def getVehicles(username) -> list[dict[str, any]]:
                         ''', (username,))
             rows = cur.fetchall()
             return rows
+
+
+def addVehicle(username, make, model, year) -> list[dict[str, any]]:
+    with get_pool().connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                        INSERT INTO vehicle (username, make, model, year)
+                        VALUES (%s, %s, %s, %s)
+                        ''', (username, make, model, year))
+            return cur.fetchall()

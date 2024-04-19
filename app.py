@@ -8,6 +8,7 @@ from repositories.leaderboard import get_leaders
 from repositories import deleteSql
 from repositories import viewIndividualDrive
 from repositories import drives
+from repositories import addVehicle
 
 
 from flask_bcrypt import Bcrypt
@@ -78,7 +79,7 @@ def signedup():
     if(loginSql.checkIFUserExists(username) != []):
         abort(400, "User already exists")
     else:
-      loginSql.SignUp(username, hashed_password, firstname, lastname)
+        loginSql.SignUp(username, hashed_password, firstname, lastname)
     return redirect("/userprofile")
 
 @app.get("/leaderboard")
@@ -135,22 +136,43 @@ def user_profile():
 @app.post('/userprofile')
 def select_vehicle():
     vehicle_id = request.form.get("vehicle_id")
-    username = request.form.get("Username")
-
-    drives = userProfileSql.getAllDrives(username)
-    if not drives:
-        return redirect('/create')
-    
-    return redirect(f"/userprofile/{username}/{vehicle_id}")
+    session['vehicle_id'] = vehicle_id
+    return redirect("/userprofile")
 
 # function to delete a drive based on drive id
 @app.post('/drive/<drive_id>')
 def delete_drive(drive_id):
+    if 'username' not in session:
+        return redirect("/login")
     if not drive_id:
         abort(404)
+    if deleteSql.is_drive_owner(drive_id):
+        deleteSql.deleteDrive(drive_id)
+        return redirect("/drives")
+    else:
+        return redirect("/drives")
 
-    deleteSql.deleteDrive(drive_id) 
-    return redirect("/drives")
+@app.get('/addvehicle')
+def add_new_vehicle():
+    if 'username' not in session:
+        return redirect("/login")
+    return render_template("addVehicle.html", title="Add Vehicle")
+
+@app.post('/addvehicle')
+def add_vehicle():
+    make = request.form.get("make")
+    model = request.form.get("model")
+    year = request.form.get("year")
+    color = request.form.get("color")
+
+    username = session ['username']
+    vehicle_id = str(uuid.uuid4())
+
+
+    if addVehicle.vehicleExists(username,make,model,year, color):
+        return redirect("/userprofile")
+    addVehicle.addVehicle(vehicle_id, username, make, model, year, color)
+    return redirect("/userprofile")
 
 @app.get("/edit")
 def edit():

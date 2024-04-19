@@ -9,7 +9,6 @@
         <form method="POST" action="/userprofile">
             <div class="form-group">
                 <input type = "hidden" name = "username" value = "{{ username }}">
-                <input type = "hidden" name = "firstname" value = "{{ vehicle_id }}">
                 <label for="vehicle_id">Select Vehicle</label>
                 <select class="form-control" id="vehicle_id" name="vehicle_id">
                     
@@ -34,7 +33,9 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-            <input type="hidden" name="username" value="{{ username }}"> 
+            {%if 'username' in session%}
+            <a href="/addvehicle" class="btn btn-primary">Add Vehicle</a>
+            {%endif%}
         </form>
     </div>
 
