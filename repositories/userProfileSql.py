@@ -27,13 +27,3 @@ def getVehicles(username) -> list[dict[str, any]]:
                         ''', (username,))
             rows = cur.fetchall()
             return rows
-
-
-def addVehicle(username, make, model, year) -> list[dict[str, any]]:
-    with get_pool().connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute('''
-                        INSERT INTO vehicle (username, make, model, year)
-                        VALUES (%s, %s, %s, %s)
-                        ''', (username, make, model, year))
-            return cur.fetchall()
