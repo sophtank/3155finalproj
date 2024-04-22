@@ -1,41 +1,122 @@
-{% extends '_layout.html' %} 
+{% extends '_layout.html' %}
 
+{% block head %}
+    <link rel="stylesheet" href="/static/Styles/create_drive.css">
+{% endblock %}
 {% block body %}
 <h1 align="center">Edit a Drive</h1>
+
 <div class="left-div">
-    <h2>Mileage Traveled</h2>
-    <input class="form-control" id="mileage" type="number" placeholder="Mileage Traveled" aria-label="Mileage Traveled">
+  <form action="{{ url_for('edit_drive')}}" method="post">
+    <!-- Mileage -->
+  <label for="mileage"><h2>Mileage Traveled</h2></label>
+  <input
+    class="form-control"
+    name="mileage"
+    type="number"
+    placeholder="Current Mileage Traveled: {{drive.mileage}} miles"
+    aria-label="Mileage Traveled"
+  />
 </div>
+<!-- Duration -->
 <div class="right-div">
-    <h2>Duration</h2>
-    <input class="form-control" id="duration" type="time" placeholder="Time Spent Driving" aria-label="Time Spent Driving">
+  <label for="duration"><h2>Duration</h2></label>
+  <input
+    class="form-control"
+    name="duration"
+    type="number"
+    placeholder="Current Time Spent Driving: {{drive.duration}} minutes"
+    aria-label="Time Spent Driving"
+  />
 </div>
+<!-- Vehicle -->
 <div class="left-div">
-    <h2>Vehicle</h2>
-    <input class="form-control" list="vehicleOptions" id="vehicleSelect" placeholder="Type to search your registered vehicles...">
-    <datalist id="vehicleOptions">
-    <option value="Toyota Camry (2013)">
-    <option value="Ford F-150 (2022)">
-    <option value="Nissan Altima (2018)">
-    </datalist>
+  <label for="vehicleSelect"><h2>Vehicle</h2></label>
+  <select
+    class="form-control"
+    list="vehicleOptions"
+    name="vehicleSelect"
+    placeholder="Type to search your registered vehicles...">
+  <datalist name="vehicleOptions">
+    {% for vehicle in vehicles %}
+    <option value="{{ vehicle.vehicle_id }}">{{ vehicle.make }} {{ vehicle.model }}</option>
+    {% endfor %}
+  </datalist>
+  </select>
 </div>
+<!-- Tags -->
 <div class="right-div">
     <h2>Tags</h2>
-    <button type="button" class="btn btn-primary" id="Commute">Commute</button>
-    <button type="button" class="btn btn-primary" id="NDE">Near Death Experience</button>
-    <button type="button" class="btn btn-primary" id="Carpool">Carpool</button>
-    <button type="button" class="btn btn-primary" id="mostlyHwy">Mostly Highway</button>
-    <button type="button" class="btn btn-primary" id="mostlyBackroad">Mostly Backroads</button>
-</div>
-<div class = "create-drive">
-<h2>Title</h2>
-    <input class="form-control" id="titleDrive" type="text" placeholder="Title your drive" aria-label="Drive Title">
-<h2>Caption</h2>
-    <input class="form-control" id="captionDrive" type="text" placeholder="Caption your drive" aria-label="Drive Caption" size="150px">
-<div class="mb-3">
-    <h2>Add a photo from your drive</h2>
-    <input class="form-control" type="file" id="drivePhoto">
+    <div class="left-div">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="commute">
+        <label class="form-check-label" for="commute">
+         Commute
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="NDE">
+        <label class="form-check-label" for="NDE">
+          Near Death Experience
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="carpool">
+        <label class="form-check-label" for="carpool">
+          Carpool
+        </label>
+      </div>
+      </div>
+      <div class = "right-div">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="highway">
+        <label class="form-check-label" for="highway">
+          Mostly Highway
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="TRUE" name="backroad">
+        <label class="form-check-label" for="backroad">
+          Mostly Backroads
+        </label>
+      </div>
     </div>
-<input class="btn btn-primary btn btn-primary-primary" type="submit" value="Save Changes">
 </div>
+<!-- Title -->
+<div class="edit-drive-left">
+  <label for="titleDrive"><h2>Title</h2></label>
+  <input
+    class="form-control"
+    name="titleDrive"
+    type="text"
+    placeholder="Current Title: {{drive.title}}"
+    aria-label="Drive Title"
+  />
+  <!-- Caption -->
+  <label for="captionDrive"><h2>Caption</h2></label>
+  <input
+    class="form-control"
+    name="captionDrive"
+    type="text"
+    placeholder="Current Caption: {{drive.caption}}"
+    aria-label="Drive Caption"
+    size="150px"
+  />
+  <!-- Photo -->
+  <div class="mb-3">
+    <label for="drivePhoto"><h2>Add a photo from your drive</h2></label>
+    <input class="form-control" type="file" name="drivePhoto" placeholder="testing"/>
+  </div>
+  <input
+    class="btn btn-primary btn btn-primary-primary"
+    type="submit"
+    value="Save Changes"    
+  />
+</div>
+<div class="edit-drive-right">
+    <h2>Current Photo</h2>
+    <img src="{{drive.photo}}" alt="Current Drive Photo" id="drive-photo" name="">
+</div>
+<input type="hidden" value="{{drive.drive_id}}" name="drive_id">
+</form>
 {%endblock%}
