@@ -8,6 +8,7 @@ def get_individual_drive_by_id(drive_id: int):
             cursor.execute('''
                            SELECT
                                 u.first_name,
+                                u.username,
                                 v.make,
                                 v.model,
                                 v.year,

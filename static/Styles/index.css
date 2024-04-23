@@ -30,3 +30,13 @@ header {
   margin: 10px;
   text-align: center;
 }
+
+.ex1 {
+  opacity: 0;
+  span {
+    position: relative;
+    top: 10px;
+    left: 10px;
+    opacity: 0;
+  }
+}
