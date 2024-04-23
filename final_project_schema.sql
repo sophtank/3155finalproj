@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS vehicle (
 DROP TABLE IF EXISTS drive;
 
 CREATE TABLE IF NOT EXISTS drive (
-  drive_id UUID,
+    drive_id UUID,
     vehicle_id UUID NOT NULL, --assigns a vehicle to the drive
     mileage FLOAT NOT NULL,
     duration INT NOT NULL,  --integer in minutes
