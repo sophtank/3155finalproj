@@ -1,5 +1,5 @@
 from flask import Flask, abort, flash, render_template, redirect, request, session
-from repositories import loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives, addVehicle
+from repositories import Vehicle, loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives, Vehicle
 from repositories.leaderboard import get_leaders
 
 
@@ -116,20 +116,11 @@ def user_profile():
     global firstname
     global lastname
     alldrives = userProfileSql.getAllDrives(username)
-    vehicles = userProfileSql.getVehicles(username)
     return render_template("UserProfile.html", title = "User profile", 
                         alldrives = alldrives, 
                         firstname = firstname, 
                         lastname = lastname,
-                        vehicles = vehicles #passing in the vehicle to the user profile dropdown
                         )
-
-#function to post selected vehicle to user profile & display waiting on sessions to finish up
-@app.post('/userprofile')
-def select_vehicle():
-    vehicle_id = request.form.get("vehicle_id")
-    session['vehicle_id'] = vehicle_id
-    return redirect("/userprofile")
 
 # function to delete a drive based on drive id
 @app.post('/drive/<drive_id>')
@@ -144,13 +135,15 @@ def delete_drive(drive_id):
     else:
         return redirect("/drives")
 
-@app.get('/addvehicle')
-def add_new_vehicle():
+@app.get('/Vehicles')
+def Vehicles():
     if 'username' not in session:
         return redirect("/login")
-    return render_template("addVehicle.html", title="Add Vehicle")
+    vehicles = Vehicle.getVehicles(username)
+    return render_template("Vehicle.html", title="Vehicles", vehicles = vehicles)
 
-@app.post('/addvehicle')
+#function to add vehicles
+@app.post('/Vehicles')
 def add_vehicle():
     make = request.form.get("make")
     model = request.form.get("model")
@@ -160,11 +153,29 @@ def add_vehicle():
     username = session ['username']
     vehicle_id = str(uuid.uuid4())
 
+    Vehicle.addVehicle(vehicle_id, username, make, model, year, color)
+    return redirect("/Vehicles")
 
-    if addVehicle.vehicleExists(username,make,model,year, color):
-        return redirect("/userprofile")
-    addVehicle.addVehicle(vehicle_id, username, make, model, year, color)
-    return redirect("/userprofile")
+#function to edit vehicles 
+@app.post('/Vehicles/edit')
+def edit_vehicles ():
+    vehicle_id = request.form.get("vehicle_id")
+    make = request.form.get("make")
+    model = request.form.get("model")
+    year = request.form.get("year")
+    color = request.form.get("color")
+
+    username = session ['username']
+    Vehicle.editVehicle(vehicle_id,username,make,model,year, color)
+    return redirect("/Vehicles")
+    
+#function to delete vehicles
+@app.post('/Vehicles/delete/<vehicle_id>')
+def delete_vehicle(vehicle_id):
+    username = session ['username']
+    Vehicle.deleteVehicle(vehicle_id, username)
+    return redirect ("/Vehicles")
+
 
 @app.get("/edit")
 def edit():

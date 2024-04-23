@@ -1,0 +1,23 @@
+/* add_vehicle.css */
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.form-container .add-vehicle-form,
+.form-container .edit-vehicle-form {
+    width: calc(50% - 10px);
+}
+
+.form-container form .form-group {
+    width: 100%;
+}
+
+.form-container form .form-group label {
+    width: 30%; /* Adjust label width as needed */
+}
+
+.form-container form .form-group input {
+    width: 70%; /* Adjust input width as needed */
+}
