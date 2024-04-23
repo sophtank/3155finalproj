@@ -89,22 +89,38 @@ def leaderboard():
 
 @app.get("/create")
 def create():
-    return render_template("createdrive.html", title="Create Drive")
+    vehicles = Vehicle.getVehicles(username)
+    return render_template("createdrive.html", title="Create Drive", vehicles=vehicles)
 
 @app.post("/creating")
 def creating():
     drive_id = str(uuid.uuid4())
-    vehicle_id = 'ffa2b0b9-efd5-4dc9-b947-d9a25af99692' #temporary until we implement sessions
+    vehicle_id = request.form.get("vehicle_id")
     mileage = request.form.get("mileage")
     duration = request.form.get("duration")
     title = request.form.get("titleDrive")
     caption = request.form.get("captionDrive")
-    #vehicle_id = request.form.get("vehicleSelect")
     photo = "https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg" #temp until we figure out how to store photos
     #current date and time
     date = "NOW()"
-    user = "stanker" #temporary until we implement sessions
+    user = username
     drives.create_drive(drive_id, vehicle_id, mileage, duration, title, caption, photo, date, user)
+    commute = request.form.get("commute")
+    if commute == None:
+        commute = 'FALSE'
+    near_death_experience = request.form.get("NDE")
+    if near_death_experience == None:
+        near_death_experience = 'FALSE'
+    carpool = request.form.get("carpool")
+    if carpool == None:
+        carpool = 'FALSE'
+    highway = request.form.get("highway")
+    if highway == None:
+        highway = 'FALSE'
+    backroad = request.form.get("backroad")
+    if backroad == None:
+        backroad = 'FALSE'
+    edit_tag_values(drive_id, commute, near_death_experience, carpool, highway, backroad)
     return redirect("/userprofile")
 
 @app.get("/drives")
@@ -201,56 +217,41 @@ def edit_drive():
     drive = get_drive(drive_id)
     if drive_id == '':
         drive_id = drive['drive_id']
-        
     mileage = request.form.get("mileage")
     if mileage == '':
         mileage = drive['mileage']
-
     duration = request.form.get("duration")
     if duration == '':
         duration = drive['duration']
-
     vehicle = request.form.get("vehicleSelect")
     if vehicle == '':
         vehicle = drive['vehicle_id']
-
     title = request.form.get("titleDrive")
     if title == '':
         title = drive['title']
-
     caption = request.form.get("captionDrive")
     if caption == '':
         caption = drive['caption']
-
     # Update Drive
     edit_drive_values(drive_id, mileage, duration, vehicle, title, caption)
-    
-
     # tags
     commute = request.form.get("commute")
     if commute == None:
         commute = 'FALSE'
-
     near_death_experience = request.form.get("NDE")
     if near_death_experience == None:
         near_death_experience = 'FALSE'
-
     carpool = request.form.get("carpool")
     if carpool == None:
         carpool = 'FALSE'
-
     highway = request.form.get("highway")
     if highway == None:
         highway = 'FALSE'
-        
     backroad = request.form.get("backroad")
     if backroad == None:
         backroad = 'FALSE'
-
     # Update Tags for Drive
     edit_tag_values(drive_id, commute, near_death_experience, carpool, highway, backroad)
- 
-    
     return redirect('/userprofile') 
 
 @app.post('/makecomment/<drive_id>')
