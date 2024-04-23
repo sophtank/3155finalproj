@@ -1,13 +1,7 @@
-from flask import Flask, abort, flash, render_template, redirect, request, session, get_flashed_messages
-
-##repositories here
-from repositories import loginSql
-from repositories import userProfileSql
-from repositories import viewDrives
+from flask import Flask, abort, flash, render_template, redirect, request, session
+from repositories import Vehicle, loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
 from repositories.leaderboard import get_leaders
-from repositories import deleteSql
-from repositories import viewIndividualDrive
-from repositories import drives
+from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles, edit_tag_values, get_tags
 
 
 from flask_bcrypt import Bcrypt
@@ -78,8 +72,15 @@ def signedup():
     if(loginSql.checkIFUserExists(username) != []):
         abort(400, "User already exists")
     else:
-      loginSql.SignUp(username, hashed_password, firstname, lastname)
+        loginSql.SignUp(username, hashed_password, firstname, lastname)
     return redirect("/userprofile")
+
+@app.get("/logout")
+def logout():
+    if not session:
+        abort(401, "You are not logged in.")
+    session.clear()
+    return redirect('/')
 
 @app.get("/leaderboard")
 def leaderboard():
@@ -124,35 +125,129 @@ def user_profile():
     global firstname
     global lastname
     alldrives = userProfileSql.getAllDrives(username)
-    vehicles = userProfileSql.getVehicles(username)
     return render_template("UserProfile.html", title = "User profile", 
                         alldrives = alldrives, 
                         firstname = firstname, 
                         lastname = lastname,
-                        vehicles = vehicles #passing in the vehicle to the user profile dropdown
                         )
-
-#function to post selected vehicle to user profile & display waiting on sessions to finish up
-@app.post('/userprofile')
-def select_vehicle():
-    vehicle_id = request.form.get("vehicle_id")
-    username = request.form.get("Username")
-
-    drives = userProfileSql.getAllDrives(username)
-    if not drives:
-        return redirect('/create')
-    
-    return redirect(f"/userprofile/{username}/{vehicle_id}")
 
 # function to delete a drive based on drive id
 @app.post('/drive/<drive_id>')
 def delete_drive(drive_id):
+    if 'username' not in session:
+        return redirect("/login")
     if not drive_id:
         abort(404)
+    if deleteSql.is_drive_owner(drive_id):
+        deleteSql.deleteDrive(drive_id)
+        return redirect("/drives")
+    else:
+        return redirect("/drives")
 
-    deleteSql.deleteDrive(drive_id) 
-    return redirect("/drives")
+@app.get('/Vehicles')
+def Vehicles():
+    if 'username' not in session:
+        return redirect("/login")
+    vehicles = Vehicle.getVehicles(username)
+    return render_template("vehicle.html", title="Vehicles", vehicles = vehicles)
 
-@app.get("/edit")
-def edit():
-    return render_template("editdrive.html", title="Edit Drive")
+#function to add vehicles
+@app.post('/Vehicles')
+def add_vehicle():
+    make = request.form.get("make")
+    model = request.form.get("model")
+    year = request.form.get("year")
+    color = request.form.get("color")
+
+    username = session ['username']
+    vehicle_id = str(uuid.uuid4())
+
+    Vehicle.addVehicle(vehicle_id, username, make, model, year, color)
+    return redirect("/Vehicles")
+
+#function to edit vehicles 
+@app.post('/Vehicles/edit')
+def edit_vehicles ():
+    vehicle_id = request.form.get("vehicle_id")
+    make = request.form.get("make")
+    model = request.form.get("model")
+    year = request.form.get("year")
+    color = request.form.get("color")
+
+    username = session ['username']
+    Vehicle.editVehicle(vehicle_id,username,make,model,year, color)
+    return redirect("/Vehicles")
+    
+#function to delete vehicles
+@app.post('/Vehicles/delete/<vehicle_id>')
+def delete_vehicle(vehicle_id):
+    username = session ['username']
+    Vehicle.deleteVehicle(vehicle_id, username)
+    return redirect ("/Vehicles")
+
+
+@app.post("/edit")
+def edit_drive_form():
+    drive_id = request.form.get("drive_id")
+    drive = get_drive(drive_id)
+    vehicles = get_vehicles(drive['username'])
+    tags = get_tags(drive_id)
+    return render_template("editdrive.html", title="Edit Drive", drive = drive, vehicles = vehicles, tags = tags)
+
+@app.post("/")
+def edit_drive():
+    drive_id = request.form.get("drive_id")
+    drive = get_drive(drive_id)
+    if drive_id == '':
+        drive_id = drive['drive_id']
+        
+    mileage = request.form.get("mileage")
+    if mileage == '':
+        mileage = drive['mileage']
+
+    duration = request.form.get("duration")
+    if duration == '':
+        duration = drive['duration']
+
+    vehicle = request.form.get("vehicleSelect")
+    if vehicle == '':
+        vehicle = drive['vehicle_id']
+
+    title = request.form.get("titleDrive")
+    if title == '':
+        title = drive['title']
+
+    caption = request.form.get("captionDrive")
+    if caption == '':
+        caption = drive['caption']
+
+    # Update Drive
+    edit_drive_values(drive_id, mileage, duration, vehicle, title, caption)
+    
+
+    # tags
+    commute = request.form.get("commute")
+    if commute == None:
+        commute = 'FALSE'
+
+    near_death_experience = request.form.get("NDE")
+    if near_death_experience == None:
+        near_death_experience = 'FALSE'
+
+    carpool = request.form.get("carpool")
+    if carpool == None:
+        carpool = 'FALSE'
+
+    highway = request.form.get("highway")
+    if highway == None:
+        highway = 'FALSE'
+        
+    backroad = request.form.get("backroad")
+    if backroad == None:
+        backroad = 'FALSE'
+
+    # Update Tags for Drive
+    edit_tag_values(drive_id, commute, near_death_experience, carpool, highway, backroad)
+ 
+    
+    return redirect('/userprofile') 
