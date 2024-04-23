@@ -1,41 +1,81 @@
-{% extends '_layout.html' %} 
-{% block body %}
+{% extends '_layout.html' %} {% block body %}
+<main
+  style="
+    background-image: url('/static/photos/ferrari.jpg');
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  "
+>
+  <h1
+    style="
+      position: absolute;
+      top: 120px;
+      color: black;
+      font-size: 2em;
+      text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
+        1px 1px 0 white;
+    "
+  >
+    {{ firstname }} {{ lastname }}
+  </h1>
 
-<main style="background-image: url('/static/photos/ferrari.jpg'); background-size: cover; height: 100vh; display: flex; justify-content: center; align-items: center;">
-
-    <h1 style="position: absolute; top: 120px; color: black; font-size: 2em; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">{{ firstname }} {{ lastname }}</h1>
-    
-    <div class="individual-container">
-        <form method="POST" action="/userprofile">
-            {% if 'username' in session %}
-            <a href="/Vehicles" class="btn btn-primary btn-lg" style="height: 60px; width: 170px;">View Vehicles</a>
+  <div class="individual-container">
+    <form method="POST" action="edit_drive">
+      {% if 'username' in session %}
+            <a href="/Vehicles" class="btn btn-primary mt-2">View Vehicles</a>
             {% endif %}
-        </form>
-    </div>
+    </form>
+     <a href="/logout" class="btn btn-primary mt-2">Logout</a>
+  </div>
 
-    <table class="table table-light" style="width: 77%; background-color: rgba(255, 255, 255, 0.3); margin: 94vh auto 100vh auto; font-family: Arial, Helvetica, sans-serif; font-size: 20px; color: black; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">
-
-        <thead>
-            <tr style="border-bottom: 2.5px dotted black;">
-                <th scope="col">Drive #</th>
-                <th scope="col">Car type</th>
-                <th scope="col">Time traveled</th>
-                <th scope="col">Mileage</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for drive in alldrives %}
-                <tr style="border-bottom: 2.5px dotted black;">
-                    <th scope="row">{{ loop.index }}</th>
-                        <td>{{ drive.make }} {{ drive.model }}</td>
-                        <td>{{ drive.duration }}</td>
-                        <td>{{ drive.milage }}</td>
-                </tr>
-                
-            {% endfor %}
-            <td colspan="4" style="border-bottom: 200px solid rgba(255, 255, 255);"></td>
-        </tbody>
-    </table>
+  <table
+    class="table table-light"
+    style="
+      width: 77%;
+      background-color: rgba(255, 255, 255, 0.3);
+      margin-top: 94vh;
+      margin-bottom: 100vh;
+      margin-left: 75px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      color: black;
+      text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
+        1px 1px 0 white;
+    "
+  >
+    <thead>
+      <tr style="border-bottom: 2.5px dotted black">
+        <th scope="col">Drive #</th>
+        <th scope="col">Car type</th>
+        <th scope="col">Time traveled</th>
+        <th scope="col">Mileage</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for drive in alldrives %}
+      <tr style="border-bottom: 2.5px dotted black">
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ drive.make }} {{ drive.model }}</td>
+        <td>{{ drive.duration }}</td>
+        <td>{{ drive.mileage }} miles</td>
+        <td>
+          <form action="{{ url_for('edit_drive_form') }}" method="post">
+            <input type="hidden" name="drive_id" value="{{ drive.drive_id }}" />
+            <input type="submit" value="Edit" />
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+      <td
+        colspan="5"
+        style="border-bottom: 200px solid rgba(255, 255, 255)"
+      ></td>
+    </tbody>
+  </table>
 </main>
 
 {% endblock %}

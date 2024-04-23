@@ -1,6 +1,7 @@
 from flask import Flask, abort, flash, render_template, redirect, request, session
 from repositories import Vehicle, loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
 from repositories.leaderboard import get_leaders
+from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles, edit_tag_values, get_tags
 
 
 from flask_bcrypt import Bcrypt
@@ -73,6 +74,13 @@ def signedup():
     else:
         loginSql.SignUp(username, hashed_password, firstname, lastname)
     return redirect("/userprofile")
+
+@app.get("/logout")
+def logout():
+    if not session:
+        abort(401, "You are not logged in.")
+    session.clear()
+    return redirect('/')
 
 @app.get("/leaderboard")
 def leaderboard():
@@ -177,6 +185,68 @@ def delete_vehicle(vehicle_id):
     return redirect ("/Vehicles")
 
 
-@app.get("/edit")
-def edit():
-    return render_template("editdrive.html", title="Edit Drive")
+@app.post("/edit")
+def edit_drive_form():
+    drive_id = request.form.get("drive_id")
+    drive = get_drive(drive_id)
+    vehicles = get_vehicles(drive['username'])
+    tags = get_tags(drive_id)
+    return render_template("editdrive.html", title="Edit Drive", drive = drive, vehicles = vehicles, tags = tags)
+
+@app.post("/")
+def edit_drive():
+    drive_id = request.form.get("drive_id")
+    drive = get_drive(drive_id)
+    if drive_id == '':
+        drive_id = drive['drive_id']
+        
+    mileage = request.form.get("mileage")
+    if mileage == '':
+        mileage = drive['mileage']
+
+    duration = request.form.get("duration")
+    if duration == '':
+        duration = drive['duration']
+
+    vehicle = request.form.get("vehicleSelect")
+    if vehicle == '':
+        vehicle = drive['vehicle_id']
+
+    title = request.form.get("titleDrive")
+    if title == '':
+        title = drive['title']
+
+    caption = request.form.get("captionDrive")
+    if caption == '':
+        caption = drive['caption']
+
+    # Update Drive
+    edit_drive_values(drive_id, mileage, duration, vehicle, title, caption)
+    
+
+    # tags
+    commute = request.form.get("commute")
+    if commute == None:
+        commute = 'FALSE'
+
+    near_death_experience = request.form.get("NDE")
+    if near_death_experience == None:
+        near_death_experience = 'FALSE'
+
+    carpool = request.form.get("carpool")
+    if carpool == None:
+        carpool = 'FALSE'
+
+    highway = request.form.get("highway")
+    if highway == None:
+        highway = 'FALSE'
+        
+    backroad = request.form.get("backroad")
+    if backroad == None:
+        backroad = 'FALSE'
+
+    # Update Tags for Drive
+    edit_tag_values(drive_id, commute, near_death_experience, carpool, highway, backroad)
+ 
+    
+    return redirect('/userprofile') 

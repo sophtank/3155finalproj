@@ -27,7 +27,6 @@ def deleteDrive(drive_id):
                 raise Exception(f"Drive with id {drive_id} not found")
             
             return True
-        
 
 #checks if the user is the owner of the drive
 def is_drive_owner(drive_id):
