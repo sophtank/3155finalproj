@@ -208,6 +208,5 @@ def edit_drive():
 
     # Update Tags for Drive
     edit_tag_values(drive_id, commute, near_death_experience, carpool, highway, backroad)
- 
     
     return redirect('/userprofile') 
