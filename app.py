@@ -140,7 +140,7 @@ def Vehicles():
     if 'username' not in session:
         return redirect("/login")
     vehicles = Vehicle.getVehicles(username)
-    return render_template("Vehicle.html", title="Vehicles", vehicles = vehicles)
+    return render_template("vehicle.html", title="Vehicles", vehicles = vehicles)
 
 #function to add vehicles
 @app.post('/Vehicles')

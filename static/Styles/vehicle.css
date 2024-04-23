@@ -1,4 +1,3 @@
-/* add_vehicle.css */
 .form-container {
     display: flex;
     justify-content: space-between;
@@ -15,9 +14,9 @@
 }
 
 .form-container form .form-group label {
-    width: 30%; /* Adjust label width as needed */
+    width: 30%; 
 }
 
 .form-container form .form-group input {
-    width: 70%; /* Adjust input width as needed */
+    width: 70%; 
 }
