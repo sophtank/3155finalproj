@@ -67,11 +67,12 @@ CREATE TABLE IF NOT EXISTS likes (
 DROP TABLE IF EXISTS comments;
 
 CREATE TABLE IF NOT EXISTS comments (
+    comment_id UUID,
     drive_id UUID, --the drive that is commented
     username VARCHAR(50), --the user that commented
     comment VARCHAR(200) NOT NULL,
     date TIMESTAMP NOT NULL, --when the comment was left
-    PRIMARY KEY (drive_id,username),
+    PRIMARY KEY (comment_id),
     FOREIGN KEY (drive_id) REFERENCES drive(drive_id),
     FOREIGN KEY (username) REFERENCES users(username)
 );
@@ -153,17 +154,17 @@ INSERT INTO likes VALUES
                       ('b6581a62-a5ac-4ec7-a043-006724940583', 'skiser18');
 
 INSERT INTO comments VALUES
-                      ('8574e1d5-7369-4f23-8c5f-0f53d8977303', 'svasire4', 'looks like fun!', NOW()),
-                      ('3f16c4e4-e8d0-4175-84f3-53ee91923ec1', 'asico', 'looks like fun!', NOW()),
-                      ('3f16c4e4-e8d0-4175-84f3-53ee91923ec1', 'skiser18', 'looks like fun!', NOW()),
-                      ('5c971fbf-7210-4f9e-8358-4e6d54defc88', 'asico', 'looks like fun!', NOW()),
-                      ('5c971fbf-7210-4f9e-8358-4e6d54defc88', 'stanker', 'looks like fun!', NOW()),
-                      ('1dad8038-ac60-42b3-80f1-ff10d0762778', 'stanker', 'looks like fun!', NOW()),
-                      ('bb6fcd45-d54d-404f-89a7-f01e60fb0bf3', 'ccuartas', 'looks like fun!', NOW()),
-                      ('b6581a62-a5ac-4ec7-a043-006724940583', 'asico', 'looks like fun!', NOW()),
-                      ('b6581a62-a5ac-4ec7-a043-006724940583', 'ccuartas', 'looks like fun!', NOW()),
-                      ('b6581a62-a5ac-4ec7-a043-006724940583', 'mwilki31', 'looks like fun!', NOW()),
-                      ('b6581a62-a5ac-4ec7-a043-006724940583', 'stanker', 'looks like fun!', NOW());
+                      ('c0456910-f652-4d6f-a4e0-6d41dd618bad','8574e1d5-7369-4f23-8c5f-0f53d8977303', 'svasire4', 'looks like fun!', NOW()),
+                      ('a2b1d86c-289d-403e-a8cd-9476fb264aef','3f16c4e4-e8d0-4175-84f3-53ee91923ec1', 'asico', 'looks like fun!', NOW()),
+                      ('87b4d955-fbc0-4b84-bd56-df5553a7efd9', '3f16c4e4-e8d0-4175-84f3-53ee91923ec1', 'skiser18', 'looks like fun!', NOW()),
+                      ('91885b33-0971-466b-a3f5-8d3bb876847a', '5c971fbf-7210-4f9e-8358-4e6d54defc88', 'asico', 'looks like fun!', NOW()),
+                      ('3dc74e73-cbd6-4741-b704-9ee53c7e668f', '5c971fbf-7210-4f9e-8358-4e6d54defc88', 'stanker', 'looks like fun!', NOW()),
+                      ('96f3e2a5-6504-4c7c-9aac-2056099d5865', '1dad8038-ac60-42b3-80f1-ff10d0762778', 'stanker', 'looks like fun!', NOW()),
+                      ('3b97c197-e1a9-46ff-8fdf-91bc0f477c1c', 'bb6fcd45-d54d-404f-89a7-f01e60fb0bf3', 'ccuartas', 'looks like fun!', NOW()),
+                      ('6b290b81-826a-49d0-b700-4ee5919b41db', 'b6581a62-a5ac-4ec7-a043-006724940583', 'asico', 'looks like fun!', NOW()),
+                      ('cfcf4387-2c07-4c94-9910-54bbc26dbe6a', 'b6581a62-a5ac-4ec7-a043-006724940583', 'ccuartas', 'looks like fun!', NOW()),
+                      ('398daf19-3192-4e84-be2f-4c24699861dc', 'b6581a62-a5ac-4ec7-a043-006724940583', 'mwilki31', 'looks like fun!', NOW()),
+                      ('b61a1dd5-5dfa-4cca-9153-d4a4ecebdcb5', 'b6581a62-a5ac-4ec7-a043-006724940583', 'stanker', 'looks like fun!', NOW());
 
 INSERT INTO analytics VALUES
                      ('asico', 43, 2),
