@@ -162,5 +162,5 @@ def makecomment(drive_id):
 
 @app.get('/delete/comment/<drive_id>/<comment_id>')
 def deletecomment(comment_id, drive_id):
-    viewDrives.delete_comment(comment_id)
+    viewDrives.delete_comment(comment_id)   
     return redirect(f"/drive/{drive_id}?showdiv=True")
