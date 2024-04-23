@@ -102,13 +102,14 @@ def creating():
 @app.get("/drives")
 def get_all_drives():
     drives = viewDrives.get_all_drives()
+    print(drives)
     return render_template("viewDrives.html", title="Drives", drives = drives)
 
 @app.get("/drive/<drive_id>")
 def individual(drive_id):
     individualDrive = viewIndividualDrive.get_individual_drive_by_id(drive_id)
     comments = viewDrives.get_comments(drive_id)
-    return render_template("individualDrive.html", title ="Individual Drive", drive = individualDrive, comments = comments)
+    return render_template("individualDrive.html", title ="Individual Drive", drive = individualDrive, comments = comments, usersession=username)
 
 @app.get ("/userprofile")
 def user_profile():
@@ -157,5 +158,9 @@ def makecomment(drive_id):
         return redirect(f"/drive/{drive_id}")
     comment = request.form.get("newcomment")
     viewDrives.make_comment(drive_id, username, comment)
-    return redirect(f"/drive/{drive_id}")
+    return redirect(f"/drive/{drive_id}?showdiv=True")
 
+@app.get('/delete/comment/<drive_id>/<comment_id>')
+def deletecomment(comment_id, drive_id):
+    viewDrives.delete_comment(comment_id)
+    return redirect(f"/drive/{drive_id}?showdiv=True")

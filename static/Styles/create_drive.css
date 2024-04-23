@@ -78,6 +78,10 @@
   border-bottom: 2px solid rgb(68, 65, 65);
 }
 
+.nounderline{
+  text-decoration: none;
+}
+
 .commentsubmit{
   height: 28px;
   width: 125px;

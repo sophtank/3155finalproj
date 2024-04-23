@@ -20,6 +20,8 @@ def get_all_drives():
                            users u
                            on
                            d.username = u.username
+                           ORDER BY
+                           d.date DESC
                            ''')
             return cursor.fetchall()
         
@@ -30,6 +32,7 @@ def get_comments(drive_id: int):
             cursor.execute('''
                            SELECT 
                             d.drive_id, 
+                            c.comment_id,
                             c.username, 
                             c.comment, 
                             c.date
@@ -59,5 +62,12 @@ def make_comment(drive_id, username, comment):
                 INSERT INTO comments (comment_id, drive_id, username, comment, date)
                            VALUES (%s, %s, %s, %s, %s)
                            ''',[comment_id, drive_id, username, comment, current_time])
-            
-            
+    
+def delete_comment(comment_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory= dict_row) as cursor:
+            cursor.execute('''
+                            DELETE FROM comments
+                            WHERE comment_id = %s
+                           ''', [comment_id])
