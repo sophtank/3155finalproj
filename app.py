@@ -1,5 +1,5 @@
 from flask import Flask, abort, flash, render_template, redirect, request, session
-from repositories import loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
+from repositories import Vehicle, loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
 from repositories.leaderboard import get_leaders
 from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles, edit_tag_values, get_tags
 
@@ -72,7 +72,7 @@ def signedup():
     if(loginSql.checkIFUserExists(username) != []):
         abort(400, "User already exists")
     else:
-      loginSql.SignUp(username, hashed_password, firstname, lastname)
+        loginSql.SignUp(username, hashed_password, firstname, lastname)
     return redirect("/userprofile")
 
 @app.get("/logout")
@@ -124,34 +124,66 @@ def user_profile():
     global firstname
     global lastname
     alldrives = userProfileSql.getAllDrives(username)
-    vehicles = userProfileSql.getVehicles(username)
     return render_template("UserProfile.html", title = "User profile", 
                         alldrives = alldrives, 
                         firstname = firstname, 
                         lastname = lastname,
-                        vehicles = vehicles #passing in the vehicle to the user profile dropdown
                         )
-
-#function to post selected vehicle to user profile & display waiting on sessions to finish up
-@app.post('/userprofile')
-def select_vehicle():
-    vehicle_id = request.form.get("vehicle_id")
-    username = request.form.get("Username")
-
-    drives = userProfileSql.getAllDrives(username)
-    if not drives:
-        return redirect('/create')
-    
-    return redirect(f"/userprofile/{username}/{vehicle_id}")
 
 # function to delete a drive based on drive id
 @app.post('/drive/<drive_id>')
 def delete_drive(drive_id):
+    if 'username' not in session:
+        return redirect("/login")
     if not drive_id:
         abort(404)
+    if deleteSql.is_drive_owner(drive_id):
+        deleteSql.deleteDrive(drive_id)
+        return redirect("/drives")
+    else:
+        return redirect("/drives")
 
-    deleteSql.deleteDrive(drive_id) 
-    return redirect("/drives")
+@app.get('/Vehicles')
+def Vehicles():
+    if 'username' not in session:
+        return redirect("/login")
+    vehicles = Vehicle.getVehicles(username)
+    return render_template("vehicle.html", title="Vehicles", vehicles = vehicles)
+
+#function to add vehicles
+@app.post('/Vehicles')
+def add_vehicle():
+    make = request.form.get("make")
+    model = request.form.get("model")
+    year = request.form.get("year")
+    color = request.form.get("color")
+
+    username = session ['username']
+    vehicle_id = str(uuid.uuid4())
+
+    Vehicle.addVehicle(vehicle_id, username, make, model, year, color)
+    return redirect("/Vehicles")
+
+#function to edit vehicles 
+@app.post('/Vehicles/edit')
+def edit_vehicles ():
+    vehicle_id = request.form.get("vehicle_id")
+    make = request.form.get("make")
+    model = request.form.get("model")
+    year = request.form.get("year")
+    color = request.form.get("color")
+
+    username = session ['username']
+    Vehicle.editVehicle(vehicle_id,username,make,model,year, color)
+    return redirect("/Vehicles")
+    
+#function to delete vehicles
+@app.post('/Vehicles/delete/<vehicle_id>')
+def delete_vehicle(vehicle_id):
+    username = session ['username']
+    Vehicle.deleteVehicle(vehicle_id, username)
+    return redirect ("/Vehicles")
+
 
 @app.post("/edit")
 def edit_drive_form():
