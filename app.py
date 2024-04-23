@@ -1,5 +1,5 @@
 from flask import Flask, abort, flash, render_template, redirect, request, session
-from repositories import Vehicle, loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives, Vehicle
+from repositories import Vehicle, loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
 from repositories.leaderboard import get_leaders
 
 
