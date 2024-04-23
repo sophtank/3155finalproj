@@ -72,6 +72,7 @@
       <button type="submit" class="btn btn-primary">Submit</button>
       <input type="hidden" name="username" value="{{ username }}" />
     </form>
+     <a href="/logout" class="btn btn-primary mt-2">Logout</a>
   </div>
 
   <table
@@ -112,14 +113,6 @@
           </form>
         </td>
       </tr>
-
-      {% endfor %}
-      <td
-        colspan="5"
-        style="border-bottom: 200px solid rgba(255, 255, 255)"
-      ></td>
-    </tbody>
-  </table>
 </main>
 
 {% endblock %}

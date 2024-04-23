@@ -75,6 +75,13 @@ def signedup():
       loginSql.SignUp(username, hashed_password, firstname, lastname)
     return redirect("/userprofile")
 
+@app.get("/logout")
+def logout():
+    if not session:
+        abort(401, "You are not logged in.")
+    session.clear()
+    return redirect('/')
+
 @app.get("/leaderboard")
 def leaderboard():
     leaders = get_leaders()
