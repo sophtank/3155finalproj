@@ -7,7 +7,12 @@ from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
 import uuid, os
 
+from authlib.integrations.flask_client import OAuth
+
+
 load_dotenv()
+
+
 
 
 app = Flask(__name__)
@@ -19,6 +24,25 @@ firstname = None
 lastname = None
 
 app.secret_key = os.getenv('SECRET_KEY')
+
+appConf = {
+    "OAUTH2_CLIENT_ID": os.getenv('OAUTH2_CLIENT_ID'),
+    "OAUTH2_CLIENT_SECRET": os.getenv('OAUTH2_CLIENT_SECRET'),
+    "OAUTH2_METADATA_URL": "https://accounts.google.com/.well-known/openid-configuration",
+    "Flask_SECRET_KEY": os.getenv('SECRET_KEY'),
+    "FLASK_PORT": 5000
+}
+
+oauth=OAuth(app)
+
+oauth.register(
+    clinet_id=appConf.get("OAUTH2_CLIENT_ID"),
+    client_secret=appConf.get("OAUTH2_CLIENT_SECRET"),
+    server_metadata_url=appConf.get("OAUTH2_METADATA_URL"),
+    client_kwargs={'scope': 'openid email profile'}
+)
+
+
 
 
 bcrypt = Bcrypt(app)
