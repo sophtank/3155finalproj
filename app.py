@@ -105,6 +105,7 @@ def creating():
     date = "NOW()"
     user = "stanker" #temporary until we implement sessions
     drives.create_drive(drive_id, vehicle_id, mileage, duration, title, caption, photo, date, user)
+    flash('Drive successfully created', 'success')
     return redirect("/userprofile")
 
 @app.get("/drives")
@@ -141,6 +142,7 @@ def delete_drive(drive_id):
         abort(404)
     if deleteSql.is_drive_owner(drive_id):
         deleteSql.deleteDrive(drive_id)
+        flash('Drive successfully deleted', 'success')
         return redirect("/drives")
     else:
         return redirect("/drives")
@@ -164,6 +166,7 @@ def add_vehicle():
     vehicle_id = str(uuid.uuid4())
 
     Vehicle.addVehicle(vehicle_id, username, make, model, year, color)
+    flash('Vehicle successfully added', 'success')
     return redirect("/Vehicles")
 
 #function to edit vehicles 
@@ -177,6 +180,7 @@ def edit_vehicles ():
 
     username = session ['username']
     Vehicle.editVehicle(vehicle_id,username,make,model,year, color)
+    flash('Vehicle successfully edited', 'success')
     return redirect("/Vehicles")
     
 #function to delete vehicles
@@ -184,6 +188,7 @@ def edit_vehicles ():
 def delete_vehicle(vehicle_id):
     username = session ['username']
     Vehicle.deleteVehicle(vehicle_id, username)
+    flash('Drive successfully deleted', 'success')
     return redirect ("/Vehicles")
 
 
