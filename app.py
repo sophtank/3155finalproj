@@ -415,49 +415,103 @@ def edit_drive(drive_id):
 
   
 ################### VEHICLE FUNCTIONALITY ########################################################
-@app.get('/Vehicles')
-def Vehicles():
-    if 'username' not in session:
-        return redirect("/login")
-    vehicles = Vehicle.getVehicles(username)
+@app.get('/vehicles')
+def vehicles():
+    if not session:
+        return redirect('/login')
+    vehicles = Vehicle.getVehicles(session['username'])
     return render_template("vehicle.html", title="Vehicles", vehicles = vehicles)
 
 #function to add vehicles
-@app.post('/Vehicles')
+@app.post('/vehicles')
 def add_vehicle():
+    if not session:
+        abort(401, 'You must login')
+
     make = request.form.get("make")
     model = request.form.get("model")
     year = request.form.get("year")
     color = request.form.get("color")
+
+    if not make or not model or not year or not color:
+        abort(400, 'Invalid fields.  Could not add vehicle.')
+    
+    pattern = re.compile('^[0-9]{4}$')
+    if not pattern.match(year):
+        abort(400, 'Invalid vehicle year')
 
     username = session ['username']
     vehicle_id = str(uuid.uuid4())
 
     Vehicle.addVehicle(vehicle_id, username, make, model, year, color)
     flash('Vehicle successfully added', 'success')
-    return redirect("/Vehicles")
+    return redirect("/vehicles")
 
 #function to edit vehicles 
-@app.post('/Vehicles/edit')
+@app.post('/vehicles/edit')
 def edit_vehicles ():
+    if not session:
+        abort(401, 'you must login')
+    
     vehicle_id = request.form.get("vehicle_id")
+    #check for valid uuid
+    pattern = re.compile('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$')
+    if not pattern.match(vehicle_id):
+        abort(400, 'Invalid vehicle')
+
+    #check for ownership
+    if not Vehicle.getOwner(vehicle_id) or not session['username'] in Vehicle.getOwner(vehicle_id):
+        print(Vehicle.getOwner(vehicle_id))
+        abort(403, 'Invalid vehicle')
+    
+    #set defaults
+    vehicle_info = Vehicle.get_vehicle_by_id(vehicle_id)
     make = request.form.get("make")
+    if not make:
+        make = vehicle_info.get('make')
     model = request.form.get("model")
+    if not model:
+        model = vehicle_info.get('model')
     year = request.form.get("year")
+    if not year:
+        year = vehicle_info.get('year')
     color = request.form.get("color")
+    if not color:
+        color = vehicle_info.get('color')
+
+    pattern = re.compile('^[0-9]{4}$')
+    if not pattern.match(year):
+        abort(400, 'Invalid vehicle year')
 
     username = session ['username']
     Vehicle.editVehicle(vehicle_id,username,make,model,year, color)
     flash('Vehicle successfully edited', 'success')
-    return redirect("/Vehicles")
+    return redirect("/vehicles")
     
 #function to delete vehicles
-@app.post('/Vehicles/delete/<vehicle_id>')
+@app.post('/vehicles/delete/<vehicle_id>')
 def delete_vehicle(vehicle_id):
+    if not session:
+        abort(401, 'you must login')
+    
+    #check for valid uuid
+    pattern = re.compile('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$')
+    if not pattern.match(vehicle_id):
+        abort(400, 'Invalid vehicle')
+
+    #check for ownership
+    if not Vehicle.getOwner(vehicle_id) or not session['username'] in Vehicle.getOwner(vehicle_id):
+        print(Vehicle.getOwner(vehicle_id))
+        abort(403, 'Invalid vehicle')
+    
+    #check if vehicle is used
+    if Vehicle.get_drives(vehicle_id):
+        abort(400, 'You cannot delete this vehicle while it still has drives.')
+
     username = session ['username']
     Vehicle.deleteVehicle(vehicle_id, username)
     flash('Drive successfully deleted', 'success')
-    return redirect ("/Vehicles")
+    return redirect ("/vehicles")
 
 
 
@@ -483,7 +537,6 @@ def check_int(nums):
         if not pattern.match(i):
             return False
     return True
-
 
 def check_drive_id(id):
     #check for valid uuid

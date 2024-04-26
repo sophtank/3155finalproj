@@ -58,3 +58,25 @@ def deleteVehicle(vehicle_id, username):
             if cur.rowcount == 0: 
                 raise Exception(f"Vehicle with id {vehicle_id} not found")
             return True
+
+def get_vehicle_by_id(vehicle_id):
+    with get_pool().connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT make, model, year, color
+                        FROM vehicle
+                        WHERE vehicle_id = %s
+                        ''', (vehicle_id,))
+            rows = cur.fetchone()
+            return rows
+
+def get_drives(vehicle_id):
+    with get_pool().connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT drive_id
+                        FROM drive
+                        WHERE vehicle_id = %s
+                        ''', (vehicle_id,))
+            rows = cur.fetchall()
+            return rows
