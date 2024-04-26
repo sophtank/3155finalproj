@@ -290,7 +290,8 @@ def deletecomment(comment_id):
     
     drive_id = str(viewDrives.get_drive_id_comment(comment_id).get('drive_id'))
     #verify user is owner
-    if not session['username'] == viewDrives.get_comment_owner(comment_id) and not is_owner(drive_id, session['username']):
+    if not session['username'] == (viewDrives.get_comment_owner(comment_id)).get('username') and not is_owner(drive_id, session['username']):
+        print(viewDrives.get_comment_owner(comment_id))
         abort(403, 'Permission denied.  You cannot delete this comment.')
     viewDrives.delete_comment(comment_id)   
     return redirect(f'/drive/{drive_id}?showdiv=True')

@@ -87,14 +87,13 @@
     
     <div class="comments">
         {% for comment in comments %}
-        <p>{{comment.username}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.date}}</i><br> {{comment.comment}}
+        <p><i>{{comment.username}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.date}}</i><br> {{comment.comment}}
             {% if session and (usersession == comment.username or usersession == drive.username) %}
             
             &nbsp;&nbsp;&nbsp;
-            <button form="delete" class="btn btn-link nounderline" type="submit"><i>delete</i></button>
-            <form id="delete" action="/comment/delete/{{comment.comment_id}}" method="POST"></form>
-        </form>
-            {% endif %}</p>
+            <button form="delete-{{comment.comment_id}}" class="btn btn-link nounderline" type="submit"><i>delete</i></button>
+            <form id="delete-{{comment.comment_id}}" action="/comment/delete/{{comment.comment_id}}" method="POST"></form>
+            {% endif %}</p> 
         {% endfor %}
     </div>
     {% if session %}
