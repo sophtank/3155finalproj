@@ -13,6 +13,17 @@ def getVehicles(username) -> list[dict[str, any]]:
             rows = cur.fetchall()
             return rows
 
+def getOwner(id):
+     with get_pool().connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                        SELECT username
+                        FROM vehicle
+                        WHERE vehicle_id = %s
+                        ''', (id,))
+            rows = cur.fetchone()
+            return rows
+
 #adds a vehicle to the database
 def addVehicle(vehicle_id, username, make, model, year, color) -> list[dict[str, any]]:
     with get_pool().connection() as conn:

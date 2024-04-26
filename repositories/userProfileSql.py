@@ -14,3 +14,16 @@ def getAllDrives(username) -> list[dict[str, any]]:
                         ''', (username,))
             rows = cur.fetchall()
             return rows
+        
+#gets user's name
+def getFullName(username):
+    with get_pool().connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT first_name, last_name
+                        FROM users
+                        WHERE username = %s
+                        ''', (username,))
+            rows = cur.fetchone()
+            return rows
+        
