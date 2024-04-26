@@ -31,18 +31,18 @@ def index():
     return render_template('index.html', title ='Home')
 
 ####################### USER FUNCTIONALITY ############################################################
-@app.get("/login")
+@app.get("/user/login")
 def login():
     #send user to profile if already logged in
     if session:
-        return redirect('/userprofile')
+        return redirect('/user/profile')
     return render_template('login.html', title='Login')
 
-@app.post('/login')
+@app.post('/user/login')
 def logged_in():
     #user already logged in
     if session:
-        return redirect('/userprofile')
+        return redirect('/user/profile')
 
     username = request.form.get('username')
     password = request.form.get('password')
@@ -55,7 +55,7 @@ def logged_in():
 
     #no user exists
     if loginAttempt == []:
-        return redirect('/login')
+        return redirect('/user/login')
     
     #check password
     if(bcrypt.check_password_hash(loginAttempt[0]['password'], password)):
@@ -63,24 +63,24 @@ def logged_in():
         lastname = loginAttempt[0]['last_name']
         #sessions
         session['username'] = loginAttempt[0]['username']
-        return redirect('/userprofile')
+        return redirect('/user/profile')
     else: #password incorrect
-        return redirect('/login')
+        return redirect('/user/login')
 
 #renders the signup page
-@app.get('/signup')
+@app.get('/user/signup')
 def signup():
     #redirect to profile if already logged in
     if session:
-        return redirect('/userprofile')
+        return redirect('/user/profile')
     return render_template('signup.html', title='Sign-Up')
 
 #after the user signs up the user is redirected to the home page
-@app.post("/signup")
+@app.post("/user/signup")
 def signedup():
     #abort if user is already logged in
     if session:
-        return redirect('/userprofile')
+        return redirect('/user/profile')
     # global firstname
     # global lastname
     firstname = request.form.get('FirstName')
@@ -101,10 +101,10 @@ def signedup():
         loginSql.SignUp(username, hashed_password, firstname, lastname)
         #log user in
         session['username'] = username
-    return redirect('/userprofile')
+    return redirect('/user/profile')
 
 #log user out
-@app.get('/logout')
+@app.get('/user/logout')
 def logout():
     #no session available
     if not session:
@@ -113,11 +113,11 @@ def logout():
     session.clear()
     return redirect('/')
 
-@app.get ('/userprofile')
+@app.get('/user/profile')
 def user_profile():
     #make user login if not already logged in
     if 'username' not in session:
-        return redirect("/login")
+        return redirect("/user/login")
     # global firstname
     # global lastname
     #get data
@@ -139,7 +139,7 @@ def leaderboard():
 
 ############################ DRIVE FUNCTIONALITY #################################################
 #get create form
-@app.get('/create')
+@app.get('/drive/create')
 def create():
     #deny acces if user not logged in
     if not session:
@@ -154,7 +154,7 @@ def create():
 
     return render_template('createdrive.html', title='Create Drive', vehicles=vehicles)
 
-@app.post('/create')
+@app.post('/drive/create')
 def creating():
     #make sure user is logged in
     if not session:
@@ -214,10 +214,10 @@ def creating():
     edit_tag_values(drive_id, commute, near_death_experience, carpool, highway, backroad)
 
     #go to recent drives
-    return redirect('/drives')
+    return redirect('/drive')
 
 #view all drives
-@app.get('/drives')
+@app.get('/drive')
 def get_all_drives():
     drives = viewDrives.get_all_drives()
     print(drives)
@@ -240,7 +240,7 @@ def individual(drive_id):
 
 
 # function to delete a drive based on drive id
-@app.post('/drive/delete/<drive_id>')
+@app.post('/drive/<drive_id>/delete')
 def delete_drive(drive_id):
     check_drive_id(drive_id)
 
@@ -253,10 +253,10 @@ def delete_drive(drive_id):
 
     deleteSql.deleteDrive(drive_id)
     flash('Drive successfully deleted', 'success')
-    return redirect('/drives')
+    return redirect('/drive')
 
 #make a comment
-@app.post('/makecomment/<drive_id>')
+@app.post('/drive/<drive_id>/comment')
 def make_comment(drive_id):
     #verify drive id
     check_drive_id(drive_id)
@@ -273,7 +273,7 @@ def make_comment(drive_id):
     return redirect(f'/drive/{drive_id}?showdiv=True')
 
 #delete a comment
-@app.post('/comment/delete/<comment_id>')
+@app.post('/drive/comment/<comment_id>/delete')
 def deletecomment(comment_id):
     #verify comment id
     #check for valid uuid
@@ -410,20 +410,20 @@ def edit_drive(drive_id):
     # Update Tags for Drive
     edit_tag_values(drive_id, commute, near_death_experience, carpool, highway, backroad)
 
-    return redirect('/userprofile') 
+    return redirect('/user/profile') 
 
 
   
 ################### VEHICLE FUNCTIONALITY ########################################################
-@app.get('/vehicles')
+@app.get('/vehicle')
 def vehicles():
     if not session:
-        return redirect('/login')
+        return redirect('/user/login')
     vehicles = Vehicle.getVehicles(session['username'])
     return render_template("vehicle.html", title="Vehicles", vehicles = vehicles)
 
 #function to add vehicles
-@app.post('/vehicles')
+@app.post('/vehicle/add')
 def add_vehicle():
     if not session:
         abort(401, 'You must login')
@@ -445,10 +445,10 @@ def add_vehicle():
 
     Vehicle.addVehicle(vehicle_id, username, make, model, year, color)
     flash('Vehicle successfully added', 'success')
-    return redirect("/vehicles")
+    return redirect("/vehicle")
 
 #function to edit vehicles 
-@app.post('/vehicles/edit')
+@app.post('/vehicle/edit')
 def edit_vehicles ():
     if not session:
         abort(401, 'you must login')
@@ -486,10 +486,10 @@ def edit_vehicles ():
     username = session ['username']
     Vehicle.editVehicle(vehicle_id,username,make,model,year, color)
     flash('Vehicle successfully edited', 'success')
-    return redirect("/vehicles")
+    return redirect("/vehicle")
     
 #function to delete vehicles
-@app.post('/vehicles/delete/<vehicle_id>')
+@app.post('/vehicle/delete/<vehicle_id>')
 def delete_vehicle(vehicle_id):
     if not session:
         abort(401, 'you must login')
@@ -511,7 +511,7 @@ def delete_vehicle(vehicle_id):
     username = session ['username']
     Vehicle.deleteVehicle(vehicle_id, username)
     flash('Drive successfully deleted', 'success')
-    return redirect ("/vehicles")
+    return redirect ("/vehicle")
 
 
 

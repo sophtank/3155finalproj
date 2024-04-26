@@ -18,14 +18,13 @@
 
 
   <div class="individual-container">
-    <form method="POST" action="edit_drive">
       {% if 'username' in session %}
-            <a href="/vehicles" class="btn btn-primary mt-2">View Vehicles</a>
+            <a href="/vehicle" class="btn btn-primary mt-2">View Vehicles</a>
             {% endif %}
-    </form>
-     <a href="/logout" class="btn btn-primary mt-2">Logout</a>
+     <a href="/user/logout" class="btn btn-primary mt-2">Logout</a>
   </div>
 
+  {% if alldrives %}
   <table
     class="table table-light"
     style="
@@ -58,7 +57,7 @@
         <td>{{ drive.duration }}</td>
         <td>{{ drive.mileage }} miles</td>
         <td>
-          <a href="drive/{{drive.drive_id}}/edit"><button class="btn btn-secondary">Edit</button></a>
+          <a href="/drive/{{drive.drive_id}}/edit"><button class="btn btn-secondary">Edit</button></a>
         </td>
       </tr>
       {% endfor %}
@@ -68,6 +67,12 @@
       ></td>
     </tbody>
   </table>
+  {% else %}
+  <div style="background-color: aliceblue;">
+    <h1 class="text-center mt-2 text-dark">There are no drives logged.</h1>
+    <h2 class="text-center"><a href="/drive/create" class="text-center link-secondary">Create a drive here.</a></h2>
+  </div>
+    {% endif %}
 </main>
 
 {% endblock %}

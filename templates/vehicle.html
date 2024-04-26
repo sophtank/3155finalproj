@@ -34,7 +34,7 @@
         <div class="form-container">
             <div class="add-vehicle-form">
                 <h2>Add Vehicle</h2>
-                <form id="addVehicleForm" action="/vehicles" method="POST">
+                <form id="addVehicleForm" action="/vehicle/add" method="POST">
                     <input type="hidden" id="vehicleId" name="vehicleId" value="">
                     <div class="form-group">
                         <label for="make">Make:</label>
@@ -57,7 +57,7 @@
             </div>
             <div class="edit-vehicle-form">
                 <h2>Edit Vehicle</h2>
-                <form id="editVehicleForm" action="/vehicles/edit" method="POST">
+                <form id="editVehicleForm" action="/vehicle/edit" method="POST">
                     <div class="form-group">
                         <label for="editVehicle">Select Vehicle:</label>
                         <select class="form-control" id="editVehicle" name="editVehicle" required>
@@ -125,7 +125,7 @@
                     <td>{{ vehicle.year }}</td>
                     <td>{{ vehicle.color }}</td>
                     <td>
-                        <form action="/vehicles/delete/{{ vehicle.vehicle_id }}" method="POST" style="display: inline;">
+                        <form action="/vehicle/delete/{{ vehicle.vehicle_id }}" method="POST" style="display: inline;">
                             <input type="hidden" name="vehicle_id" value="{{ vehicle.vehicle_id }}">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>

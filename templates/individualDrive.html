@@ -55,7 +55,7 @@
             </div>
                 <a href="#"><button class="btn btn-primary mt-3" id="viewcomments">View Comments</button></a>
                 {% if drive.username == session['username'] %}
-                <form action="/drive/delete/{{ drive.drive_id }}" method="POST">
+                <form action="/drive/{{ drive.drive_id }}/delete" method="POST">
                     <input type = "hidden" name = "drive_id" value = "{{drive.drive_id}}">
                     <br>
                 <button class="btn btn-danger">Delete</button>
@@ -92,12 +92,12 @@
             
             &nbsp;&nbsp;&nbsp;
             <button form="delete-{{comment.comment_id}}" class="btn btn-link nounderline" type="submit"><i>delete</i></button>
-            <form id="delete-{{comment.comment_id}}" action="/comment/delete/{{comment.comment_id}}" method="POST"></form>
+            <form id="delete-{{comment.comment_id}}" action="/drive/comment/{{comment.comment_id}}/delete" method="POST"></form>
             {% endif %}</p> 
         {% endfor %}
     </div>
     {% if session %}
-    <form method="POST" action="/makecomment/{{ drive.drive_id }}">
+    <form method="POST" action="/drive/{{ drive.drive_id }}/comment">
         <input class="makecomment" type="text" name="newcomment" placeholder="Add a comment">
         <button id="submitcomment" type="submit" class="btn btn-primary commentsubmit">Comment</button>
     </form>

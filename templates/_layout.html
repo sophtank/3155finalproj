@@ -26,41 +26,49 @@
                     </li>
                     <li class="nav-item">
                     {%if title=='Drives'%}
-                        <a class="nav-link active text-decoration-underline" href="/">Drives</a>  
+                        <a class="nav-link active text-decoration-underline" href="/drive">Drives</a>  
                     {%else%}
-                        <a class="nav-link active" href="/drives">Drives</a>
+                        <a class="nav-link active" href="/drive">Drives</a>
                     {%endif%}
                     </li>
+                    {% if session %}
                     <li class="nav-item">
                     {%if title=='Create Drive'%}
-                        <a class="nav-link active text-decoration-underline" href="/create">Create a New Drive</a> 
+                        <a class="nav-link active text-decoration-underline" href="/drive/create">Create a New Drive</a> 
                     {%else%}
-                        <a class="nav-link active" href="/create">Create a New Drive</a>
+                        <a class="nav-link active" href="/drive/create">Create a New Drive</a>
                     {%endif%}
                     </li>
+                    {% endif %}
+                    {% if session %}
                     <li class="nav-item">
                         {%if title=='Vehicles'%}
-                            <a class="nav-link active text-decoration-underline" href="/vehicles">Vehicles</a> 
+                            <a class="nav-link active text-decoration-underline" href="/vehicle">Vehicles</a> 
                         {%else%}
-                            <a class="nav-link active" href="/vehicles">Vehicles</a>
+                            <a class="nav-link active" href="/vehicle">Vehicles</a>
                         {%endif%}
                         </li>
+                    {% endif %}
                 </ul>
                 <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                    {% if not session %}
                     <li class="nav-item">
                     {%if title=='Sign-Up'%}
-                        <a class="nav-link active text-decoration-underline" href="/signup">Sign-Up</a>
+                        <a class="nav-link active text-decoration-underline" href="/user/signup">Sign-Up</a>
                     {%else%}
-                        <a class="nav-link active" href="/signup">Sign-Up</a>
+                        <a class="nav-link active" href="/user/signup">Sign-Up</a>
                     {%endif%}
                     </li>
+                    {% endif %}
+                    {% if not session %}
                     <li class="nav-item">
                     {%if title=='Login'%}
-                        <a class="nav-link active text-decoration-underline" href="/login">Login</a>
+                        <a class="nav-link active text-decoration-underline" href="/user/login">Login</a>
                     {%else%}
-                        <a class="nav-link active" href="/login">Login</a>
+                        <a class="nav-link active" href="/user/login">Login</a>
                     {%endif%}
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                     {%if title=='Leaderboard'%}
                         <a class="nav-link active text-decoration-underline" href="/leaderboard">Leaderboard</a>
@@ -68,13 +76,15 @@
                         <a class="nav-link active" href="/leaderboard">Leaderboard</a>
                     {%endif%}
                     </li>
+                    {% if session %}
                     <li class="nav-item">
                     {%if title=='User profile'%}
-                        <a class="nav-link active text-decoration-underline" href="/userprofile">User Profile</a>
+                        <a class="nav-link active text-decoration-underline" href="/user/profile">User Profile</a>
                     {%else%}
-                        <a class="nav-link active" href="/userprofile">User Profile</a>
+                        <a class="nav-link active" href="/user/profile">User Profile</a>
                     {%endif%}
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
@@ -89,10 +99,16 @@
     <p class="col-md-4 mb-0 text-light">&copy; 2024 In The Trenches</p>
     <ul class="nav col-md-4 justify-content-end">
         <li class="nav-item"><a href="/" class="nav-link px-2 text-light">Home</a></li>
-        <li class="nav-item"><a href="/drives" class="nav-link px-2 text-light">Drives</a></li>
-        <li class="nav-item"><a href="/login" class="nav-link px-2 text-light">Login</a></li>
-        <li class="nav-item"><a href="/signup" class="nav-link px-2 text-light">Sign-Up</a></li>
-        <li class ="nav-item"><a href ="/userprofile" class = "nav-link px-2 text-light">User Profile </li>
+        <li class="nav-item"><a href="/drive" class="nav-link px-2 text-light">Drives</a></li>
+        {% if not session %}
+        <li class="nav-item"><a href="/user/login" class="nav-link px-2 text-light">Login</a></li>
+        {% endif %}
+        {% if not session %}
+        <li class="nav-item"><a href="/user/signup" class="nav-link px-2 text-light">Sign-Up</a></li>
+        {% endif %}
+        {% if session %}
+        <li class ="nav-item"><a href ="/user/profile" class = "nav-link px-2 text-light">User Profile </li>
+        {% endif %}
     </ul>
 </footer>
 </body>
