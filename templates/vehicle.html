@@ -1,0 +1,140 @@
+{% extends '_layout.html' %} 
+{% block head %}
+    <link rel="stylesheet" href="/static/Styles/vehicle.css">
+{% endblock %}
+<div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add or Edit Vehicle</title>
+    <link rel="stylesheet" href="/static/Styles/vehicle.css">
+</head>
+<div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="add-vehicle-form">
+                <h2>Add Vehicle</h2>
+                <form id="addVehicleForm" action="/Vehicles" method="POST">
+                    <input type="hidden" id="vehicleId" name="vehicleId" value="">
+                    <div class="form-group">
+                        <label for="make">Make:</label>
+                        <input type="text" class="form-control" id="make" placeholder="Enter the make" name="make" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="model">Model:</label> 
+                        <input type="text" class="form-control" id="model" placeholder="Enter the model" name="model" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Year:</label>
+                        <input type="text" class="form-control" id="year" placeholder="Enter the year" name="year" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Color:</label>
+                        <input type="text" class="form-control" id="color" placeholder="Enter the color" name="color" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="edit-vehicle-form">
+                <h2>Edit Vehicle</h2>
+                <form id="editVehicleForm" action="/Vehicles/edit" method="POST">
+                    <div class="form-group">
+                        <label for="editVehicle">Select Vehicle:</label>
+                        <select class="form-control" id="editVehicle" name="editVehicle" required>
+                            <option value="" disabled selected>Select a vehicle</option>
+                            {% for vehicle in vehicles %}
+                            <option value="{{ vehicle.vehicle_id }}">{{ vehicle.make }} {{ vehicle.model }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <input type="hidden" id="selectedVehicleId" name="vehicle_id">
+                    <div class="form-group">
+                        <label for="editMake">Make:</label>
+                        <input type="text" class="form-control" id="editMake" placeholder="Edit the make" name="make" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editModel">Model:</label>
+                        <input type="text" class="form-control" id="editModel" placeholder="Edit the model" name="model" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editYear">Year:</label>
+                        <input type="text" class="form-control" id="editYear" placeholder="Edit the year" name="year" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editColor">Color:</label>
+                        <input type="text" class="form-control" id="editColor" placeholder="Edit the color" name="color" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                
+                <script>
+                    // Ended up using javascript so that the vehicle id is stored in the hidden input field 
+                    // when a user selects a vehicle to edit
+
+
+                    // add event listener to editVehicle select element
+                    document.getElementById("editVehicle").addEventListener("change", function() {
+                        // Gets the ID of selected vehicle
+                        var selectedVehicleId = this.value;
+                        //sets the value of the hidden input field to the selected vehicle ID
+                        document.getElementById("selectedVehicleId").value = selectedVehicleId;
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
+
+        <h2>Vehicle List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Color</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                <tr>
+                    <td>{{ vehicle.make }}</td>
+                    <td>{{ vehicle.model }}</td>
+                    <td>{{ vehicle.year }}</td>
+                    <td>{{ vehicle.color }}</td>
+                    <td>
+                        <form action="/Vehicles/delete/{{ vehicle.vehicle_id }}" method="POST" style="display: inline;">
+                            <input type="hidden" name="vehicle_id" value="{{ vehicle.vehicle_id }}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+{% endblock %}

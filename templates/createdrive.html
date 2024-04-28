@@ -9,20 +9,23 @@
 <form method="POST" action="/creating">
 <div class="left-div">
     <h2>Mileage Traveled</h2>
-    <input class="form-control" name= "mileage" id="mileage" type="number" placeholder="Mileage Traveled" aria-label="Mileage Traveled">
+    <input class="form-control" name= "mileage" id="mileage" type="number" placeholder="Mileage Traveled" aria-label="Mileage Traveled" required>
 </div>
 <div class="right-div">
     <h2>Duration</h2>
-    <input class="form-control" name = "duration" id="duration" type="number" placeholder="Time Spent Driving (minutes)" aria-label="Time Spent Driving">
+    <input class="form-control" name = "duration" id="duration" type="number" placeholder="Time Spent Driving (minutes)" aria-label="Time Spent Driving" required>
 </div>
 <div class="left-div">
+  <div class="form-group">
     <h2>Vehicle</h2>
-    <input class="form-control" list="vehicleOptions" id="vehicleSelect" name="vehicleSelect" placeholder="Type to search your registered vehicles...">
-    <datalist id="vehicleOptions">
-    <option value="Toyota Camry (2013)">
-    <option value="Ford F-150 (2022)">
-    <option value="Nissan Altima (2018)">
-    </datalist>
+    <select class="form-control" id="selectVehicle" name="selectVehicle" required>
+      <option value="" disabled selected>Select a vehicle</option>
+        {% for vehicle in vehicles %}
+        <option value="{{ vehicle.vehicle_id }}">{{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})</option>
+        {% endfor %}
+    </select>
+    <input type="hidden" id="selectedVehicleId" name="vehicle_id">
+</div>
 </div>
 <div class="right-div">
     <h2>Tags</h2>
@@ -49,13 +52,13 @@
       <div class = "right-div">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="highway">
-        <label class="form-check-label" for="carpool">
+        <label class="form-check-label" for="highway">
           Mostly Highway
         </label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="backroad">
-        <label class="form-check-label" for="carpool">
+        <label class="form-check-label" for="backroad">
           Mostly Backroads
         </label>
       </div>
@@ -70,8 +73,22 @@
     <h2>Add a photo from your drive</h2>
     <input class="form-control" type="file" id="drivePhoto" name="drivePhoto">
     </div>
+    <script>
+      // Ended up using javascript so that the vehicle id is stored in the hidden input field 
+      // when a user selects a vehicle to edit
+    
+      //stolen from Matthew. thank you!
+    
+      // add event listener to selectVehicle select element
+      document.getElementById("selectVehicle").addEventListener("change", function() {
+          // Gets the ID of selected vehicle
+          var selectedVehicleId = this.value;
+          //sets the value of the hidden input field to the selected vehicle ID
+          document.getElementById("selectedVehicleId").value = selectedVehicleId;
+      });
+    </script>
 <input class="btn btn-primary btn btn-primary-primary" type="submit" value="Submit">
-  </form>
+</form>
 </div>
 
 {%endblock%}
