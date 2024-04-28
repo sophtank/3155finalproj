@@ -1,4 +1,4 @@
-from flask import Flask, abort, flash, render_template, redirect, request, session
+from flask import Flask, abort, flash, render_template, redirect, request, session, url_for
 from repositories import loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
 from repositories.leaderboard import get_leaders
 
@@ -36,10 +36,13 @@ appConf = {
 oauth=OAuth(app)
 
 oauth.register(
-    clinet_id=appConf.get("OAUTH2_CLIENT_ID"),
+    name='HappyFunTimeGoDrive',
+    client_id=appConf.get("OAUTH2_CLIENT_ID"),
     client_secret=appConf.get("OAUTH2_CLIENT_SECRET"),
+    authorize_url='https://accounts.google.com/o/oauth2/auth',  
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    client_kwargs={'scope': 'profile email', 'issuer': 'https://accounts.google.com'},
     server_metadata_url=appConf.get("OAUTH2_METADATA_URL"),
-    client_kwargs={'scope': 'openid email profile'}
 )
 
 
@@ -50,6 +53,29 @@ bcrypt = Bcrypt(app)
 @app.get("/")
 def index():
     return render_template("index.html", title ="Home")
+
+@app.post("/google-login")
+def google_login():
+    return oauth.HappyFunTimeGoDrive.authorize_redirect(redirect_uri=url_for('googleCallback', _external=True))
+
+@app.route('/loginauth')
+def googleCallback():
+    global username 
+    global firstname
+    global lastname
+    token = oauth.HappyFunTimeGoDrive.authorize_access_token()
+    session["username"] = token
+    user_info = oauth.HappyFunTimeGoDrive.get('https://www.googleapis.com/oauth2/v3/userinfo', token=token).json()
+    firstname = user_info.get('given_name')
+    lastname = user_info.get('family_name')
+    user_email = user_info.get('email')
+    hashed_password = bcrypt.generate_password_hash(user_info.get('sub')).decode('utf-8')
+    signin = loginSql.checkIFUserExists(user_email) != []
+    if(signin):
+        return redirect("/userprofile")
+    else:
+        loginSql.SignUp(user_email, hashed_password, firstname, lastname)
+        return redirect("/userprofile")
 
 @app.get("/login")
 def login():
