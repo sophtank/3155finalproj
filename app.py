@@ -127,7 +127,6 @@ def creating():
 @app.get("/drives")
 def get_all_drives():
     drives = viewDrives.get_all_drives()
-    print(drives)
     return render_template("viewDrives.html", title="Drives", drives = drives)
 
 @app.get("/drive/<drive_id>")
