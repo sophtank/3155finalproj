@@ -5,7 +5,7 @@ from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles, 
 
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
-import uuid, os
+import uuid, os, re
 
 from authlib.integrations.flask_client import OAuth
 
