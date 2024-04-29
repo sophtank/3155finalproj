@@ -7,12 +7,9 @@ from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
 import uuid, os
 
-<<<<<<< HEAD
 from authlib.integrations.flask_client import OAuth
 
-=======
 import re
->>>>>>> f8e3a54d97a6beb38be3d3ea7ca1df8ed0a68fa7
 
 load_dotenv()
 
@@ -59,16 +56,12 @@ bcrypt = Bcrypt(app)
 def index():
     return render_template('index.html', title ='Home')
 
-<<<<<<< HEAD
 @app.post("/google-login")
 def google_login():
     return oauth.HappyFunTimeGoDrive.authorize_redirect(redirect_uri=url_for('googleCallback', _external=True))
 
 @app.route('/loginauth')
 def googleCallback():
-    global username 
-    global firstname
-    global lastname
     token = oauth.HappyFunTimeGoDrive.authorize_access_token()
     user_info = oauth.HappyFunTimeGoDrive.get('https://www.googleapis.com/oauth2/v3/userinfo', token=token).json()
     firstname = user_info.get('given_name')
@@ -79,16 +72,13 @@ def googleCallback():
     hashed_password = bcrypt.generate_password_hash(user_info.get('sub')).decode('utf-8')
     signin = loginSql.checkIFUserExists(user_email) != []
     if(signin):
-        return redirect("/userprofile")
+        return redirect("/user/profile")
     else:
         loginSql.SignUp(user_email, hashed_password, firstname, lastname)
-        return redirect("/userprofile")
+        return redirect("/user/profile")
 
-@app.get("/login")
-=======
 ####################### USER FUNCTIONALITY ############################################################
 @app.get("/user/login")
->>>>>>> f8e3a54d97a6beb38be3d3ea7ca1df8ed0a68fa7
 def login():
     #send user to profile if already logged in
     if session:
@@ -278,12 +268,7 @@ def creating():
 @app.get('/drive')
 def get_all_drives():
     drives = viewDrives.get_all_drives()
-<<<<<<< HEAD
     return render_template("viewDrives.html", title="Drives", drives = drives)
-=======
-    print(drives)
-    return render_template('viewDrives.html', title='Drives', drives = drives)
->>>>>>> f8e3a54d97a6beb38be3d3ea7ca1df8ed0a68fa7
 
 #view an idividual drive
 @app.get('/drive/<drive_id>')
