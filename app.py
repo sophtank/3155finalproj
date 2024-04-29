@@ -9,11 +9,7 @@ import uuid, os, re
 
 from authlib.integrations.flask_client import OAuth
 
-
 load_dotenv()
-
-
-
 
 app = Flask(__name__)
 # global username
