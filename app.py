@@ -13,9 +13,6 @@ import re
 
 load_dotenv()
 
-
-
-
 app = Flask(__name__)
 # global username
 # username = None
