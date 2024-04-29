@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../static/Styles/create_drive.css">
 <h1 class="text-center">Recent Drives</h1>
 <main class="container mt-2">
+  {% if drives %}
   {% for drive in drives %}
     {% if loop.index is odd %}
     <div class="row">
@@ -35,5 +36,9 @@
     </div>
     {% endif %}
     {% endfor %}
-</main>
+  {% else %}
+    <h1 class="text-center mt-2">There are no drives logged.</h1>
+    <h2 class="text-center"><a href="/drive/create" class="text-center link-secondary">Create a drive to view here.</a></h2>
+    {% endif %}
+  </main>
 {%endblock%}

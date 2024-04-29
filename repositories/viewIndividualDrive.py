@@ -28,3 +28,43 @@ def get_individual_drive_by_id(drive_id: int):
                            drive_id = %s;
                            ''', [drive_id])
             return cursor.fetchone()
+        
+def get_num_likes(drive_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory= dict_row) as cursor:
+            cursor.execute('''              
+                            SELECT COUNT(*) FROM likes 
+                            WHERE
+                           drive_id = %s;
+                           ''', [drive_id])
+            return cursor.fetchone()
+
+def add_like(drive_id, username):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory= dict_row) as cursor:
+            cursor.execute('''              
+                           INSERT INTO likes VALUES (%s, %s)
+                           ''', [drive_id, username])
+
+def delete_like(drive_id, username):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory= dict_row) as cursor:
+            cursor.execute('''              
+                            DELETE FROM likes 
+                           WHERE drive_id = %s AND username  = %s
+                           ''', [drive_id, username])
+
+def has_like(drive_id, username):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory= dict_row) as cursor:
+            cursor.execute('''              
+                            SELECT * FROM likes 
+                            WHERE
+                           drive_id = %s AND username=%s;
+                           ''', [drive_id, username])
+            return cursor.fetchone()
+        
