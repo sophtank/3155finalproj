@@ -10,14 +10,20 @@
     </div>
   {% endif %}
 {% endwith %}
+<link rel="stylesheet" href="../static/Styles/create_drive.css">
 <h1 align="center">{{ drive.first_name }}'s Drive</h1>
 
 <div class="individual-drive-div">
     <div class="row">
         <div class="col">
-            <img src="{{ drive.photo }}" alt="{{ drive.photo}}" class="individual-photo rounded">
+            <img src="{{ drive.photo }}" alt="{{ drive.photo }}" class="individual-photo rounded">
+            <p class="description">
+                {{ drive.caption }}
+            </p>
         </div>
         <div class="col individual-info">
+            <h5>{{drive.title}}</h5>
+            <br>
             <p>
                 <strong>Vehicle</strong>: {{ drive.make }} {{ drive.model }}
             </p>
@@ -33,12 +39,6 @@
             <p>
                 <strong>Date</strong>: {{ drive.date }}
             </p>
-            <p class="description">
-                <strong>Description</strong>: 
-            </p>
-            <div class="description-box description">
-                {{ drive.caption }}
-            </div>
             <div class="row">
                 <div class="col">
                     {% if has_like %}
@@ -68,10 +68,6 @@
     
 </div>
 
-<div>
-        
-        
-</div> 
    
 
 {% if request.args.get('showdiv') == 'True' %}

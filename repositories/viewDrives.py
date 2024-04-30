@@ -10,6 +10,8 @@ def get_all_drives():
             cursor.execute('''
                            SELECT
                             u.first_name,
+                            u.last_name,
+                            d.title,
                             d.date,
                             d.mileage,
                             d.photo,
@@ -21,7 +23,7 @@ def get_all_drives():
                            on
                            d.username = u.username
                            ORDER BY
-                           d.date DESC
+                           d.date ASC
                            ''')
             return cursor.fetchall()
         

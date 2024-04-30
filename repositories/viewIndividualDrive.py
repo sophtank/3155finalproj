@@ -12,6 +12,7 @@ def get_individual_drive_by_id(drive_id: int):
                                 v.make,
                                 v.model,
                                 v.year,
+                                d.title,
                                 d.mileage,
                                 d.duration,
                                 d.caption,
