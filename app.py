@@ -2,7 +2,7 @@ from flask import Flask, abort, flash, render_template, redirect, request, sessi
 from repositories import Vehicle, loginSql, userProfileSql, viewDrives, deleteSql, viewIndividualDrive, drives
 from repositories.leaderboard import get_leaders
 from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles, edit_tag_values, get_tags
-
+from repositories.flask_imgur import Imgur
 
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
@@ -18,6 +18,11 @@ global firstname
 global lastname
 firstname = None
 lastname = None
+
+app.config["IMGUR_ID"] = os.getenv('IMGUR_ID')
+
+imgur_handler = Imgur(app)
+
 
 app.secret_key = os.getenv('SECRET_KEY')
 
@@ -100,7 +105,7 @@ def creating():
     duration = request.form.get("duration")
     title = request.form.get("titleDrive")
     caption = request.form.get("captionDrive")
-    photo = "https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg" #temp until we figure out how to store photos
+    photo = request.form.get("drivePhoto")
     #current date and time
     date = "NOW()"
     user = username
