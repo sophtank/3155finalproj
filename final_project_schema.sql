@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS vehicle (
 DROP TABLE IF EXISTS drive;
 
 drop table drive cascade; -- Use this To delete the drive table, then create the table below
+drop table likes, comments, tags; --Then Run this, and add all the tables back and then insert the values after drive
 
 CREATE TABLE IF NOT EXISTS drive (
     drive_id UUID,

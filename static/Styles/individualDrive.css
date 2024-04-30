@@ -1,0 +1,17 @@
+.individual-photo {
+  /* width: 700px; */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  /* height: 93.5%; */
+  /* padding-top: 10px;
+  padding-left: 10px;
+  border-radius: 50px;
+  margin-top: 19px; */
+}
+img {
+  border: 1px solid black;
+}
+col {
+  border: 1px solid red;
+}
