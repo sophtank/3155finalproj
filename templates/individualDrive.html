@@ -1,4 +1,7 @@
 {% extends '_layout.html' %} 
+{% block head %}
+<link rel="stylesheet" href="../static/Styles/create_drive.css">
+{% endblock %}
 
 {% block body %}
 {% with messages = get_flashed_messages() %}
@@ -10,7 +13,6 @@
     </div>
   {% endif %}
 {% endwith %}
-<link rel="stylesheet" href="../static/Styles/create_drive.css">
 <h1 align="center">{{ drive.first_name }}'s Drive</h1>
 
 <div class="individual-drive-div">
