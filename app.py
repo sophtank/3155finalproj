@@ -67,11 +67,11 @@ def googleCallback():
     username = user_email
     session['username'] = user_info.get('email')
     hashed_password = bcrypt.generate_password_hash(user_info.get('sub')).decode('utf-8')
-    signin = loginSql.checkIFUserExists(user_email) != []
+    signin = loginSql.check_if_user_exists(user_email) != []
     if(signin):
         return redirect("/user/profile")
     else:
-        loginSql.SignUp(user_email, hashed_password, firstname, lastname)
+        loginSql.sign_up(user_email, hashed_password, firstname, lastname)
         return redirect("/user/profile")
 
 ####################### USER FUNCTIONALITY ############################################################
@@ -140,10 +140,10 @@ def signedup():
 
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    if(loginSql.checkIFUserExists(username) != []): #user exists
+    if(loginSql.check_if_user_exists(username) != []): #user exists
         abort(400, 'User already exists')
     else:  #success
-        loginSql.SignUp(username, hashed_password, firstname, lastname)
+        loginSql.sign_up(username, hashed_password, firstname, lastname)
         #log user in
         session['username'] = username
     return redirect('/user/profile')
@@ -166,8 +166,8 @@ def user_profile():
     # global firstname
     # global lastname
     #get data
-    alldrives = userProfileSql.getAllDrives(session.get('username'))
-    name = userProfileSql.getFullName(session.get('username'))
+    alldrives = userProfileSql.get_all_drives(session.get('username'))
+    name = userProfileSql.get_full_name(session.get('username'))
     return render_template("UserProfile.html", title = "User profile", 
                         alldrives = alldrives, 
                         firstname = name.get('first_name'), 
@@ -191,7 +191,7 @@ def create():
         abort(401, 'You must log in to create a drive.')
     
     #get user vehicles
-    vehicles = Vehicle.getVehicles(session.get('username'))
+    vehicles = Vehicle.get_vehicles(session.get('username'))
 
     #no registered vehicles
     if vehicles == []:
@@ -224,8 +224,8 @@ def creating():
     if not pattern.match(vehicle_id):
         abort(400, 'Invalid vehicle')
     
-    if not Vehicle.getOwner(vehicle_id) or not session['username'] in Vehicle.getOwner(vehicle_id):
-        print(Vehicle.getOwner(vehicle_id))
+    if not Vehicle.get_owner(vehicle_id) or not session['username'] in Vehicle.get_owner(vehicle_id):
+        print(Vehicle.get_owner(vehicle_id))
         abort(403, 'Invalid vehicle')
 
     if not check_numeric([mileage,duration]):
@@ -295,7 +295,7 @@ def delete_drive(drive_id):
     if not is_owner(drive_id, session['username']):
         abort(403, 'Permission denied.  You cannot delete this drive.')
 
-    deleteSql.deleteDrive(drive_id)
+    deleteSql.delete_drive(drive_id)
     flash('Drive successfully deleted', 'success')
     return redirect('/drive')
 
@@ -403,7 +403,7 @@ def edit_drive(drive_id):
         
     
         #verify vehicle ownership
-        if not Vehicle.getOwner(request.form.get('vehicleSelect')) or not session['username'] in Vehicle.getOwner(request.form.get('vehicleSelect')):
+        if not Vehicle.get_owner(request.form.get('vehicleSelect')) or not session['username'] in Vehicle.get_owner(request.form.get('vehicleSelect')):
             abort(403, 'Invalid vehicle')
         
 
@@ -463,7 +463,7 @@ def edit_drive(drive_id):
 def vehicles():
     if not session:
         return redirect('/user/login')
-    vehicles = Vehicle.getVehicles(session['username'])
+    vehicles = Vehicle.get_vehicles(session['username'])
     return render_template("vehicle.html", title="Vehicles", vehicles = vehicles)
 
 #function to add vehicles
@@ -487,7 +487,7 @@ def add_vehicle():
     username = session ['username']
     vehicle_id = str(uuid.uuid4())
 
-    Vehicle.addVehicle(vehicle_id, username, make, model, year, color)
+    Vehicle.add_vehicle(vehicle_id, username, make, model, year, color)
     flash('Vehicle successfully added', 'success')
     return redirect("/vehicle")
 
@@ -504,8 +504,8 @@ def edit_vehicles ():
         abort(400, 'Invalid vehicle')
 
     #check for ownership
-    if not Vehicle.getOwner(vehicle_id) or not session['username'] in Vehicle.getOwner(vehicle_id):
-        print(Vehicle.getOwner(vehicle_id))
+    if not Vehicle.get_owner(vehicle_id) or not session['username'] in Vehicle.get_owner(vehicle_id):
+        print(Vehicle.get_owner(vehicle_id))
         abort(403, 'Invalid vehicle')
     
     #set defaults
@@ -528,7 +528,7 @@ def edit_vehicles ():
         abort(400, 'Invalid vehicle year')
 
     username = session ['username']
-    Vehicle.editVehicle(vehicle_id,username,make,model,year, color)
+    Vehicle.edit_vehicle(vehicle_id,username,make,model,year, color)
     flash('Vehicle successfully edited', 'success')
     return redirect("/vehicle")
     
@@ -544,8 +544,8 @@ def delete_vehicle(vehicle_id):
         abort(400, 'Invalid vehicle')
 
     #check for ownership
-    if not Vehicle.getOwner(vehicle_id) or not session['username'] in Vehicle.getOwner(vehicle_id):
-        print(Vehicle.getOwner(vehicle_id))
+    if not Vehicle.get_owner(vehicle_id) or not session['username'] in Vehicle.get_owner(vehicle_id):
+        print(Vehicle.get_owner(vehicle_id))
         abort(403, 'Invalid vehicle')
     
     #check if vehicle is used
@@ -553,7 +553,7 @@ def delete_vehicle(vehicle_id):
         abort(400, 'You cannot delete this vehicle while it still has drives.')
 
     username = session ['username']
-    Vehicle.deleteVehicle(vehicle_id, username)
+    Vehicle.delete_vehicle(vehicle_id, username)
     flash('Drive successfully deleted', 'success')
     return redirect ("/vehicle")
 

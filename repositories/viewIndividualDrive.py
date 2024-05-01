@@ -1,70 +1,68 @@
 from repositories.db import get_pool
 from psycopg.rows import dict_row
 
+#get individual drive by id
 def get_individual_drive_by_id(drive_id: int):
     pool = get_pool()
     with pool.connection() as conn:
         with conn.cursor(row_factory= dict_row) as cursor:
             cursor.execute('''
-                           SELECT
-                                u.first_name,
-                                u.username,
-                                v.make,
-                                v.model,
-                                v.year,
-                                d.mileage,
-                                d.duration,
-                                d.caption,
-                                d.photo,
-                                d.date,
-                                d.drive_id
-                            FROM
+                        SELECT  u.first_name, u.username,
+                                v.make, v.model, v.year,
+                                d.mileage, d.duration, d.caption, d.photo, d.date, d.drive_id
+                        FROM
                                 drive d
-                            INNER JOIN
+                        INNER JOIN
                                 vehicle v ON d.vehicle_id = v.vehicle_id
-                            INNER JOIN
+                        INNER JOIN
                                 users u ON d.username = u.username
-                            WHERE
-                           drive_id = %s;
-                           ''', [drive_id])
+                        WHERE
+                                drive_id = %s;
+                        ''', [drive_id])
             return cursor.fetchone()
         
+#get number of likes
 def get_num_likes(drive_id):
     pool = get_pool()
     with pool.connection() as conn:
         with conn.cursor(row_factory= dict_row) as cursor:
             cursor.execute('''              
-                            SELECT COUNT(*) FROM likes 
+                            SELECT 
+                                COUNT(*) FROM likes 
                             WHERE
-                           drive_id = %s;
-                           ''', [drive_id])
+                                drive_id = %s;
+                            ''', [drive_id])
             return cursor.fetchone()
 
+#add like
 def add_like(drive_id, username):
     pool = get_pool()
     with pool.connection() as conn:
         with conn.cursor(row_factory= dict_row) as cursor:
             cursor.execute('''              
-                           INSERT INTO likes VALUES (%s, %s)
-                           ''', [drive_id, username])
+                            INSERT INTO likes VALUES (%s, %s)
+                            ''', [drive_id, username])
 
+#delete like
 def delete_like(drive_id, username):
     pool = get_pool()
     with pool.connection() as conn:
         with conn.cursor(row_factory= dict_row) as cursor:
             cursor.execute('''              
                             DELETE FROM likes 
-                           WHERE drive_id = %s AND username  = %s
-                           ''', [drive_id, username])
+                            WHERE drive_id = %s AND username  = %s
+                            ''', [drive_id, username])
 
+#check if user has liked
 def has_like(drive_id, username):
     pool = get_pool()
     with pool.connection() as conn:
         with conn.cursor(row_factory= dict_row) as cursor:
             cursor.execute('''              
-                            SELECT * FROM likes 
-                            WHERE
-                           drive_id = %s AND username=%s;
-                           ''', [drive_id, username])
+                        SELECT 
+                            * FROM likes 
+                        WHERE
+                            drive_id = %s AND username=%s;
+                        ''', [drive_id, username])
             return cursor.fetchone()
         
