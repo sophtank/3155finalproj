@@ -7,18 +7,19 @@ def get_individual_drive_by_id(drive_id: int):
     with pool.connection() as conn:
         with conn.cursor(row_factory= dict_row) as cursor:
             cursor.execute('''
-                        SELECT  u.first_name, u.username,
+                           SELECT
+                                u.first_name, u.username,
                                 v.make, v.model, v.year,
-                                d.mileage, d.duration, d.caption, d.photo, d.date, d.drive_id
-                        FROM
+                                d.title, d.mileage, d.duration, d.caption, d.photo, d.date, d.drive_id
+                            FROM
                                 drive d
-                        INNER JOIN
+                            INNER JOIN
                                 vehicle v ON d.vehicle_id = v.vehicle_id
-                        INNER JOIN
+                            INNER JOIN
                                 users u ON d.username = u.username
-                        WHERE
+                            WHERE
                                 drive_id = %s;
-                        ''', [drive_id])
+                           ''', [drive_id])
             return cursor.fetchone()
         
 #get number of likes

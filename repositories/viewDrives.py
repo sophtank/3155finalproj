@@ -9,18 +9,18 @@ def get_all_drives():
     with pool.connection() as conn:
         with conn.cursor(row_factory= dict_row) as cursor:
             cursor.execute('''
-                        SELECT
-                            u.first_name, 
-                            d.date, d.mileage, d.photo, d.drive_id
-                        FROM 
-                            drive d
-                        JOIN
-                            users u
-                        on
-                            d.username = u.username
-                        ORDER BY
-                            d.date DESC
-                            ''')
+                           SELECT
+                              u.first_name, u.last_name,
+                              d.title, d.date, d.mileage, d.photo,d.drive_id
+                           FROM 
+                              drive d
+                           JOIN
+                              users u
+                           on
+                              d.username = u.username
+                           ORDER BY
+                              d.date ASC
+                           ''')
             return cursor.fetchall()
         
 #get comments by drive id
