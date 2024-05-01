@@ -10,6 +10,8 @@ def get_all_drives():
             cursor.execute('''
                            SELECT
                             u.first_name,
+                            u.last_name,
+                            d.title,
                             d.date,
                             d.mileage,
                             d.photo,
@@ -21,7 +23,7 @@ def get_all_drives():
                            on
                            d.username = u.username
                            ORDER BY
-                           d.date DESC
+                           d.date ASC
                            ''')
             return cursor.fetchall()
         
@@ -71,3 +73,43 @@ def delete_comment(comment_id):
                             DELETE FROM comments
                             WHERE comment_id = %s
                            ''', [comment_id])
+            
+def get_comment_by_id(comment_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory= dict_row) as cursor:
+            cursor.execute('''
+                            SELECT comment_id FROM comments
+                            WHERE comment_id = %s
+                           ''', [comment_id])
+            return cursor.fetchone()
+        
+def get_comment_owner(comment_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory= dict_row) as cursor:
+            cursor.execute('''
+                            SELECT username FROM comments
+                            WHERE comment_id = %s
+                        ''', [comment_id])
+            return cursor.fetchone()
+
+def sql_is_owner(drive_id, username):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory= dict_row) as cursor:
+            cursor.execute('''
+                            SELECT * FROM drive
+                            WHERE drive_id=%s AND username=%s
+                        ''', [drive_id,username])
+            return cursor.fetchone()
+
+def get_drive_id_comment(comment_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory= dict_row) as cursor:
+            cursor.execute('''
+                            SELECT drive_id FROM comments
+                            WHERE comment_id = %s
+                        ''', [comment_id])
+            return cursor.fetchone()

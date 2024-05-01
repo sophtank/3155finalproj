@@ -1,7 +1,9 @@
 {% extends '_layout.html' %} 
+{% block head %}
+<link rel="stylesheet" href="../static/Styles/create_drive.css">
+{% endblock %}
 
 {% block body %}
-<link rel="stylesheet" href="../static/Styles/create_drive.css">
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <div class="alert alert-primary" role="alert">
@@ -14,41 +16,62 @@
 <h1 align="center">{{ drive.first_name }}'s Drive</h1>
 
 <div class="individual-drive-div">
-    <img src="{{ drive.photo }}" alt="{{ drive.photo}}" class="individual-photo">
-    <div class="individual-info">
-        <p>
-            Vehicle: {{ drive.make }} {{ drive.model }}
-        </p>
-        <p>
-            Year: {{ drive.year }}
-        </p>
-        <p>
-            Distance: {{ drive.mileage }}
-        </p>
-        <p>
-            Duration: {{ drive.duration }} minutes
-        </p>
-        <p>
-            Date: {{ drive.date }}
-        </p>
-        <p class="description">
-            Description: 
-        </p>
-        <div class="description-box description">
-            {{ drive.caption }}
+    <div class="row">
+        <div class="col">
+            <img src="{{ drive.photo }}" alt="{{ drive.photo }}" class="individual-photo rounded">
+            <p class="description">
+                {{ drive.caption }}
+            </p>
         </div>
-        <a href="/like"><button class="btn btn-primary mt-3">Like</button></a>
-        <button class="btn btn-primary mt-3" id="viewcomments">View Comments</button>
-
-        {% if drive.username == session['username'] %}
-        <form action="/drive/{{ drive.drive_id }}" method="POST">
-            <input type = "hidden" name = "drive_id" value = "{{drive.drive_id}}">
+        <div class="col individual-info">
+            <h5>{{drive.title}}</h5>
             <br>
-        <button class="btn btn-danger">Delete</button>
-        </form>
-        {% endif %}
+            <p>
+                <strong>Vehicle</strong>: {{ drive.make }} {{ drive.model }}
+            </p>
+            <p>
+                <strong>Year</strong>: {{ drive.year }}
+            </p>
+            <p>
+                <strong>Distance</strong>: {{ drive.mileage }}
+            </p>
+            <p>
+                <strong>Duration</strong>: {{ drive.duration }} minutes
+            </p>
+            <p>
+                <strong>Date</strong>: {{ drive.date }}
+            </p>
+            <div class="row">
+                <div class="col">
+                    {% if has_like %}
+                    <form action="/drive/{{drive.drive_id}}/dislike" method="POST">
+                        <button type="submit" class="btn btn-danger mt-3">Remove Like</button>
+                        {% else %}
+                        <form action="/drive/{{drive.drive_id}}/like" method="POST">
+                            <button type="submit" class="btn btn-primary mt-3">Like</button>
+                        {% endif %}
+                    <p style="display: inline-block;">{{num_likes.get('count')}} likes</p>
+                </form>
+                 
+                
+            </div>
+                <a href="#"><button class="btn btn-primary mt-3" id="viewcomments">View Comments</button></a>
+                {% if drive.username == session['username'] %}
+                <form action="/drive/{{ drive.drive_id }}/delete" method="POST">
+                    <input type = "hidden" name = "drive_id" value = "{{drive.drive_id}}">
+                    <br>
+                <button class="btn btn-danger">Delete</button>
+                </form>
+                
+                {% endif %}
+            </div>
+        </div>
     </div>
+    
 </div>
+
+   
+
 {% if request.args.get('showdiv') == 'True' %}
 <div class="bottom-div" style="display: block;">
 {% else %}
@@ -62,13 +85,21 @@
     
     <div class="comments">
         {% for comment in comments %}
-        <p>{{comment.username}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.date}}</i><br> {{comment.comment}} {% if usersession == comment.username or usersession == drive.username %}&nbsp;&nbsp;&nbsp;<a class="nounderline" href="/delete/comment/{{ drive.drive_id }}/{{ comment.comment_id }}"><i>delete</i></a>{% endif %}</p>
+        <p><i>{{comment.username}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.date}}</i><br> {{comment.comment}}
+            {% if session and (usersession == comment.username or usersession == drive.username) %}
+            
+            &nbsp;&nbsp;&nbsp;
+            <button form="delete-{{comment.comment_id}}" class="btn btn-link nounderline" type="submit"><i>delete</i></button>
+            <form id="delete-{{comment.comment_id}}" action="/drive/comment/{{comment.comment_id}}/delete" method="POST"></form>
+            {% endif %}</p> 
         {% endfor %}
     </div>
-    <form method="POST" action="/makecomment/{{ drive.drive_id }}">
+    {% if session %}
+    <form method="POST" action="/drive/{{ drive.drive_id }}/comment">
         <input class="makecomment" type="text" name="newcomment" placeholder="Add a comment">
         <button id="submitcomment" type="submit" class="btn btn-primary commentsubmit">Comment</button>
     </form>
+    {% endif %}
     
     
 </div>

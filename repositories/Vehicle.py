@@ -13,6 +13,17 @@ def getVehicles(username) -> list[dict[str, any]]:
             rows = cur.fetchall()
             return rows
 
+def getOwner(id):
+     with get_pool().connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                        SELECT username
+                        FROM vehicle
+                        WHERE vehicle_id = %s
+                        ''', (id,))
+            rows = cur.fetchone()
+            return rows
+
 #adds a vehicle to the database
 def addVehicle(vehicle_id, username, make, model, year, color) -> list[dict[str, any]]:
     with get_pool().connection() as conn:
@@ -47,3 +58,25 @@ def deleteVehicle(vehicle_id, username):
             if cur.rowcount == 0: 
                 raise Exception(f"Vehicle with id {vehicle_id} not found")
             return True
+
+def get_vehicle_by_id(vehicle_id):
+    with get_pool().connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT make, model, year, color
+                        FROM vehicle
+                        WHERE vehicle_id = %s
+                        ''', (vehicle_id,))
+            rows = cur.fetchone()
+            return rows
+
+def get_drives(vehicle_id):
+    with get_pool().connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT drive_id
+                        FROM drive
+                        WHERE vehicle_id = %s
+                        ''', (vehicle_id,))
+            rows = cur.fetchall()
+            return rows

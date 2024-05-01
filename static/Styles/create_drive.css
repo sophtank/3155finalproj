@@ -13,15 +13,7 @@
     width: 70%;
   }
   
-  .individual-drive-div{
-    height: 300px;
-    width: 500px;
-    background-color: white;
-    background-size:cover;
-    height:100vh;
-    width: 175vh;
-    border-radius: 10px;
-  }
+
 
   .individualbox:hover{
     transform: scale(1.1);
@@ -31,28 +23,9 @@
   }
   
 
-  .individual-photo{
-    width: 50%;
-    height: 93.5%;
-    padding-top: 10px;
-    padding-left: 10px;
-    border-radius: 50px;
-    margin-top: 19px;
-  }
+
   
-  .individual-info{
-    background-color: lightgrey;
-    height: 92%;
-    width: 41%;
-    display: inline-block;  
-    border-radius: 20px;
-    margin-left: 12px;
-    position:absolute;
-    margin-top: 30px;
-    padding-left: 20px;
-    font-size: 20px;
-    padding-top: 50px;
-  }
+
 
   .bottom-div {
     position: fixed;
@@ -104,16 +77,21 @@
 }
   
   .description{
-    font-size: 20px;
+    font-size: 16.5px;
+    margin-left: 8px;
+    width: 610px;
   }
   
 
   .description-box{
     background-color: white;
-    height: 275px;
-    width: 550px;
+    max-height:max-content;
+    width: 500px;
     border-radius: 5px;
-    padding: 7px;
+  }
+
+  .individual-drive-div{
+    font-size: 15px;
   }
 
 .edit-drive-left{

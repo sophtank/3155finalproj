@@ -1,4 +1,7 @@
 {% extends '_layout.html' %} 
+{% block head %}
+<link rel="stylesheet" href="../static/Styles/create_drive.css">
+{% endblock %}
 <div>
   {% with messages = get_flashed_messages(with_categories=true) %}
       {% for category, message in messages %}
@@ -9,9 +12,10 @@
   {% endwith %}
 </div>
 {% block body %}
-<link rel="stylesheet" href="../static/Styles/create_drive.css">
+
 <h1 class="text-center">Recent Drives</h1>
 <main class="container mt-2">
+  {% if drives %}
   {% for drive in drives %}
     {% if loop.index is odd %}
     <div class="row">
@@ -23,9 +27,16 @@
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">{{ drive.first_name }}'s Drive</h5>
-            <p class="card-text"><small class="text-muted">{{ drive.date }}</small></p>
-            <p class="card-text"><small class="text-muted">{{ drive.mileage }} mi</small></p>
+            <small>{{ drive.first_name}} {{ drive.last_name }}</small>
+            <br>
+            <big>{{ drive.title }}</big>
+            <br>
+            <small>
+              {{ drive.date }}
+              <br>
+              {{ drive.mileage }} mi
+            </small>
+            <br>
             <a href="/drive/{{ drive.drive_id }}"><button type="submit" class="btn btn-primary">View Drive</button></a>
           </div>
         </div>
@@ -35,5 +46,9 @@
     </div>
     {% endif %}
     {% endfor %}
-</main>
+  {% else %}
+    <h1 class="text-center mt-2">There are no drives logged.</h1>
+    <h2 class="text-center"><a href="/drive/create" class="text-center link-secondary">Create a drive to view here.</a></h2>
+    {% endif %}
+  </main>
 {%endblock%}
