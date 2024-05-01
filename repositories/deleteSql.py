@@ -2,7 +2,7 @@ from repositories.db import get_pool
 
 
 #deletes a drive from the database
-def deleteDrive(drive_id):
+def delete_drive(drive_id):
     with get_pool().connection() as conn:
         with conn.cursor() as cur:
             # Delete associated comments first
@@ -33,8 +33,10 @@ def is_drive_owner(drive_id):
     with get_pool().connection() as conn:
         with conn.cursor() as cur:
             cur.execute('''
-                        SELECT drive_id, username
-                        FROM drive
+                        SELECT 
+                            drive_id, username
+                        FROM 
+                            drive
                         WHERE drive_id = %s
                         ''', [drive_id])
             row = cur.fetchone()

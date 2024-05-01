@@ -1,6 +1,8 @@
 from repositories.db import get_pool
 from psycopg.rows import dict_row
 
+
+#edit drive values
 def edit_drive_values(drive_id, mileage, duration, vehicle, title, caption):
     pool = get_pool()
     with pool.connection() as conn:
@@ -18,7 +20,8 @@ def edit_drive_values(drive_id, mileage, duration, vehicle, title, caption):
                                 drive_id = %(drive)s
                             ''', {'mileage': mileage, 'duration': duration, 'vehicle': vehicle, 'title': title, 'caption': caption, 'drive': drive_id})
             return None
-        
+
+#edit tag values 
 def edit_tag_values(drive_id, commute, near_death_experience, carpool, mostly_highway, mostly_backroads):
     pool = get_pool()
     with pool.connection() as conn:
@@ -36,7 +39,8 @@ def edit_tag_values(drive_id, commute, near_death_experience, carpool, mostly_hi
                                 drive_id = %(drive)s
                             ''', {'commute': commute, 'near_death_experience': near_death_experience, 'carpool': carpool, 'mostly_highway': mostly_highway, 'mostly_backroads': mostly_backroads, 'drive': drive_id})
             return None
-        
+
+#gets drives by id
 def get_drive(drive_id):
     pool = get_pool()
     with pool.connection() as conn:
@@ -58,6 +62,7 @@ def get_drive(drive_id):
                             ''', [drive_id])
             return cursor.fetchone()
         
+#gets tags by drive id
 def get_tags(drive_id):
     pool = get_pool()
     with pool.connection() as conn:
@@ -76,6 +81,7 @@ def get_tags(drive_id):
                             ''', [drive_id])
             return cursor.fetchone()
         
+#gets vehicle by username
 def get_vehicles(username):
     pool = get_pool()
     with pool.connection() as conn:
