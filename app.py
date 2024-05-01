@@ -3,6 +3,7 @@ from repositories import loginSql, userProfileSql, viewDrives, deleteSql, viewIn
 from repositories.leaderboard import get_leaders
 from repositories.edit_drive import edit_drive_values, get_drive, get_vehicles, edit_tag_values, get_tags
 
+
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
 import uuid, os, re
@@ -20,6 +21,7 @@ app = Flask(__name__)
 # global lastname
 # firstname = None
 # lastname = None
+
 
 app.secret_key = os.getenv('SECRET_KEY')
 
@@ -207,12 +209,12 @@ def creating():
     
     #get data
     drive_id = str(uuid.uuid4())
-    vehicle_id = request.form.get('vehicle_id')
-    mileage = request.form.get('mileage')
-    duration = request.form.get('duration')
-    title = request.form.get('titleDrive')
-    caption = request.form.get('captionDrive')
-    photo = 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg' #temp until we figure out how to store photos
+    vehicle_id = request.form.get("vehicle_id")
+    mileage = request.form.get("mileage")
+    duration = request.form.get("duration")
+    title = request.form.get("titleDrive")
+    caption = request.form.get("captionDrive")
+    photo = request.form.get("drivePhoto")
     #current date and time
     date = 'NOW()'
     user = session['username']
