@@ -27,6 +27,9 @@ CREATE TABLE IF NOT EXISTS vehicle (
 
 DROP TABLE IF EXISTS drive;
 
+drop table drive cascade; -- Use this To delete the drive table, then create the table below
+drop table likes, comments, tags; --Then Run this, and add all the tables back and then insert the values after drive
+
 CREATE TABLE IF NOT EXISTS drive (
     drive_id UUID,
     vehicle_id UUID NOT NULL, --assigns a vehicle to the drive
@@ -107,14 +110,14 @@ INSERT INTO vehicle VALUES
                         ('4c964948-caad-4fcd-b917-52af70367ca5', 'mwilki31', 'Volkswagen', 'Beetle', '2020', 'yellow');
 
 INSERT INTO drive VALUES
-                      ('8574e1d5-7369-4f23-8c5f-0f53d8977303', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 20.4, 40, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'asico'),
-                      ('3f16c4e4-e8d0-4175-84f3-53ee91923ec1', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 19.7, 39, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'asico'),
-                      ('5c971fbf-7210-4f9e-8358-4e6d54defc88', 'ffa2b0b9-efd5-4dc9-b947-d9a25af99692', 10.4, 23,  'my drive!','a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'stanker'),
-                      ('457fdf98-de29-421b-8ab6-fbea9d780cc2', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 22.2, 58, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'svasire4'),
-                      ('5282a1ac-b818-4cac-b3f3-5fca6732cd15', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 12.7, 36, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'svasire4'),
-                      ('1dad8038-ac60-42b3-80f1-ff10d0762778', '6bc88650-535b-4c44-9a7a-11ebe27bab83', 37.5, 58, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'ccuartas'),
-                      ('bb6fcd45-d54d-404f-89a7-f01e60fb0bf3', 'ffa2b0ca-efd5-4dc9-b947-d9a25af99692', 15.6, 26, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(), 'ccuartas'),
-                      ('e5aec1d5-4a8a-4478-b2f0-e573244a6b4b', 'da4ad3d4-2d51-47bd-927f-ba9a2812ae4f', 55.2, 115, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(),'skiser18'),
+                      ('8574e1d5-7369-4f23-8c5f-0f53d8977303', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 20.4, 40, 'my drive!', 'a great drive!', 'https://images.pexels.com/photos/386025/pexels-photo-386025.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', NOW(), 'asico'),
+                      ('3f16c4e4-e8d0-4175-84f3-53ee91923ec1', '6a6a459f-4986-4f23-b9f5-a8ec1923ef6d', 19.7, 39, 'my drive!', 'a great drive!', 'https://wallpapercave.com/wp/wp8030431.jpg', NOW(), 'asico'),
+                      ('5c971fbf-7210-4f9e-8358-4e6d54defc88', 'ffa2b0b9-efd5-4dc9-b947-d9a25af99692', 10.4, 23,  'my drive!','a great drive!', 'https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', NOW(), 'stanker'),
+                      ('457fdf98-de29-421b-8ab6-fbea9d780cc2', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 22.2, 58, 'my drive!', 'a great drive!', 'https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', NOW(), 'svasire4'),
+                      ('5282a1ac-b818-4cac-b3f3-5fca6732cd15', 'cebef27b-8de6-42c5-bbc9-a2e8158ab3ae', 12.7, 36, 'my drive!', 'a great drive!', 'https://images.pexels.com/photos/707046/pexels-photo-707046.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', NOW(), 'svasire4'),
+                      ('1dad8038-ac60-42b3-80f1-ff10d0762778', '6bc88650-535b-4c44-9a7a-11ebe27bab83', 37.5, 58, 'my drive!', 'a great drive!', 'https://images.pexels.com/photos/3593922/pexels-photo-3593922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', NOW(), 'ccuartas'),
+                      ('bb6fcd45-d54d-404f-89a7-f01e60fb0bf3', 'ffa2b0ca-efd5-4dc9-b947-d9a25af99692', 15.6, 26, 'my drive!', 'a great drive!', 'https://images.pexels.com/photos/3311574/pexels-photo-3311574.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', NOW(), 'ccuartas'),
+                      ('e5aec1d5-4a8a-4478-b2f0-e573244a6b4b', 'da4ad3d4-2d51-47bd-927f-ba9a2812ae4f', 55.2, 115, 'my drive!', 'a great drive!', 'https://images.pexels.com/photos/1638459/pexels-photo-1638459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', NOW(),'skiser18'),
                       ('b6581a62-a5ac-4ec7-a043-006724940583', '4c964948-caad-4fcd-b917-52af70367ca5', 32.1, 42, 'my drive!', 'a great drive!', 'https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg', NOW(),  'mwilki31');
 
 INSERT INTO tags VALUES
