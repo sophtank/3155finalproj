@@ -1,36 +1,71 @@
-{% extends '_layout.html' %} 
-
-{% block body %}
+{% extends '_layout.html' %} {% block head %}
+<style>
+  body {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    background-image: url("/static/photos/mustang.avif");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+</style>
+{% endblock %} {% block body %}
 <!-- Creates the login widget in the middle of the screen -->
-    <main style="background-image: url('/static/photos/mustang.avif'); background-size:cover;height:100vh">
-
-      <div class="container-md" style="max-width: 300px;">
-        <h1 style="font-weight: bold; text-align: center;">Sign Up</h1>
-        <form Method="POST" Action="/user/signup">
-            <div class="mb-3">
-                <label for="FirstName" class="form-label">First Name</label>
-                <input name="FirstName" type="text" class="form-control" id="FirstName" aria-describedby="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="LastName" class="form-label">Last Name</label>
-              <input name="LastName" type="text" class="form-control" id="FirstName" aria-describedby="email" required>
-          </div>
-          <div class="mb-3">
-            <label for="username" class="form-label">User Name</label>
-            <input name="username" type="text" class="form-control" id="username" aria-describedby="username" required>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input name="password" type="password" class="form-control" id="exampleInputPassword1" required>
-          </div>
-          <button name="signup" type="submit" class="btn btn-primary">Sign Up</button>
-        </form>
-
-        <form  style="margin-top: 20px" method="POST" action="/google-login">
-          <button type="submit" class="btn btn-primary">Login With Google</button>
-        </form>
+<main>
+  <div class="container-md" style="max-width: 300px">
+    <h1 style="font-weight: bold; text-align: center">Sign Up</h1>
+    <form method="POST" action="/user/signup">
+      <div class="mb-3">
+        <label for="FirstName" class="form-label">First Name</label>
+        <input
+          name="FirstName"
+          type="text"
+          class="form-control"
+          id="FirstName"
+          aria-describedby="email"
+          required
+        />
       </div>
+      <div class="mb-3">
+        <label for="LastName" class="form-label">Last Name</label>
+        <input
+          name="LastName"
+          type="text"
+          class="form-control"
+          id="FirstName"
+          aria-describedby="email"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="username" class="form-label">User Name</label>
+        <input
+          name="username"
+          type="text"
+          class="form-control"
+          id="username"
+          aria-describedby="username"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input
+          name="password"
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          required
+        />
+      </div>
+      <button name="signup" type="submit" class="btn btn-primary">
+        Sign Up
+      </button>
+    </form>
 
-
-    </main>
+    <form style="margin-top: 20px" method="POST" action="/google-login">
+      <button type="submit" class="btn btn-primary">Login With Google</button>
+    </form>
+  </div>
+</main>
 {% endblock %}

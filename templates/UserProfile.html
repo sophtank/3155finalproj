@@ -1,78 +1,69 @@
-{% extends '_layout.html' %} 
-{% block body %}
+{% extends '_layout.html' %} {% block head %}
+<link rel="stylesheet" href="/static/Styles/UserProfile.css" />
+{% endblock %} {% block body %}
 
 <div>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ category }}" role="alert">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endwith %}
+  {% with messages = get_flashed_messages(with_categories=true) %} {% for
+  category, message in messages %}
+  <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+  {% endfor %} {% endwith %}
 </div>
 
-
-<main style="background-image: url('/static/photos/ferrari.jpg'); background-size: cover; height: 100vh; display: flex; justify-content: center; align-items: center;">
-
-    <h1 style="position: absolute; top: 120px; color: black; font-size: 2em; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">{{ firstname }} {{ lastname }}</h1>
-
-
-  <div class="individual-container">
-      {% if 'username' in session %}
-            <a href="/vehicle" class="btn btn-primary mt-2">View Vehicles</a>
-            {% endif %}
-     <a href="/user/logout" class="btn btn-primary mt-2">Logout</a>
-  </div>
-
-  {% if alldrives %}
-  <table
-    class="table table-light"
-    style="
-      width: 77%;
-      background-color: rgba(255, 255, 255, 0.3);
-      margin-top: 94vh;
-      margin-bottom: 100vh;
-      margin-left: 75px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 20px;
-      color: black;
-      text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
-        1px 1px 0 white;
-    "
-  >
-    <thead>
-      <tr style="border-bottom: 2.5px dotted black">
-        <th scope="col">Drive #</th>
-        <th scope="col">Car type</th>
-        <th scope="col">Time traveled</th>
-        <th scope="col">Mileage</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for drive in alldrives %}
-      <tr style="border-bottom: 2.5px dotted black">
-        <th scope="row">{{ loop.index }}</th>
-        <td>{{ drive.make }} {{ drive.model }}</td>
-        <td>{{ drive.duration }}</td>
-        <td>{{ drive.mileage }} miles</td>
-        <td>
-          <a href="/drive/{{drive.drive_id}}/edit"><button class="btn btn-secondary">Edit</button></a>
-        </td>
-      </tr>
-      {% endfor %}
-      <td
-        colspan="5"
-          style="border-bottom: 200px solid rgba(255, 255, 255)"
-        ></td>
+<main>
+  <h1>{{ firstname }} {{ lastname }}</h1>
+  <div class="table-box">
+    {% if alldrives %}
+    <table class="table table-light">
+      <thead>
+        <tr>
+          <th scope="col">Drive #</th>
+          <th scope="col">Car type</th>
+          <th scope="col">Time traveled</th>
+          <th scope="col">Mileage</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for drive in alldrives %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ drive.make }} {{ drive.model }}</td>
+          <td>{{ drive.duration }}</td>
+          <td>{{ drive.mileage }} miles</td>
+          <td>
+            <a href="/drive/{{drive.drive_id}}/edit"
+              ><button class="btn btn-secondary">Edit</button></a
+            >
+          </td>
+          <td>
+            <form action="/drive/{{ drive.drive_id }}/delete" method="POST">
+              <input type="hidden" name="drive_id" value="{{drive.drive_id}}" />
+              <button class="btn btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+        <td class="bottom-td" colspan="6"></td>
       </tbody>
     </table>
-  {% else %}
-  <div style="background-color: aliceblue;">
-    <h1 class="text-center mt-2 text-dark">There are no drives logged.</h1>
-    <h2 class="text-center"><a href="/drive/create" class="text-center link-secondary">Create a drive here.</a></h2>
-  </div>
+    {% else %}
+    <div style="background-color: aliceblue">
+      <h1 class="text-center mt-2 text-dark">There are no drives logged.</h1>
+      <h2 class="text-center">
+        <a href="/drive/create" class="text-center link-secondary"
+          >Create a drive here.</a
+        >
+      </h2>
+    </div>
     {% endif %}
+    <div class="individual-container buttons">
+      {% if 'username' in session %}
+      <a href="/vehicle" class="btn btn-primary mt-2">View Vehicles</a>
+      {% endif %}
+      <a href="/user/logout" class="btn btn-primary mt-2">Logout</a>
+    </div>
+  </div>
 </main>
 
 {% endblock %}

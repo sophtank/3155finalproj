@@ -10,7 +10,7 @@
     <title>{{title}}</title>
 </head>
     
-<body>
+<body style="height: 90vh; overflow:auto;">
     <header style="background-color: #011c3a;">
         <!--New Navbar-->
         <nav class="container-fluid navbar navbar-dark navbar-expand-lg py-1">
@@ -91,7 +91,7 @@
         {% block index_background %}{% endblock %}
     </header>
     <!-- This line is so each html page we make has a place for its html code -->
-    <div class="container mt-2">
+    <div class="container mt-2 backgroundimage" style="height: 80vh; overflow:auto;">
     {% block body %}{% endblock %}
     </div>
 

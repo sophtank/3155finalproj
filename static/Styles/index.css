@@ -17,6 +17,14 @@ header {
   font-size: 80px;
   padding-top: 100px;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: center;
+}
 
 #Boxes {
   display: flex;
@@ -39,4 +47,8 @@ header {
     left: 10px;
     opacity: 0;
   }
+}
+
+.backgroundimage {
+  height: auto !important;
 }

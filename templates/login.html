@@ -1,12 +1,17 @@
-{% extends '_layout.html' %} {% block body %}
-<!-- Creates the login widget in the middle of the screen -->
-<main
-  style="
-    background-image: url('/static/photos/mustang.avif');
+{% extends '_layout.html' %} {% block head %}
+<style>
+  body {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    background-image: url("/static/photos/mustang.avif");
     background-size: cover;
-    height: 100vh;
-  "
->
+    background-repeat: no-repeat;
+  }
+</style>
+{% endblock %} {% block body %}
+<!-- Creates the login widget in the middle of the screen -->
+<main>
   <div class="container-md" style="max-width: 300px">
     <h1 style="font-weight: bold; text-align: center">LOGIN</h1>
     <form method="POST" action="/user/login">
@@ -33,7 +38,7 @@
       </div>
       <button type="submit" class="btn btn-primary">Sign In</button>
     </form>
-    <form  style="margin-top: 20px" method="POST" action="/google-login">
+    <form style="margin-top: 20px" method="POST" action="/google-login">
       <button type="submit" class="btn btn-primary">Login With Google</button>
     </form>
   </div>
