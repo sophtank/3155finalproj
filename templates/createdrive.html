@@ -2,10 +2,12 @@
 
 {% block head %}
     <link rel="stylesheet" href="/static/Styles/create_drive.css">
+    <script src="https://unpkg.com/typeit@8.8.3/dist/index.umd.js" defer></script>
+<script src="/static/Scripts/typeit.js" defer></script>
 {% endblock %}
 
 {% block body %}
-<h1 align="center">Create a Drive</h1>
+<h1 align="center" id="create-drive"></h1>
 <form method="POST" action="/drive/create">
 <div class="left-div">
     <h2>Mileage Traveled</h2>

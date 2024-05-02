@@ -2,9 +2,11 @@
 
 {% block head %}
     <link rel="stylesheet" href="/static/Styles/create_drive.css">
+    <script src="https://unpkg.com/typeit@8.8.3/dist/index.umd.js" defer></script>
+    <script src="/static/Scripts/typeit.js" defer></script>
 {% endblock %}
 {% block body %}
-<h1 align="center">Edit a Drive</h1>
+<h1 align="center" id="edit-drive"></h1>
 
 <div class="left-div">
   <form action="/drive/{{drive.drive_id}}/edit" method="post">
@@ -121,7 +123,7 @@
   />
   <!-- Photo -->
   <div class="mb-3">
-    <h2>Add a photo from your drive</h2>
+    <h2>Change photo from your drive</h2>
     <input class="form-control" id="drivePhoto" name="drivePhoto" type="text" placeholder="Please link to a photo of your drive">
   </div>
   <input
