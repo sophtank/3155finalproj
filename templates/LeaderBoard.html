@@ -1,30 +1,44 @@
-{% extends '_layout.html' %} 
-
-{% block body %}
-
-  <main style="background-image: url('/static/photos/lamborghini.webp'); background-size:cover;height:100vh">
-    {% if leaders %}
-    <table class="table table-bordered table-secondary" style="max-width: 400px; margin: 0 auto; margin-top: 10px; height: 20px;">
-        <thead>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Miles Driven</th>
-        </thead>
-        <tbody>
-            {%for i in range((10,leaders|length)|min)%}
-            <tr>
-              <td>{{i+1}}</td>
-              <td>{{leaders[i][0]}}</td>
-              <td>{{leaders[i][1]}}</td>
-            </tr>
-            {%endfor%}
-        </tbody> 
-    </table>
-    {% else %}
-    <h1 class="text-center mt-2 text-light">There are no drives logged.</h1>
-    <h2 class="text-center"><a href="/drive/create" class="text-center link-secondary">Create a drive to view the leaderboard.</a></h2>
-    {% endif %}
-
-  </main>
+{% extends '_layout.html' %} {% block head %}
+<style>
+  body {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    background-image: url("/static/photos/lamborghini.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+</style>
+{% endblock %} {% block body %}
+<main>
+  {% if leaders %}
+  <table
+    class="table table-bordered table-secondary"
+    style="max-width: 400px; margin: 0 auto; margin-top: 10px; height: 20px"
+  >
+    <thead>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Miles Driven</th>
+    </thead>
+    <tbody>
+      {%for i in range((10,leaders|length)|min)%}
+      <tr>
+        <td>{{i+1}}</td>
+        <td>{{leaders[i][0]}}</td>
+        <td>{{leaders[i][1]}}</td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+  {% else %}
+  <h1 class="text-center mt-2 text-light">There are no drives logged.</h1>
+  <h2 class="text-center">
+    <a href="/drive/create" class="text-center link-secondary"
+      >Create a drive to view the leaderboard.</a
+    >
+  </h2>
+  {% endif %}
+</main>
 
 {% endblock %}
